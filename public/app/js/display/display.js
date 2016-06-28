@@ -3,7 +3,7 @@
 var app = angular.module('display', ['myApp']);
 
 app.component('display', {
-    templateUrl: '../views/display.template.html'
+    templateUrl: '../views/templates/display.template.html'
 });
 
 app.controller('displayCtrl', function ($scope, $window, sharedData, database, staticImages) {
