@@ -1,0 +1,26 @@
+{
+    "title":"test",
+    "generated":false,
+    "discipline":["Software"],
+    "summary":"test",
+    "team":"test",
+    "savings":1,
+    "hours":1,
+    "day":1,
+    "month":1,
+    "year":2001,
+    "manager":{
+        "name":"d",
+        "unit":"d",
+        "function":"d",
+        "department":"d",
+        "phone":"5555555555",
+        "email":"d@d.com"
+    },
+    "result":[{
+        "summary":"d",
+        "details":"d",
+        "savings":1,
+        "hours":1
+    }]
+}
