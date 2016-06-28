@@ -44,8 +44,35 @@ router.route('/projects')
     .post(function(req, res) {
 
         var project = new Project();      // create a new instance of the Project model
-        project.title = req.body.title;  // set the projects name (comes from the request)
-        
+        project.title = req.body.title;   // set the projects fields (comes from the request)
+        project.generated = req.body.generated;
+        project.discipline = req.body.discipline;
+        /*title: String,
+            generated: Boolean,
+            discipline: [String],
+            summary: String,
+            team: String,
+            image: {type: String, default: null},
+        savings: Number,
+            hours: Number,
+            day: Number,
+            month: Number,
+            year: Number,
+            manager: {
+            name: String,
+                unit: String,
+                function: String,
+                department: String,
+                phone: String,
+                email: String
+        },
+        result: [{
+            summary: String,
+            details: String,
+            savings: Number,
+            hours: Number
+        }]*/
+
         // save the project and check for errors
         project.save(function(err) {
             if (err)

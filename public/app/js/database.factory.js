@@ -11,6 +11,10 @@ app.factory('database', function($http, $q) {
     factoryData.managers = [];
     factoryData.results = [];
 
+
+    // set the url of the database server
+    var dataUrl = "localhost:8080";
+
     
     //------------------------------------------------------------------------------------------------------------------
     // functions to retrieve data from the database
@@ -25,7 +29,7 @@ app.factory('database', function($http, $q) {
 
         var deferred = $q.defer();
 
-        $http({method: 'GET', url: 'http://localhost:8080/reports'})
+        $http({method: 'GET', url: dataUrl + '/reports'})
             .success(function (data, status) {
                 console.log("GET was successful for reports");
                 factoryData.reports = data;
@@ -54,7 +58,7 @@ app.factory('database', function($http, $q) {
 
         var deferred = $q.defer();
 
-        $http({method: 'GET', url: 'http://localhost:8080/projects'})
+        $http({method: 'GET', url: dataUrl + '/projects'})
             .success(function (data, status) {
                 console.log("GET was successful for projects");
                 factoryData.projects = data;
@@ -83,7 +87,7 @@ app.factory('database', function($http, $q) {
 
         var deferred = $q.defer();
 
-        $http({method : 'GET', url : 'http://localhost:8080/managers'})
+        $http({method : 'GET', url : dataUrl + '/managers'})
             .success(function(data, status) {
                 console.log("GET was successful for managers");
                 factoryData.managers = data;
@@ -112,7 +116,7 @@ app.factory('database', function($http, $q) {
 
         var deferred = $q.defer();
 
-        $http({method: 'GET', url: 'http://localhost:8080/results'})
+        $http({method: 'GET', url: dataUrl + '/results'})
             .success(function (data, status) {
                 console.log("GET was successful for results");
                 factoryData.results = data;
@@ -207,7 +211,7 @@ app.factory('database', function($http, $q) {
     factoryData.addProjectToDatabase = function(project) {
         console.log("Starting POST...");
 
-        $http({method : 'POST', url : 'http://localhost:8080/projects', data : project})
+        $http({method : 'POST', url : dataUrl + '/projects', data : project})
             .success(function(data, status) {
                 console.log("POST was successful");
 
@@ -229,7 +233,7 @@ app.factory('database', function($http, $q) {
     factoryData.updateProjectFromDatabase = function(id, project) {
         console.log("Starting function...");
 
-        $http({method : 'PUT', url : 'http://localhost:8080/projects/' + id, data : project})
+        $http({method : 'PUT', url : dataUrl + '/projects/' + id, data : project})
             .success(function(data, status) {
                 console.log("PUT was successful");
 
@@ -252,7 +256,7 @@ app.factory('database', function($http, $q) {
         
         console.log("Starting function...");
 
-        $http({method : 'DELETE', url : 'http://localhost:8080/projects/' + id})
+        $http({method : 'DELETE', url : dataUrl + '/projects/' + id})
             .success(function(data, status) {
                 console.log("DELETE was successful");
 
@@ -277,7 +281,7 @@ app.factory('database', function($http, $q) {
     factoryData.addReportToDatabase = function(report) {
         console.log("Starting POST...");
 
-        $http({method : 'POST', url : 'http://localhost:8080/reports', data : report})
+        $http({method : 'POST', url : dataUrl + '/reports', data : report})
             .success(function(data, status) {
                 console.log("POST was successful");
 
