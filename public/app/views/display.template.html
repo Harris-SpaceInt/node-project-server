@@ -1,0 +1,121 @@
+<div ng-app="display" ng-controller="displayCtrl">
+<div class="display-body">
+    <div class="head-container">
+        <img src="../assets/harris-logo.png" width="375px">
+        <div class="text-center">
+            <img src="../assets/title-logo.png" width="800px">
+        </div>
+        <br>
+    </div>
+    <br>
+    <!-- Viewing previously submitted report data -->
+    <div class="row">
+        <div class="large-3 columns">
+            <p></p>
+        </div>
+        <div class="large-6 columns">
+            <div ng-hide="prev_reports">
+                <div class="text-center">
+                    <button class="button" ng-click="setShowPrevReports()">Show/Hide Previous Reports</button>
+                </div>
+                <div ng-show="showPrevReports">
+                    <table>
+                        <tr>
+                            <th>Report Date</th>
+                        </tr>
+                        <tr ng-repeat="report in database.reports">
+                            <td class="text-center">
+                                <h4>{{report.month + "/" + report.day + "/" + report.year}}</h4> <button class="button-secondary" ng-click="addReportsToDisplay(report)">View Report Projects</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="prev_reports">
+                <div class="text-center">
+                    <button class="button" ng-click="hideReports()">View Non-Report Projects</button>
+                </div>
+            </div>
+        </div>
+        <div class="large-3 columns">
+            <p></p>
+        </div>
+    </div>
+
+    <!-- selected reports - can be shown or hidden -->
+    <div class="text-center">
+        <h5 class="highlight"><b>Total Savings: $ {{totalSavings()}}</b></h5><br>
+        <div ng-show="benchmark(totalSavings())">
+            <h4 class="highlight"><b>$100K BENCHMARK REACHED!</b></h4><br>
+        </div>
+        <h4><b>Selected Reports:</b> </h4>
+        <button ng-click="setSelectedReports()" class="button-secondary">Show/Hide</button>
+    </div>
+
+    <div ng-show="showSelectedReports" ng-repeat="x in database.projects | orderBy: 'title'" class="text-center">
+        <div ng-show="x.checked">
+            {{x.title}}
+        </div>
+    </div>
+
+    <div ng-show="showSelectedReports" class="text-center">
+        <div ng-hide="somethingChecked()">
+            No projects selected.
+        </div>
+    </div>
+
+    <div ng-show="somethingChecked()" class="text-center">
+        <strong>
+            <br>
+            {{numChecked()}} project(s) selected
+        </strong>
+    </div>
+
+    <br>
+
+    <!-- button to create report -->
+    <div class="text-center">
+        <div ng-show="somethingChecked()">
+            <button ng-click="createReport()" class="button">Create Report PDF</button><br><br>
+        </div>
+        <div ng-show="report_projects.length > 0">
+            <button ng-click="createReportPDF(currentReport)" class="button">Show Report PDF</button><br><br>
+        </div>
+    </div>
+    <table class="text-center">
+        <tr>
+            <!-- controls sorting for the table -->
+            <th ng-click=setSortOrder('checked')><input type="checkbox" ng-change="selectFunction()" ng-model="majorSelection"> <strong>Select Reports</strong></th>
+            <th ng-click=setSortOrder('date')><strong>Date</strong></th>
+            <th ng-click=setSortOrder('title')><strong>Project Name</strong></th>
+            <th ng-click=setSortOrder('manager.name')><strong>Manager</strong></th> <!-- implement this -->
+            <th ng-click=setSortOrder('savings')><strong>Savings</strong></th>
+            <th ng-click=setSortOrder('hours')><strong>Saved Hours</strong></th>
+            <th><strong>View Full Report</strong></th>
+        </tr>
+        <tbody ng-show="prev_reports" ng-repeat="proj in report_projects | orderBy: sortOrder: reverse track by $index">
+            <tr>
+                <td style="color: red">Report {{report_date}}</td>
+                <td>{{proj.month}}/{{proj.day}}/{{proj.year}}</td>
+                <td>{{proj.title}}</td>
+                <td>{{proj.manager.name}}</td>
+                <td>$ {{proj.savings}}</td>
+                <td>{{proj.hours}}</td>
+                <td><button ng-click="showFull(proj)" class="button">Show Full</button></td>
+            </tr>
+        </tbody>
+        <tbody ng-hide="prev_reports" ng-repeat="x in database.projects | orderBy: sortOrder: reverse">
+            <tr ng-hide="x.generated">
+                <td><input type="checkbox" ng-model="x.checked" ng-show="!x.generated"></td>
+                <td>{{x.month}}/{{x.day}}/{{x.year}}</td>
+                <td>{{x.title}}</td>
+                <td>{{x.manager.name}}</td>
+                <td>$ {{x.savings}}</td>
+                <td>{{x.hours}}</td>
+                <td><button class="button" ng-click="showFull(x)">Show Full</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</html>

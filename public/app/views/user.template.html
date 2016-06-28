@@ -1,0 +1,24 @@
+<div ng-app="user" ng-controller="userCtrl">
+    <div class="head-container">
+        <img src="../assets/harris-logo.png" width="375px">
+        <div style="float:right">
+            <button class="button" ng-click="logOut()">Log Out</button>
+        </div>
+        <div class="text-center">
+            <img src="../assets/title-logo.png" width="800px">
+        </div>
+        <br>
+    </div>
+    <br>
+    <div class="text-center">
+        <h5><b>Project Manager:</b> {{sharedData.globalManager[0].name}}</h5>
+
+        <button class="button" ng-click="viewPreviousProjects()">View Previously Submitted Projects</button>
+        <br>
+
+        <h5 ng-show="sharedData.loggedIn()" class="text-center"><b ng-show="showSubmitted">Submitted Projects:
+            {{items.length}}</b></h5>
+
+        <button class="button" ng-click="addNewProject()"><b>Add New Project</b></button>
+    </div>
+</div>

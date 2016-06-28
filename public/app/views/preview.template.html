@@ -1,0 +1,206 @@
+<div ng-app="preview" ng-controller="previewCtrl">
+    <div class="head-container">
+        <img src="../assets/harris-logo.png" width="375px">
+        <div class="text-center">
+            <img src="../assets/title-logo.png" width="800px">
+        </div>
+        <br>
+    </div>
+    <br>
+    <div class="text-center">
+        <div ng-repeat="item in items track by $index" class="large-6 large-centered">
+            <table>
+                <tr>
+                    <td>
+                        <div ng-show="checkAdmin()">
+                            <br>
+                            <div ng-show="item.generated" class="align-right">
+                                <h4 style="color:red;"><b>Report Generated</b></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <br>
+                            <div class="text-center">
+                                <h3><b>{{item.title}}</b></h3>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="row">
+                            <div class="large-6 columns">
+                                <table>
+                                    <tr>
+                                        <td class="text-center">
+                                            <b>Savings:</b>
+                                        </td>
+                                        <td class="text-center">
+                                            $ {{item.savings}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            <b>Saved Hours:</b>
+                                        </td>
+                                        <td class="text-center">
+                                            {{item.hours}} hour(s)
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="large-6 columns">
+                                <table>
+                                    <tr>
+                                        <td class="text-center">
+                                            <b>Date:</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            {{item.month + "/" + item.day + "/" + item.year}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-6 columns">
+                                <table>
+                                    <tr>
+                                        <td class="text-center">
+                                            <b>Team Members:</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            {{item.team}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="large-6 columns">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <b>Discipline(s):</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {{ite}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td class="text-center">
+                                            <b>Project Summary:</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            {{item.summary}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="small-2 columns">
+                                <p></p>
+                            </div>
+                            <div class="small-8 columns">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <b>Image:</b>
+                                        </td>
+                                        <td>
+                                            <img ng-src="{{item.image}}" width="200px">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="small-2 columns">
+                                <p></p>
+                            </div>
+                        </div>
+
+                        <!-- Displaying results -->
+                        <div ng-repeat="result in item.result track by $index">
+                            <br>
+                            <div class="row">
+                                <div class="text-center">
+                                    <h6><i><b>Result</b> #{{$index + 1}}</i></h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <table>
+                                    <tr>
+                                        <td rowspan="2" class="text-center">
+                                            <b>Improvement Description:</b><br>
+                                            {{result.summary}}
+                                        </td>
+                                        <td>
+                                            <b>Savings:</b>
+                                        </td>
+                                        <td>
+                                            $ {{result.savings}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>Saved Hours:</b>
+                                        </td>
+                                        <td>
+                                            {{result.hours}} hour(s)
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <table>
+                                    <tr>
+                                        <td class="text-center">
+                                            <b>Results Accomplished From Improvement:</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">
+                                            {{result.details}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <!-- Editing or deleting submissions -->
+                            <table ng-hide="item.generated">
+                                <tr>
+                                    <td class="text-center">
+                                        <button class="button-secondary" ng-click="edit($index)"><b>EDIT</b></button>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="button-secondary" ng-click="deleteProject($index)"><b>DELETE</b>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="text-center" ng-hide="showSubmitted">
+        <button class="button" ng-click="addNew()"><b>Add New Project</b></button>
+        <!-- Add to database -->
+        <div ng-show="items.length > 0">
+            <button class="button" ng-click="addToDB()"><b>Submit</b></button>
+        </div>
+    </div>
+</div>

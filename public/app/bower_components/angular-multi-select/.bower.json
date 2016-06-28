@@ -1,0 +1,11 @@
+{
+  "name": "angular-multi-select",
+  "_cacheHeaders": {
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "main": "index",
+  "_source": "https://github.com/isteven/angular-multi-select",
+  "_target": "*",
+  "_originalSource": "https://github.com/isteven/angular-multi-select",
+  "_direct": true
+}

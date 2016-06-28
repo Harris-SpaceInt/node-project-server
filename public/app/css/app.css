@@ -1,0 +1,49 @@
+.display-body, body {
+    font-family: 'Montserrat';
+    background: #d9d9d9;
+}
+
+h1, h3, h4 {
+    text-align: center;
+}
+
+h4 {
+    font-weight: bold;
+}
+
+a:link, a:visited {
+    color: black;
+}
+
+a:hover, .highlight:hover {
+    color: red;
+}
+
+textarea {
+    height: auto;
+}
+
+.button-secondary {
+    display: inline-block;
+    text-align: center;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-appearance: none;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 0.85em 1em;
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    background-color: gray;
+    color: #fefefe;
+}
+
+.button-secondary:hover {
+    color: black;
+}
+
+#form {
+    background-color: white;
+}
