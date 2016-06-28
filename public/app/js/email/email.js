@@ -3,7 +3,7 @@
 var app = angular.module('email', ['myApp']);
 
 app.component('email', {
-    templateUrl: '../views/email.template.html'
+    templateUrl: '../views/templates/email.template.html'
 });
 
 app.controller('emailCtrl', function ($scope, $window, sharedData, database) {

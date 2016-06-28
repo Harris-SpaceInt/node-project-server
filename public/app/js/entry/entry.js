@@ -3,7 +3,7 @@
 var app = angular.module('entry', ['myApp']);
 
 app.component('entry', {
-    templateUrl: '../views/entry.template.html'
+    templateUrl: '../views/templates/entry.template.html'
 });
 
 app.controller('entryCtrl', function ($scope, $window, sharedData, database) {

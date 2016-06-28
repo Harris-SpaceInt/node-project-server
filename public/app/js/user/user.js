@@ -3,7 +3,7 @@
 var app = angular.module('user', ['myApp']);
 
 app.component('user', {
-    templateUrl: '../views/user.template.html'
+    templateUrl: '../views/templates/user.template.html'
 });
 
 app.controller('userCtrl', function ($scope, $window, sharedData, database) {
