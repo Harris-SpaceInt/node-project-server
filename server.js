@@ -20,6 +20,15 @@ var Project    = require('./app/models/project');
 var Manager    = require('./app/models/manager');
 var Report     = require('./app/models/report');
 
+// CORS
+// ============================================================================
+app.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "GET", "POST", "PUT", "DELETE");
+    next();
+});
+
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
