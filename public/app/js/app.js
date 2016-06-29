@@ -4,20 +4,28 @@ var app = angular.module('myApp', [
     'ngRoute', 
     'ui.date',
     'isteven-multi-select',
-    'display', //admin display projects page
-    'email', //log in screen
-    'entry', //entering projects
-    'user', //user landing page after logging in
-    'preview', //preview project reports
-    'previous', //previous projects
-    'manage' //editing manager info
+    'display',          //admin display projects page
+    'email',            //log in screen
+    'entry',            //entering projects
+    'user',             //user landing page after logging in
+    'preview',          //preview project reports
+    'previous',         //previous projects
+    'manage'            //editing manager info
 ]);
 
-app.config(['$locationProvider', '$routeProvider',
-    function config($locationProvider, $routeProvider) {
+app.config([
+    '$locationProvider',
+    '$routeProvider',
+    '$httpProvider',
+    function config($locationProvider, $routeProvider, $httpProvider) {
+        // cors compatibility
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        
+
+        // define the routes for the application
         $locationProvider.hashPrefix('!');
 
-        // need to finish this
         $routeProvider.
         when('/login', {
             template: '<email></email>'

@@ -10,10 +10,12 @@ app.factory('database', function($http, $q) {
     factoryData.projects = [];
     factoryData.managers = [];
     factoryData.results = [];
+    
+    factoryData.currentReport = {};
 
 
     // set the url of the database server
-    var dataUrl = "http://localhost:8080";
+    var dataUrl = "http://localhost:8080/api";
 
     
     //------------------------------------------------------------------------------------------------------------------
@@ -21,8 +23,8 @@ app.factory('database', function($http, $q) {
     // these functions populate the fields above
     
     /**
-     * helper function for getItemsFromDatabase. gets report information from
-     * the database from the managers url and gives it to reports
+     * gets report information from the database from the reports 
+     * url and gives it to reports
      */
     factoryData.getReportsFromDatabase = function() {
         console.log("Starting GET for reports...");
@@ -50,8 +52,37 @@ app.factory('database', function($http, $q) {
     };
 
     /**
-     * helper function for getItemsFromDatabase. gets project information from
-     * the database from the projects url and gives it to projects
+     * gets the report with a specified index from the database
+     * and sets it as the currentReport
+     */
+    factoryData.getReportFromDatabase = function(id) {
+        console.log("Starting GET for reports...");
+
+        var deferred = $q.defer();
+
+        $http({method: 'GET', url: dataUrl + '/reports/' + id})
+            .success(function (data, status) {
+                console.log("GET was successful for reports");
+                factoryData.currentReport = data;
+
+                deferred.resolve(data);
+            })
+            .error(function (data, status) {
+                console.log("Error retrieving reports");
+                console.log("status: " + status);
+                if (confirm("Error retrieving project data. Try again?")) {
+                    $route.reload();
+                }
+
+                deferred.reject();
+            });
+
+        return deferred.promise;
+    };
+
+    /**
+     * gets project information from the database from the projects 
+     * url and gives it to projects
      */
     factoryData.getProjectsFromDatabase = function() {
         console.log("Starting GET for projects...");
@@ -79,8 +110,8 @@ app.factory('database', function($http, $q) {
     };
 
     /**
-     * helper function for getItemsFromDatabase. gets manager information from
-     * the database from the managers url and gives it to managers
+     * gets manager information from the database from the managers 
+     * url and gives it to managers
      */
     factoryData.getManagersFromDatabase = function() {
         console.log("Starting GET for managers...");
@@ -108,77 +139,6 @@ app.factory('database', function($http, $q) {
     };
 
     /**
-     * helper function for getItemsFromDatabase. gets result information from
-     * the database from the results url and gives it to results
-     */
-    factoryData.getResultsFromDatabase = function() {
-        console.log("Starting GET for results...");
-
-        var deferred = $q.defer();
-
-        $http({method: 'GET', url: dataUrl + '/results'})
-            .success(function (data, status) {
-                console.log("GET was successful for results");
-                factoryData.results = data;
-
-                deferred.resolve(data);
-            })
-            .error(function (data, status) {
-                console.log("Error retrieving results");
-                console.log("status: " + status);
-                if (confirm("Error retrieving project data. Try again?")) {
-                    $route.reload();
-                }
-
-                deferred.reject();
-            });
-
-        return deferred.promise;
-};
-
-    /**
-     * Adds manager and result data to projects
-     * @returns {*}
-     */
-    factoryData.compileProjects = function() {
-        // add a checked field and date field to all project objects
-        // the checked field is linked to a checkbox next to each project for selection
-        // the date field is displayed on the project display page and used for sorting
-        for (var i = 0; i < factoryData.projects.length; i++) {
-            factoryData.projects[i].checked = false;
-            factoryData.projects[i].date = new Date(factoryData.projects[i].year, factoryData.projects[i].month - 1, factoryData.projects[i].day);
-        }
-
-        // add managers and results to the project objects
-        for (var i = 0; i < factoryData.projects.length; i++) {
-            factoryData.projects[i].manager = factoryData.getManagerById(factoryData.projects[i].manager.id);
-
-            for (var j = 0; j < factoryData.projects[i].result.length; j++) {
-                factoryData.projects[i].result[j] = factoryData.getResultById(factoryData.projects[i].result[j].id);
-            }
-
-        }
-    };
-
-    /**
-     * Adds project data to reports
-     * @returns {*}
-     */
-    factoryData.compileReports = function() {
-        // add projects to the report objects
-        for (var i = 0; i < factoryData.reports.length; i++) {
-            for (var j = 0; j < factoryData.reports[i].project.length; j++) {
-                factoryData.reports[i].project[j] = factoryData.getProjectById(factoryData.reports[i].project[j].id);
-            }
-        }
-    };
-
-    factoryData.compileItems = function() {
-        this.compileProjects();
-        this.compileReports();
-    };
-
-    /**
      * fills reports, projects, managers, and results with information
      * from the database 
      */
@@ -187,13 +147,12 @@ app.factory('database', function($http, $q) {
         
         $q.all([
             this.getManagersFromDatabase(),
-            this.getResultsFromDatabase(),
             this.getProjectsFromDatabase(),
             this.getReportsFromDatabase()
         ]).then(function(success) {
             // data retrieved
             // do post processing
-            factoryData.compileItems();
+            console.log('All data retrieved')
             deferred.resolve();
         });
         
