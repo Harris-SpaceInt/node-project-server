@@ -11,12 +11,14 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080;        // set our port
+var port = process.env.PORT || 8081;        // set our port
 
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost');    // connect to our database
 
 var Project    = require('./app/models/project');
+var Manager    = require('./app/models/manager');
+var Report    = require('./app/models/report');
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -31,10 +33,9 @@ router.use(function(req, res, next) {
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-    res.json({ message: 'valid routes: /projects' });
+    res.json({ message: 'valid routes: /projects, /projects/:id, /unreported' });
 });
 
-// more routes for our API will happen here
 
 // on routes that end in /projects
 // ----------------------------------------------------
@@ -44,7 +45,27 @@ router.route('/projects')
     .post(function(req, res) {
 
         var project = new Project();      // create a new instance of the Project model
-        project.title = req.body.title;  // set the projects name (comes from the request)
+        project.title = req.body.title;   // set the projects fields (comes from the request)
+        project.generated = req.body.generated;
+        project.discipline = req.body.discipline;
+        project.summary = req.body.summary;
+        project.team = req.body.team;
+        project.image = req.body.image;
+        project.savings = req.body.savings;
+        project.hours = req.body.hours;
+        project.day = req.body.day;
+        project.month = req.body.month;
+        project.year = req.body.year;
+        
+        project.manager = req.body.manager;
+        console.log(req.body.manager);
+        // project.manager.name = req.body.manager.name;
+        // project.manager.unit = req.body.manager.unit;
+        // project.manager.function = req.body.manager.function;
+        // project.manager.department = req.body.manager.department;
+        // project.manager.phone = req.body.manager.phone;
+        // project.manager.email = req.body.manager.email;
+        
         
         // save the project and check for errors
         project.save(function(err) {
@@ -57,12 +78,14 @@ router.route('/projects')
 
     // get all the projects (accessed at GET http://localhost:8080/api/projects)
     .get(function(req, res) {
-        Project.find(function(err, projects) {
-            if (err)
-                res.send(err);
+        Project.find({})
+            .populate('manager')
+            .exec(function(err, projects) {
+                if (err)
+                    res.send(err);
 
-            res.json(projects);
-        });
+                res.json(projects);
+            });
     });
 
 // on routes that end in /projects/:project_id
@@ -71,11 +94,14 @@ router.route('/projects/:project_id')
 
     // get the project with that id (accessed at GET http://localhost:8080/api/project/:project_id)
     .get(function(req, res) {
-        Project.findById(req.params.project_id, function(err, project) {
-            if (err)
-                res.send(err);
-            res.json(project);
-        });
+        Project.findById(req.params.project_id)
+            .populate('manager')
+            .exec(function(err, project) {
+                if (err)
+                    res.send(err);
+    
+                res.json(project);
+            });
     })
 
     // update the project with this id (accessed at PUT http://localhost:8080/api/projects/:project_id)
@@ -109,6 +135,66 @@ router.route('/projects/:project_id')
                 res.send(err);
 
             res.json({ message: 'Successfully deleted' });
+        });
+    });
+
+// on routes that end in /unreported
+// ----------------------------------------------------
+router.route('/unreported')
+
+    // get all projects not in reports (accessed at GET http://localhost:8080/api/unreported)
+    .get(function(req, res) {
+        Project.find({generated: false})
+            .populate('manager')
+            .exec(function(err, projects) {
+                if (err)
+                    res.send(err);
+    
+                res.json(projects);
+            });
+    });
+
+// on routes that end in /managers
+// ----------------------------------------------------
+router.route('/managers')
+
+    // get all managers (accessed at GET http://localhost:8080/api/managers)
+    .get(function(req, res) {
+        Manager.find(function(err, managers) {
+            if (err)
+                res.send(err);
+
+            res.json(managers);
+        });
+    });
+
+// on routes that end in /managers
+// ----------------------------------------------------
+router.route('/managers/:manager_id')
+
+    // update the manager with this id (accessed at PUT http://localhost:8080/api/managers/:manager_id)
+    .put(function(req, res) {
+    
+        // use our manager model to find the manager we want
+        Manager.findById(req.params.manager_id, function(err, manager) {
+    
+            if (err)
+                res.send(err);
+    
+            manager.name = req.body.name;  // update the manager info
+            manager.function = req.body.function;
+            manager.department = req.body.department;
+            manager.phone = req.body.phone;
+            manager.email = req.body.email;
+    
+            // save the manager
+            manager.save(function(err) {
+                if (err)
+                    res.send(err);
+    
+                res.json({ message: 'Manager updated' });
+            });
+    
         });
     });
 
