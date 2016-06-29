@@ -18,7 +18,7 @@ mongoose.connect('mongodb://localhost');    // connect to our database
 
 var Project    = require('./app/models/project');
 var Manager    = require('./app/models/manager');
-var Report    = require('./app/models/report');
+var Report     = require('./app/models/report');
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -48,7 +48,6 @@ router.route('/projects')
         project.title = req.body.title;   // set the projects fields (comes from the request)
         project.generated = req.body.generated;
         project.discipline = req.body.discipline;
-<<<<<<< HEAD
         project.summary = req.body.summary;
         project.team = req.body.team;
         project.image = req.body.image;
@@ -58,51 +57,44 @@ router.route('/projects')
         project.month = req.body.month;
         project.year = req.body.year;
         
-        project.manager = req.body.manager;
-        console.log(req.body.manager);
-        // project.manager.name = req.body.manager.name;
-        // project.manager.unit = req.body.manager.unit;
-        // project.manager.function = req.body.manager.function;
-        // project.manager.department = req.body.manager.department;
-        // project.manager.phone = req.body.manager.phone;
-        // project.manager.email = req.body.manager.email;
-        
-        
-=======
-        /*title: String,
-            generated: Boolean,
-            discipline: [String],
-            summary: String,
-            team: String,
-            image: {type: String, default: null},
-        savings: Number,
-            hours: Number,
-            day: Number,
-            month: Number,
-            year: Number,
-            manager: {
-            name: String,
-                unit: String,
-                function: String,
-                department: String,
-                phone: String,
-                email: String
-        },
-        result: [{
-            summary: String,
-            details: String,
-            savings: Number,
-            hours: Number
-        }]*/
-
->>>>>>> e7caa7811b7a87f88929e4ff103f39a11476747f
-        // save the project and check for errors
-        project.save(function(err) {
-            if (err)
+        // search for a manager with the same email in the database
+        Manager.findOne({email: req.body.manager.email}, function(err, results) {
+            if (err) 
                 res.send(err);
+            
+            // check if manager exists
+            if (results == null) {
+                // manager with email does not exist
+                // create a new manager from the request body
+                var manager = new Manager();
+                manager.name = req.body.manager.name;
+                manager.unit = req.body.manager.unit;
+                manager.function = req.body.manager.function;
+                manager.department = req.body.manager.department;
+                manager.phone = req.body.manager.phone;
+                manager.email = req.body.manager.email;
+                
+                manager.save(function(err, man) {
+                    if (err)
+                        res.send(err);
+                    
+                    results = man;
+                });
+            }
+            
+            // manager exists here
+            // get the id and store it in the project
+            project.manager = results._id;
 
-            res.json({ message: 'Project created' });
+            // save the project and check for errors
+            project.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'Project created' });
+            });
         });
+        
     })
 
     // get all the projects (accessed at GET http://localhost:8080/api/projects)
