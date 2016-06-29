@@ -3,7 +3,7 @@
 var app = angular.module('preview', ['myApp']);
 
 app.component('preview', {
-    templateUrl: '../views/templates/preview.template.html'
+    templateUrl: 'templates/preview.template.html'
 });
 
 app.controller('previewCtrl', function ($scope, $window, sharedData, database) {

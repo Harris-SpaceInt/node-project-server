@@ -3,7 +3,7 @@
 var app = angular.module('user', ['myApp']);
 
 app.component('user', {
-    templateUrl: '../views/templates/user.template.html'
+    templateUrl: 'templates/user.template.html'
 });
 
 app.controller('userCtrl', function ($scope, $window, sharedData, database) {
@@ -41,6 +41,14 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
         $window.location.href = "#!/login";
     };
 
+    /**
+     * Loads the edit manager page
+     */
+    $scope.editManager = function() {
+        alert($scope.sharedData.globalManager[0].id);
+        $window.location.href = "#!/manage";
+    };
+    
     /**
      * Takes the user to the entry page
      */

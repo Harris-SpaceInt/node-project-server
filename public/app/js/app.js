@@ -1,6 +1,17 @@
 'use strict';
 
-var app = angular.module('myApp', ['ngRoute', 'ui.date', 'display', 'email', 'entry', 'user', 'preview', 'previous', 'isteven-multi-select']);
+var app = angular.module('myApp', [
+    'ngRoute', 
+    'ui.date',
+    'isteven-multi-select',
+    'display', //admin display projects page
+    'email', //log in screen
+    'entry', //entering projects
+    'user', //user landing page after logging in
+    'preview', //preview project reports
+    'previous', //previous projects
+    'manage' //editing manager info
+]);
 
 app.config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
@@ -25,6 +36,9 @@ app.config(['$locationProvider', '$routeProvider',
         }).
         when('/preview', {
             template: '<preview></preview>'
+        }).
+        when('/manage', {
+            template: '<manage></manage>'
         }).
         otherwise('/login');
     }
