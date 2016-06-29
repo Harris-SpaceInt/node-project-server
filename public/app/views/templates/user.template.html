@@ -12,10 +12,11 @@
     <br>
     <div class="text-center">
         <h5><b>Project Manager:</b> {{sharedData.globalManager[0].name}}</h5>
-
+        <br>
+        <button class="button-secondary" ng-click="editManager()">Edit Manager Info</button>
+        <br>
         <button class="button" ng-click="viewPreviousProjects()">View Previously Submitted Projects</button>
         <br>
-
         <h5 ng-show="sharedData.loggedIn()" class="text-center"><b ng-show="showSubmitted">Submitted Projects:
             {{items.length}}</b></h5>
 

@@ -13,7 +13,7 @@ app.factory('database', function($http, $q) {
 
 
     // set the url of the database server
-    var dataUrl = "localhost:8080";
+    var dataUrl = "http://localhost:8080";
 
     
     //------------------------------------------------------------------------------------------------------------------

@@ -1,22 +1,7 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>
-<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>
-<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>
-<html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<html>
 <head>
-    <title>Project Reports</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" type="image/x-icon" href="../assets/favicon.ico"/>
-    <meta name="description" content="Project managers can submit reports of their projects and log their savings.">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Andrew Maczugowski & Edmond Wu -->
-
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.3/jasmine.min.css">
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" href="../bower_components/html5-boilerplate/dist/css/normalize.css">
@@ -43,17 +28,27 @@
     <script type="text/javascript" src="../js/preview/preview.js"></script>
     <script type="text/javascript" src="../js/previous/previous.js"></script>
     <script type="text/javascript" src="../js/user/user.js"></script>
-    <script type="text/javascript" src="../js/manage/manage.js"></script>
     <script type="text/javascript" src="../js/services/staticImages.factory.js"></script>
     <script type="text/javascript" src="../js/display/display.js"></script>
     <script type="text/javascript" src="../js/vendor/pdfmake.js"></script>
     <script type="text/javascript" src="../js/vendor/vfs_fonts.js"></script>
+
+    <script type="text/javascript" src="../components/version/version.js"></script>
+    <script type="text/javascript" src="../components/version/version-directive.js"></script>
+    <script type="text/javascript" src="../components/version/interpolate-filter.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.3/jasmine.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.3/jasmine-html.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/2.3.3/boot.min.js"></script>
 </head>
-<body>
-
-<div class="view-container">
-    <div ng-view class="view-frame"></div>
-</div>
-
+<body ng-app="myApp" ng-controller="testCtrl">
 </body>
+<script type="text/javascript">
+
+    var app = angular.module('myApp', ['ngRoute', 'ui.date', 'display', 'email', 'entry', 'user', 'preview', 'previous', 'isteven-multi-select']);
+
+    app.controller('testCtrl', function($scope, database) {
+
+    });
+
+</script>
 </html>

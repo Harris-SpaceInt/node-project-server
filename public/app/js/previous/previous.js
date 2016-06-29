@@ -3,7 +3,7 @@
 var app = angular.module('previous', ['myApp']);
 
 app.component('previous', {
-    templateUrl: '../views/templates/previous.template.html'
+    templateUrl: 'templates/previous.template.html'
 });
 
 app.controller('previousCtrl', function ($scope, $window, sharedData, database) {

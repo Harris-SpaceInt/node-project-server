@@ -3,7 +3,7 @@
         <img src="../assets/harris-logo.png" width="375px">
         <div style="float:right">
             <button ng-show="sharedData.checkAdmin()" class="button" ng-click="switchToDisplay()">Switch to List View</button>
-            <button ng-hide="sharedData.checkAdmin()" class="button" ng-click="goBack()">Back</button>
+            <button ng-hide="sharedData.checkAdmin()" class="button-secondary" ng-click="goBack()">Back</button>
             <button class="button" ng-click="logOut()">Log Out</button>
         </div>
         <div class="text-center" ng-hide="showingFullView">

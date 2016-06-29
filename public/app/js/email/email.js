@@ -3,7 +3,7 @@
 var app = angular.module('email', ['myApp']);
 
 app.component('email', {
-    templateUrl: '../views/templates/email.template.html'
+    templateUrl: 'templates/email.template.html'
 });
 
 app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
@@ -105,17 +105,25 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
         $scope.addManager[0].department = "";
         $scope.addManager[0].phone = "";
     };
+
+    /**
+     * Validates a manager entry
+     * @returns {boolean}
+     */
+    $scope.validateManager = function(manager) {
+        return !(manager.name.replace(/\s+/g, '') == ""
+        || manager.unit.replace(/\s+/g, '') == ""
+        || manager.function.replace(/\s+/g, '') == ""
+        || manager.department.replace(/\s+/g, '') == ""
+        || manager.phone.replace(/\s+/g, '') == ""
+        || manager.email.replace(/\s+/g, '') == "");
+    };
     
     /**
      * Adds the manager to database
      */
     $scope.submit = function(man) {
-        if (man.name.replace(/\s+/g, '') == ""
-            || man.unit.replace(/\s+/g, '') == ""
-            || man.function.replace(/\s+/g, '') == ""
-            || man.department.replace(/\s+/g, '') == ""
-            || man.phone.replace(/\s+/g, '') == ""
-            || man.email.replace(/\s+/g, '') == "") {
+        if (!$scope.validateManager(man)) {
             alert("Manager fields not filled out!");
         }
         else {
