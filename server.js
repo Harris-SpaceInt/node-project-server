@@ -48,7 +48,6 @@ router.route('/projects')
         project.title = req.body.title;   // set the projects fields (comes from the request)
         project.generated = req.body.generated;
         project.discipline = req.body.discipline;
-<<<<<<< HEAD
         project.summary = req.body.summary;
         project.team = req.body.team;
         project.image = req.body.image;
@@ -67,35 +66,6 @@ router.route('/projects')
         // project.manager.phone = req.body.manager.phone;
         // project.manager.email = req.body.manager.email;
         
-        
-=======
-        /*title: String,
-            generated: Boolean,
-            discipline: [String],
-            summary: String,
-            team: String,
-            image: {type: String, default: null},
-        savings: Number,
-            hours: Number,
-            day: Number,
-            month: Number,
-            year: Number,
-            manager: {
-            name: String,
-                unit: String,
-                function: String,
-                department: String,
-                phone: String,
-                email: String
-        },
-        result: [{
-            summary: String,
-            details: String,
-            savings: Number,
-            hours: Number
-        }]*/
-
->>>>>>> e7caa7811b7a87f88929e4ff103f39a11476747f
         // save the project and check for errors
         project.save(function(err) {
             if (err)
