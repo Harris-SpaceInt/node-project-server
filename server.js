@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8081;        // set our port
+var port = process.env.PORT || 8080;        // set our port
 
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost');    // connect to our database
@@ -43,6 +43,20 @@ router.route('/projects')
 
     // create a project (accessed at POST http://localhost:8080/api/projects)
     .post(function(req, res) {
+        
+        // define function to save the project with a manager
+        var saveProject = function(project, manager) {
+            project.manager = manager._id;
+
+            // save the project and check for errors
+            project.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'Project created' });
+            });            
+        };
+        
 
         var project = new Project();      // create a new instance of the Project model
         project.title = req.body.title;   // set the projects fields (comes from the request)
@@ -50,12 +64,16 @@ router.route('/projects')
         project.discipline = req.body.discipline;
         project.summary = req.body.summary;
         project.team = req.body.team;
-        project.image = req.body.image;
         project.savings = req.body.savings;
         project.hours = req.body.hours;
         project.day = req.body.day;
         project.month = req.body.month;
         project.year = req.body.year;
+        project.result = req.body.result;
+
+        if (req.body.image) {
+            project.image = req.body.image;
+        }
         
         // search for a manager with the same email in the database
         Manager.findOne({email: req.body.manager.email}, function(err, results) {
@@ -78,28 +96,21 @@ router.route('/projects')
                     if (err)
                         res.send(err);
                     
-                    results = man;
+                    saveProject(project, man);
                 });
             }
-            
-            // manager exists here
-            // get the id and store it in the project
-            project.manager = results._id;
-
-            // save the project and check for errors
-            project.save(function(err) {
-                if (err)
-                    res.send(err);
-
-                res.json({ message: 'Project created' });
-            });
+            else {
+                // manager exists here
+                // get the id and store it in the project
+                saveProject(project, results);
+            }
         });
         
     })
 
-    // get all the projects (accessed at GET http://localhost:8080/api/projects)
+    // get all projects not in reports (accessed at GET http://localhost:8080/api/projects)
     .get(function(req, res) {
-        Project.find({})
+        Project.find({generated: false})
             .populate('manager')
             .exec(function(err, projects) {
                 if (err)
@@ -159,13 +170,13 @@ router.route('/projects/:project_id')
         });
     });
 
-// on routes that end in /unreported
+// on routes that end in /reported
 // ----------------------------------------------------
-router.route('/unreported')
+router.route('/reported')
 
-    // get all projects not in reports (accessed at GET http://localhost:8080/api/unreported)
+    // get all projects in reports (accessed at GET http://localhost:8080/api/reported)
     .get(function(req, res) {
-        Project.find({generated: false})
+        Project.find({generated: true})
             .populate('manager')
             .exec(function(err, projects) {
                 if (err)
@@ -217,6 +228,63 @@ router.route('/managers/:manager_id')
             });
     
         });
+    });
+
+// on routes that end in /reports
+// ----------------------------------------------------
+router.route('/reports')
+
+    // get all reports (accessed at GET http://localhost:8080/api/reports)
+    .get(function(req, res) {
+        Report.find(function(err, reports) {
+            if (err)
+                res.send(err);
+
+            res.json(reports);
+        });
+    })
+
+    // create a report (accessed at POST http://localhost:8080/api/reports)
+    .post(function(req, res) {
+        var report = new Report();
+        report.day = req.body.day;
+        report.month = req.body.month;
+        report.year = req.body.year;
+
+        req.body.project.forEach(function(element, index, array) {
+            report.project.push(element._id);
+        });
+
+        // save the report and check for errors
+        report.save(function(err) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Report created' });
+        });
+    });
+
+// on routes that end in /reports/:report_id
+// ----------------------------------------------------
+router.route('/reports/:report_id')
+
+    // get the report with that id (accessed at GET http://localhost:8080/api/project/:project_id)
+    .get(function(req, res) {
+        Report.findById(req.params.report_id)
+            .populate('project')
+            .exec(function(err, report) {
+                if (err)
+                    res.send(err);
+
+                Project.populate(report.project, {
+                    path: 'manager'
+                }, function(err, report) {
+                    if (err)
+                        res.send(err);
+
+                    res.json(report);
+                });
+            });
     });
 
 // REGISTER OUR ROUTES -------------------------------
