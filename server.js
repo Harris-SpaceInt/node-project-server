@@ -155,7 +155,21 @@ router.route('/projects/:project_id')
                 res.send(err);
     
             project.title = req.body.title;  // update the project info
-    
+            project.generated = req.body.generated;
+            project.discipline = req.body.discipline;
+            project.summary = req.body.summary;
+            project.team = req.body.team;
+            project.savings = req.body.savings;
+            project.hours = req.body.hours;
+            project.day = req.body.day;
+            project.month = req.body.month;
+            project.year = req.body.year;
+            project.result = req.body.result;
+
+            if (req.body.image) {
+                project.image = req.body.image;
+            }
+
             // save the project
             project.save(function(err) {
                 if (err)
