@@ -87,12 +87,28 @@
                             </table>
                         </div>
                     </div>
+
+                    <!-- manager information -->
                     <div class="row" ng-show="sharedData.checkAdmin()">
                         <br>
-                        <h5 class="text-center"><b>Project Manager:</b> {{item.manager.name}}</h5>
+                        <h5 class="text-center"><b>Project Manager:</b> <div class="highlight" ng-click="item.checked = !item.checked">{{item.manager.name}}</div></h5>
                         <div></div>
+                        <table ng-show="item.checked" class="text-center">
+                            <tr>
+                                <td colspan="2"><b>Email:</b> {{item.manager.email}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Department:</b> {{item.manager.department}}</td>
+                                <td><b>Unit:</b> {{item.manager.unit}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Function:</b> {{item.manager.function}}</td>
+                                <td><b>Phone: </b> {{item.manager.phone}}</td>
+                            </tr>
+                        </table>
                         <br><br>
                     </div>
+
                     <div class="row">
                         <div class="large-6 columns">
                             <table>
