@@ -152,7 +152,7 @@ app.factory('database', function($http, $q) {
         ]).then(function(success) {
             // data retrieved
             // do post processing
-            console.log('All data retrieved')
+            console.log('All data retrieved');
             deferred.resolve();
         });
         
@@ -180,7 +180,6 @@ app.factory('database', function($http, $q) {
             .error(function(data, status) {
                 console.log("Error sending data");
                 console.log("status: " + status);
-                console.log(project)
                 alert("Error submitting project data");
             });
     };
