@@ -1,7 +1,12 @@
+<!-- Admin display page -->
 <div ng-app="display" ng-controller="displayCtrl">
 <div class="display-body">
     <div class="head-container">
         <img src="../assets/harris-logo.png" width="375px">
+        <div style="float:right">
+            <button class="button-secondary" ng-click="switchToFull()">Full View</button>
+            <button class="button" ng-click="logOut()">Log Out</button>
+        </div>
         <div class="text-center">
             <img src="../assets/title-logo.png" width="800px">
         </div>
@@ -58,6 +63,7 @@
         </div>
     </div>
 
+    <!-- Selected reports summary -->
     <div ng-show="showSelectedReports" class="text-center">
         <div ng-hide="somethingChecked()">
             No projects selected.

@@ -78,34 +78,23 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
             alert("Manager fields not filled out!");
         }
         else {
-            var e = $scope.manager.email;
             var p = $scope.manager.phone;
-            if ($scope.validatePhone(p) && $scope.validateEmail(e)) {
-                var index = $scope.addManager.indexOf(man);
-                $scope.addManager.splice(index, 1);
-
+            if ($scope.validatePhone(p)) {
+                var manager = $scope.addManager[0];
 
                 // information has been verified
                 // store manager data and redirect to correct page
-                $scope.sharedData.setGlobalManager(angular.copy(man));
+                $scope.sharedData.setGlobalManager(angular.copy(manager));
+                $scope.addManager = [];
 
-                // handle admin and regular user cases for submit
-                if ($scope.sharedData.checkAdmin()) {
-                    // user is admin
-                    $window.location.href = "#!/display";
-                }
-                else {
-                    // regular user
-                    $window.location.href = "#!/user"
-                }
+                $window.location.href = "#!/user";
             }
             else {
-                alert("Invalid phone and/or email");
+                alert("Invalid phone");
             }
         }
     };
     
     //initialize page
     $scope.pageInit();
-    console.log("initialized");
 });

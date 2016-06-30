@@ -1,3 +1,4 @@
+<!-- User landing page -->
 <div ng-app="user" ng-controller="userCtrl">
     <div class="head-container">
         <img src="../assets/harris-logo.png" width="375px">
@@ -17,7 +18,7 @@
         <br>
         <button class="button" ng-click="viewPreviousProjects()">View Previously Submitted Projects</button>
         <br>
-        <h5 ng-show="sharedData.loggedIn()" class="text-center"><b ng-show="showSubmitted">Submitted Projects:
+        <h5 ng-show="sharedData.loggedIn()" class="text-center"><b>Submitted Projects:
             {{items.length}}</b></h5>
 
         <button class="button" ng-click="addNewProject()"><b>Add New Project</b></button>
