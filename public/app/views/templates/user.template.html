@@ -14,7 +14,7 @@
     <div class="text-center">
         <h5><b>Project Manager:</b> {{sharedData.globalManager[0].name}}</h5>
         <br>
-        <button class="button-secondary" ng-click="editManager()">Edit Manager Info</button>
+        <button ng-show="checkManager()" class="button-secondary" ng-click="editManager()">Edit Manager Info</button>
         <br>
         <button class="button" ng-show="database.projects.length > 0" ng-click="viewPreviousProjects()">View Previously Submitted Projects</button>
         <br>

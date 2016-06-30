@@ -13,7 +13,7 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
 
     $scope.database = database;
 
-    $scope.sharedData = sharedData; 
+    $scope.sharedData = sharedData;
 
     //------------------------------------------------------------------------------------------------------------------
     // initialize the page
@@ -31,6 +31,18 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
 
     //------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Checks if the current manager is in the database
+     */
+    $scope.checkManager = function() {
+        var managers = database.managers;
+        for (var i = 0; i < managers.length; i++) {
+            if (managers[i].email === sharedData.globalManager[0].email) {
+                return true;
+            }
+        }
+        return false;
+    };
 
     /**
      * Clears the manager and returns the user to the
