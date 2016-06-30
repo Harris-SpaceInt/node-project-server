@@ -59,7 +59,6 @@ router.route('/projects')
                 if (err)
                     res.send(err);
 
-                console.log('project created');
                 res.json({ message: 'Project created' });
             });            
         };
@@ -112,9 +111,6 @@ router.route('/projects')
             else {
                 // manager exists here
                 // get the id and store it in the project
-                console.log("saving project");
-                console.log(project);
-                console.log(results);
                 saveProject(project, results);
             }
         });
