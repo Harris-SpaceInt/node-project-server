@@ -53,11 +53,13 @@ router.route('/projects')
         var saveProject = function(project, manager) {
             project.manager = manager._id;
 
+            console.log(project);
             // save the project and check for errors
             project.save(function(err) {
                 if (err)
                     res.send(err);
 
+                console.log('project created');
                 res.json({ message: 'Project created' });
             });            
         };
@@ -65,7 +67,6 @@ router.route('/projects')
 
         var project = new Project();      // create a new instance of the Project model
         project.title = req.body.title;   // set the projects fields (comes from the request)
-        project.generated = req.body.generated;
         project.discipline = req.body.discipline;
         project.summary = req.body.summary;
         project.team = req.body.team;
@@ -75,6 +76,10 @@ router.route('/projects')
         project.month = req.body.month;
         project.year = req.body.year;
         project.result = req.body.result;
+
+        if (req.body.generated) {
+            project.generated = req.body.generated;
+        }
 
         if (req.body.image) {
             project.image = req.body.image;
@@ -107,6 +112,9 @@ router.route('/projects')
             else {
                 // manager exists here
                 // get the id and store it in the project
+                console.log("saving project");
+                console.log(project);
+                console.log(results);
                 saveProject(project, results);
             }
         });

@@ -14,8 +14,7 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
      * @param index index in the items array
      */
     $scope.edit = function (index) {
-        var item = $scope.items[index];
-        sharedData.project = item;
+        sharedData.project = $scope.items[index];
         $scope.items.splice(index, 1);
         $window.location.href = "#!/entry";
     };
