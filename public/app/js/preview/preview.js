@@ -10,6 +10,22 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
     $scope.items = sharedData.projectList;
 
     /**
+     * Clears the manager and returns the user to the
+     * login page
+     */
+    $scope.logOut = function() {
+        sharedData.clearGlobalManager();
+        $window.location.href = "#!/login";
+    };
+
+    /**
+     * Goes back to user page without logging changes
+     */
+    $scope.goBack = function() {
+        $window.location.href = "#!/user";
+    };
+    
+    /**
      * Edits an existing project form
      * @param index index in the items array
      */
