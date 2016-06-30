@@ -3,7 +3,10 @@ var Schema = mongoose.Schema;
 
 var ProjectSchema = new Schema({
     title: String,
-    generated: Boolean,
+    generated: {
+        type: Boolean,
+        default: false
+    },
     discipline: [{
         type: String,
         enum: [
