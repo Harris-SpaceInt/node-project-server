@@ -96,6 +96,11 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
                     while (i < database.projects.length) {
                         //updating manager in database
                         if (database.projects[i].manager.email === $scope.manager.email) {
+                            console.log(database.projects[i].title);
+
+                            //projects id also undefined
+                            console.log(database.projects[i].id);
+
                             database.projects[i].manager = $scope.manager;
                             var updatePromise = database.updateProjectFromDatabase(database.projects[i].id, database.projects[i]);
                             
