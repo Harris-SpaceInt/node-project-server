@@ -53,6 +53,7 @@ router.route('/projects')
         var saveProject = function(project, manager) {
             project.manager = manager._id;
 
+            console.log(project);
             // save the project and check for errors
             project.save(function(err) {
                 if (err)
@@ -65,7 +66,6 @@ router.route('/projects')
 
         var project = new Project();      // create a new instance of the Project model
         project.title = req.body.title;   // set the projects fields (comes from the request)
-        project.generated = req.body.generated;
         project.discipline = req.body.discipline;
         project.summary = req.body.summary;
         project.team = req.body.team;
@@ -75,6 +75,10 @@ router.route('/projects')
         project.month = req.body.month;
         project.year = req.body.year;
         project.result = req.body.result;
+
+        if (req.body.generated) {
+            project.generated = req.body.generated;
+        }
 
         if (req.body.image) {
             project.image = req.body.image;
