@@ -87,7 +87,27 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
                 $scope.sharedData.setGlobalManager(angular.copy(manager));
                 $scope.addManager = [];
 
-                $window.location.href = "#!/user";
+                // now refresh the list of projects from the database
+                var getPromise = database.getItemsFromDatabase();
+                // when that is done, load the projects back into the
+                //   corresponding list and refresh the display
+                getPromise.then(function() {
+                    var i = 0;
+                    while (i < database.projects.length) {
+                        //updating manager in database
+                        if (database.projects[i].manager.email === $scope.manager.email) {
+                            database.projects[i].manager = $scope.manager;
+                            var updatePromise = database.updateProjectFromDatabase(database.projects[i].id, database.projects[i]);
+                            
+                            updatePromise.then(function() {
+                                console.log("updated");
+                                i++;
+                            });
+                        }
+                    }
+
+                    $window.location.href = "#!/user";
+                });
             }
             else {
                 alert("Invalid phone");

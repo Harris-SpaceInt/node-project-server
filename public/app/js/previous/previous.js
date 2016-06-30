@@ -275,7 +275,6 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
                     $scope.loadUserProjects();
                     $scope.searchAndUpdate();
                 });
-                
             });
         }
     };

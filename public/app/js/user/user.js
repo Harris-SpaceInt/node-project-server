@@ -57,7 +57,9 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
      * Loads the edit manager page
      */
     $scope.editManager = function() {
-        alert($scope.sharedData.globalManager[0].id);
+        
+        //manager ID is undefined for some reason
+        
         $window.location.href = "#!/manage";
     };
     
