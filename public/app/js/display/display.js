@@ -59,7 +59,10 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     };
         
     //--------------------------------------------------------------------------
-    
+
+    /**
+     * Logs the user out
+     */
     $scope.logOut = function() {
         $scope.sharedData.clearGlobalManager();
         $window.location.href = '#!/login';
@@ -68,7 +71,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     $scope.switchToFull = function() {
         $window.location.href = '#!/previous';
     };
-
+    
     $scope.addReportsToDisplay = function(report) {
         $scope.setPrevReports();
         if ($scope.prev_reports) {
@@ -79,9 +82,11 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
             $scope.report_date = report.month + "/" + report.day + "/" + report.year;
             $scope.currentReport = report;
         }
-        
     };
-    
+
+    /**
+     * Hides previous reports from view
+     */
     $scope.hideReports = function() {
         $scope.prev_reports = false;
         $scope.report_projects = [];

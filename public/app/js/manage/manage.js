@@ -97,5 +97,4 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
     
     //initialize page
     $scope.pageInit();
-    console.log("initialized");
 });

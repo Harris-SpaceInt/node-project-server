@@ -69,6 +69,9 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
 
     //------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Logs user out
+     */
     $scope.logOut = function() {
         $scope.sharedData.clearGlobalManager();
         $window.location.href = '#!/login';
@@ -77,7 +80,10 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
     $scope.switchToDisplay = function() {
         $window.location.href = '#!/display';
     };
-    
+
+    /**
+     * Goes back to user landing page
+     */
     $scope.goBack = function() {
         $window.location.href = '#!/user';
     };
@@ -127,7 +133,6 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
                 }
             }
         }
-        
     };
 
     /**
