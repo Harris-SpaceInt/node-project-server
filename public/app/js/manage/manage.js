@@ -17,6 +17,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
     $scope.addManager = [];
     
     
+    
     /**
      * Clears the manager and returns the user to the
      * login page
@@ -87,7 +88,19 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
                 $scope.sharedData.setGlobalManager(angular.copy(manager));
                 $scope.addManager = [];
 
-                $window.location.href = "#!/user";
+                var getPromise = database.getManagerByEmail($scope.manager.email);
+                
+                getPromise.then(function(data) {
+                    if (data !== null) {
+                        var updatePromise = database.updateManagerInDatabase(data._id, manager);
+                        updatePromise.then(function() {
+                            $window.location.href = "#!/user";
+                        });
+                    }
+                    else {
+                        console.log("Error: Manager not in database");
+                    }
+                });
             }
             else {
                 alert("Invalid phone");

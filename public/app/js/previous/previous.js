@@ -30,6 +30,8 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
     // sets the view to display a full view of one project when true
     $scope.showingFullView = false;
 
+
+
     //------------------------------------------------------------------------------------------------------------------
     // link database and sharedData to scope variables
 
@@ -58,12 +60,20 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
             $scope.showingFullView = true;
         }
         else {
-            // refresh the database
-            $scope.database.getItemsFromDatabase();
+            // now refresh the list of projects from the database
+            var getPromise = database.getItemsFromDatabase();
+            // when that is done, load the projects back into the
+            //   corresponding list and refresh the display
+            getPromise.then(function() {
+                //adding toggle manager fields
+                database.projects.forEach(function(project) {
+                    project.checked = false;
+                });
 
-            // load and display the user's projects
-            $scope.loadUserProjects();
-            $scope.items = $scope.userProjects;
+                // load and display the user's projects
+                $scope.loadUserProjects();
+                $scope.items = $scope.userProjects;
+            });
         }
     };
 
@@ -257,10 +267,14 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
                 // when that is done, load the projects back into the 
                 //   corresponding list and refresh the display
                 getPromise.then(function() {
+                    //adding toggle manager fields
+                    database.projects.forEach(function(project) {
+                        project.checked = false;
+                    });
+                    
                     $scope.loadUserProjects();
                     $scope.searchAndUpdate();
                 });
-                
             });
         }
     };

@@ -139,6 +139,31 @@ app.factory('database', function($http, $q) {
     };
 
     /**
+     * Retrieves a manager given an email
+     * @param email
+     */
+    factoryData.getManagerByEmail = function(email) {
+        var deferred = $q.defer();
+
+        $http({method: "GET", url : dataUrl + "/managers/email/" + email})
+            .success(function(data, status) {
+                console.log("Manager get success");
+                deferred.resolve(data);
+            })
+            .error(function(data, status) {
+                console.log("Error retrieving manager");
+                console.log("status: " + status);
+                if (confirm("Error retrieving project data. Try again?")) {
+                    $route.reload();
+                }
+
+                deferred.reject();
+            });
+        
+        return deferred.promise;
+    };
+    
+    /**
      * fills reports, projects, managers, and results with information
      * from the database 
      */
@@ -203,6 +228,33 @@ app.factory('database', function($http, $q) {
                 console.log("status: " + status);
                 alert("Error submitting project data");
             });
+    };
+
+    /**
+     * Updates a manager already in the database
+     * @type {*[]}
+     */
+    factoryData.updateManagerInDatabase = function(id, manager) {
+        console.log("Starting function...");
+
+        var deferred = $q.defer();
+        
+        $http({method : 'PUT', url : dataUrl + '/managers/id/' + id, data : manager})
+            .success(function(data, status) {
+                console.log("PUT was successful");
+
+                // update on success
+                factoryData.getItemsFromDatabase();
+                deferred.resolve(data);
+            })
+            .error(function(data, status) {
+                console.log("Error sending data");
+                console.log("status: " + status);
+                alert("Error submitting manager data");
+                deferred.reject();
+            });
+        
+        return deferred.promise;
     };
 
     /**

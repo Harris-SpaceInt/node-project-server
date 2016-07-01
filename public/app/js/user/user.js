@@ -13,7 +13,9 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
 
     $scope.database = database;
 
-    $scope.sharedData = sharedData; 
+    $scope.sharedData = sharedData;
+
+    $scope.managerExists = false;
 
     //------------------------------------------------------------------------------------------------------------------
     // initialize the page
@@ -27,10 +29,24 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
             // user is not logged in
             $window.location.href = "#!/login";
         }
+        else {
+            //checks if the current manager exists in the database
+            $scope.checkManager();
+        }
     };
 
     //------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Checks if the current manager is in the database
+     */
+    $scope.checkManager = function() {
+        var getPromise = database.getManagerByEmail(sharedData.globalManager[0].email);
+        
+        getPromise.then(function(data) {
+            $scope.managerExists = (data !== null);
+        });
+    };
 
     /**
      * Clears the manager and returns the user to the
@@ -45,7 +61,9 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
      * Loads the edit manager page
      */
     $scope.editManager = function() {
-        alert($scope.sharedData.globalManager[0].id);
+        
+        //manager ID is undefined for some reason
+        
         $window.location.href = "#!/manage";
     };
     
