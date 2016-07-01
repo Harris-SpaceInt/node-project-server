@@ -131,7 +131,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
             $window.location.href = "#!/login";
         }
         else {
-            if(sharedData.project == null) {
+            if(sharedData.project === null) {
                 $scope.addNew();
             }
             else {
@@ -139,6 +139,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
                 if (sharedData.project.image !== null) {
                     $scope.hasImage = true;
                 }
+
+                //updating results
                 for (var i = 0; i < sharedData.project.result.length; i++) {
                     $scope.resultsToAdd.push({
                         summary: sharedData.project.result[i].summary,

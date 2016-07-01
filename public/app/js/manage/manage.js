@@ -70,7 +70,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
     };
     
     /**
-     * Updates the manager's information
+     * Updates the manager's information in the database
      */
     $scope.updateInfo = function() {
         if (!$scope.validateManager()) {
@@ -89,6 +89,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
                 var getPromise = database.getManagerByEmail($scope.manager.email);
                 
                 getPromise.then(function(data) {
+                    //data found
                     if (data !== null) {
                         var updatePromise = database.updateManagerInDatabase(data._id, manager);
                         updatePromise.then(function() {
