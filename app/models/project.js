@@ -2,44 +2,84 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ProjectSchema = new Schema({
-    title: String,
+    title: {
+        type: String,
+        required: true
+    },
     generated: {
         type: Boolean,
         default: false
     },
-    discipline: [{
+    discipline: {
+        type: [{
+            type: String,
+            enum: [
+                'Software',
+                'Systems',
+                'Electrical',
+                'Mechanical',
+                'Production',
+                'Integration and Test',
+                'Corportate',
+                'Program Management'
+            ]
+        }],
+        required: true
+    },
+    summary: {
         type: String,
-        enum: [
-            'Software', 
-            'Systems', 
-            'Electrical', 
-            'Mechanical', 
-            'Production', 
-            'Integration and Test', 
-            'Corportate', 
-            'Program Management'
-        ]
-    }],
-    summary: String,
-    team: String,
+        required: true
+    },
+    team: {
+        type: String,
+        required: true
+    },
     image: {
         type: String, 
         default: null
     },
-    savings: Number,
-    hours: Number,
-    day: Number,
-    month: Number,
-    year: Number,
+    savings: {
+        type: Number,
+        required: true
+    },
+    hours: {
+        type: Number,
+        required: true
+    },
+    day: {
+        type: Number,
+        required: true
+    },
+    month: {
+        type: Number,
+        required: true
+    },
+    year: {
+        type: Number,
+        required: true
+    },
     manager: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Manager'
+        ref: 'Manager',
+        required: true
     },
     result: [{
-        summary: String,
-        details: String,
-        savings: Number,
-        hours: Number
+        summary: {
+            type: String,
+            required: true
+        },
+        details: {
+            type: String,
+            required: true
+        },
+        savings: {
+            type: Number,
+            required: true
+        },
+        hours: {
+            type: Number,
+            required: true
+        }
     }]
 });
 

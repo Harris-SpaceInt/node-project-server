@@ -38,7 +38,7 @@ router.use(function(req, res, next) {
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-    res.json({ message: 'valid routes: /projects, /projects/:id, /unreported' });
+    res.json({ message: 'REST API is working.' });
 });
 
 
@@ -53,7 +53,6 @@ router.route('/projects')
         var saveProject = function(project, manager) {
             project.manager = manager._id;
 
-            console.log(project);
             // save the project and check for errors
             project.save(function(err) {
                 if (err)
@@ -90,7 +89,7 @@ router.route('/projects')
                 res.send(err);
             
             // check if manager exists
-            if (results == null) {
+            if (results === null) {
                 // manager with email does not exist
                 // create a new manager from the request body
                 var manager = new Manager();
@@ -111,7 +110,11 @@ router.route('/projects')
             else {
                 // manager exists here
                 // get the id and store it in the project
-                saveProject(project, results);
+                try {
+                    saveProject(project, results);
+                } catch(e) {
+                    res.status(400).send('Saving project unsuccessful');
+                }
             }
         });
         
@@ -155,7 +158,6 @@ router.route('/projects/:project_id')
                 res.send(err);
     
             project.title = req.body.title;  // update the project info
-            project.generated = req.body.generated;
             project.discipline = req.body.discipline;
             project.summary = req.body.summary;
             project.team = req.body.team;
@@ -166,8 +168,18 @@ router.route('/projects/:project_id')
             project.year = req.body.year;
             project.result = req.body.result;
 
+            if (req.body.generated) {
+                project.generated = req.body.generated;
+            }
+            else if (req.body.generated === false) {
+                project.generated = false;
+            }
+
             if (req.body.image) {
                 project.image = req.body.image;
+            }
+            else if (req.body.image === null) {
+                project.image = null;
             }
 
             // save the project
@@ -193,31 +205,34 @@ router.route('/projects/:project_id')
         });
     });
 
-// on routes that end in /reported
+// on routes that end in /projects/manager/:manager_email
 // ----------------------------------------------------
-router.route('/reported')
-
-    // get all projects in reports (accessed at GET http://localhost:8080/api/reported)
-    .get(function(req, res) {
-        Project.find({generated: true})
-            .populate('manager')
-            .exec(function(err, projects) {
-                if (err)
-                    res.send(err);
-    
-                res.json(projects);
-            });
-    });
-
-// on routes that end in projects/manager/:manager_email
-// ----------------------------------------------------
-router.route('projects/manager/:manager_email')
+router.route('/projects/manager/:manager_email')
 
 // get all projects the user has submitted (accessed at GET http://localhost:8080/api/projects/manager/:manager_email)
     .get(function(req, res) {
-        Manager.find({email: user_email},
+        Manager.findOne({email: req.params.manager_email},
             function(err, manager) {
-                Project.find({manager: manager._id})
+                Project.find({manager: manager._id, generated: false})
+                    .populate('manager')
+                    .exec(function(err, projects) {
+                        if (err)
+                            res.send(err);
+
+                        res.json(projects);
+                    });
+            });
+    });
+
+// on routes that end in /projects/generated/manager/:manager_email
+// ----------------------------------------------------
+router.route('/projects/generated/manager/:manager_email')
+
+    // get all projects in reports (accessed at GET http://localhost:8080/api/reported)
+    .get(function(req, res) {
+        Manager.findOne({email: req.params.manager_email},
+            function(err, manager) {
+                Project.find({manager: manager._id, generated: true})
                     .populate('manager')
                     .exec(function(err, projects) {
                         if (err)
