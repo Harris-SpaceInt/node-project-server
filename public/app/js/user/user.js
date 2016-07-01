@@ -109,5 +109,4 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
     // call the initialization function
 
     $scope.pageInit();
-    
 });

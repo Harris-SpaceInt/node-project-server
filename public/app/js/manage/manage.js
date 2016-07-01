@@ -14,9 +14,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
     $scope.sharedData = sharedData;
 
     $scope.manager = sharedData.globalManager[0];
-    $scope.addManager = [];
-    
-    
+    $scope.addManager = []; //fields for manager information to be edited
     
     /**
      * Clears the manager and returns the user to the
