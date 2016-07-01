@@ -15,6 +15,8 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
 
     $scope.sharedData = sharedData;
 
+    $scope.managerExists = false;
+
     //------------------------------------------------------------------------------------------------------------------
     // initialize the page
 
@@ -27,6 +29,10 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
             // user is not logged in
             $window.location.href = "#!/login";
         }
+        else {
+            //checks if the current manager exists in the database
+            $scope.checkManager();
+        }
     };
 
     //------------------------------------------------------------------------------------------------------------------
@@ -35,13 +41,11 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
      * Checks if the current manager is in the database
      */
     $scope.checkManager = function() {
-        var managers = database.managers;
-        for (var i = 0; i < managers.length; i++) {
-            if (managers[i].email === sharedData.globalManager[0].email) {
-                return true;
-            }
-        }
-        return false;
+        var getPromise = database.getManagerByEmail(sharedData.globalManager[0].email);
+        
+        getPromise.then(function(data) {
+            $scope.managerExists = (data !== null);
+        });
     };
 
     /**

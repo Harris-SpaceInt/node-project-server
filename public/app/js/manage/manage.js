@@ -17,6 +17,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
     $scope.addManager = [];
     
     
+    
     /**
      * Clears the manager and returns the user to the
      * login page
@@ -87,31 +88,18 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
                 $scope.sharedData.setGlobalManager(angular.copy(manager));
                 $scope.addManager = [];
 
-                // now refresh the list of projects from the database
-                var getPromise = database.getItemsFromDatabase();
-                // when that is done, load the projects back into the
-                //   corresponding list and refresh the display
-                getPromise.then(function() {
-                    var i = 0;
-                    while (i < database.projects.length) {
-                        //updating manager in database
-                        if (database.projects[i].manager.email === $scope.manager.email) {
-                            console.log(database.projects[i].title);
-
-                            //projects id also undefined
-                            console.log(database.projects[i].id);
-
-                            database.projects[i].manager = $scope.manager;
-                            var updatePromise = database.updateProjectFromDatabase(database.projects[i].id, database.projects[i]);
-                            
-                            updatePromise.then(function() {
-                                console.log("updated");
-                                i++;
-                            });
-                        }
+                var getPromise = database.getManagerByEmail($scope.manager.email);
+                
+                getPromise.then(function(data) {
+                    if (data !== null) {
+                        var updatePromise = database.updateManagerInDatabase(data._id, manager);
+                        updatePromise.then(function() {
+                            $window.location.href = "#!/user";
+                        });
                     }
-
-                    $window.location.href = "#!/user";
+                    else {
+                        console.log("Error: Manager not in database");
+                    }
                 });
             }
             else {
