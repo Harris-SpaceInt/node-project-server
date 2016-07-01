@@ -209,6 +209,25 @@ router.route('/reported')
             });
     });
 
+// on routes that end in projects/manager/:manager_email
+// ----------------------------------------------------
+router.route('projects/manager/:manager_email')
+
+// get all projects the user has submitted (accessed at GET http://localhost:8080/api/projects/manager/:manager_email)
+    .get(function(req, res) {
+        Manager.find({email: user_email},
+            function(err, manager) {
+                Project.find({manager: manager._id})
+                    .populate('manager')
+                    .exec(function(err, projects) {
+                        if (err)
+                            res.send(err);
+
+                        res.json(projects);
+                    });
+            });
+    });
+
 // on routes that end in /managers
 // ----------------------------------------------------
 router.route('/managers')
@@ -223,9 +242,9 @@ router.route('/managers')
         });
     });
 
-// on routes that end in /managers
+// on routes that end in /managers/id/:manager_id
 // ----------------------------------------------------
-router.route('/managers/:manager_id')
+router.route('/managers/id/:manager_id')
 
     // update the manager with this id (accessed at PUT http://localhost:8080/api/managers/:manager_id)
     .put(function(req, res) {
@@ -250,6 +269,22 @@ router.route('/managers/:manager_id')
                 res.json({ message: 'Manager updated' });
             });
     
+        });
+    });
+
+// on routes that end in /managers/email/:manager_id
+// ----------------------------------------------------
+router.route('/managers/email/:manager_email')
+
+    // update the manager with this id (accessed at PUT http://localhost:8080/api/managers/:manager_id)
+    .get(function(req, res) {
+
+        // use our manager model to find the manager we want
+        Manager.findOne({email: req.params.manager_email}, function(err, manager) {
+            if (err)
+                res.send(err);
+
+            res.json(manager);
         });
     });
 
