@@ -357,7 +357,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
             item = $scope.parseDate(item);
             item = $scope.calculateSavings(item);
             if (sharedData.fromDatabase) {
-                database.updateProjectFromDatabase(item.id, item);
+                database.updateProjectFromDatabase(item._id, item);
                 sharedData.project = null;
                 sharedData.fromDatabase = false;
                 $window.location.href = "#!/previous";
