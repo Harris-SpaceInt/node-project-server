@@ -8,7 +8,6 @@ var app = angular.module('myApp');
 app.factory('sharedData', function() {
     var data = {};
 
-
     // type this in the email box to go to the admin page
     data.adminString = 'view admin';
     
@@ -21,7 +20,7 @@ app.factory('sharedData', function() {
 
     // list of projects to transfer between views before submitting to database
     data.projectList = [];
-
+    
 
     data.fromDatabase = false; //boolean to check whether or not an edited project is coming from the database
     
