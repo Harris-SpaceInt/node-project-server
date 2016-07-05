@@ -3,7 +3,14 @@
 var app = angular.module('preview', ['myApp']);
 
 app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
-    $scope.items = sharedData.projectList;
+
+    /**
+     * Initializes the page
+     * Re-directs to user page
+     */
+    $scope.pageInit = function() {
+        $scope.items = sharedData.projectList;
+    };
 
     /**
      * Clears the manager and returns the user to the
@@ -39,6 +46,9 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
         var confirmation = confirm("Are you sure you want to delete this project?");
         if (confirmation) {
             $scope.items.splice(index, 1);
+            if ($scope.items.length == 0) {
+                $window.location.href = "#!/user";
+            }
         }
     };
 
@@ -75,4 +85,7 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
         }
         return (disciplineString + project.discipline[project.discipline.length - 1]);
     };
+
+    //initialize view
+    $scope.pageInit();
 });

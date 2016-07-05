@@ -136,6 +136,9 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
                     $scope.hasImage = true;
                 }
 
+                //initialize date
+                $scope.itemsToAdd[0].date = new Date(sharedData.project.year, sharedData.project.month - 1, sharedData.project.day);
+
                 //updating results
                 for (var i = 0; i < sharedData.project.result.length; i++) {
                     $scope.resultsToAdd.push({
@@ -226,12 +229,21 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
      * Deletes a project form
      */
     $scope.delProjectForm = function() {
+        sharedData.project = null;
         if (sharedData.projectList.length > 0) {
             $window.location.href = "#!/preview";
         }
         else {
             $window.location.href = "#!/user";
         }
+    };
+
+    /**
+    * Cancels a project edit
+    */
+    $scope.cancelEdit = function() {
+        sharedData.project = null;
+        $window.location.href = "#!/previous";
     };
 
     /**
