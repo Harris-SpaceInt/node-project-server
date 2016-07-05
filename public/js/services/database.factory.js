@@ -56,21 +56,21 @@ app.factory('database', function($http, $q) {
      * and sets it as the currentReport
      */
     factoryData.getReportFromDatabase = function(id) {
-        console.log("Starting GET for reports...");
+        console.log("Starting GET for report...");
 
         var deferred = $q.defer();
 
         $http({method: 'GET', url: dataUrl + '/reports/' + id})
             .success(function (data, status) {
-                console.log("GET was successful for reports");
+                console.log("GET was successful for report");
                 factoryData.currentReport = data;
 
                 deferred.resolve(data);
             })
             .error(function (data, status) {
-                console.log("Error retrieving reports");
+                console.log("Error retrieving report");
                 console.log("status: " + status);
-                if (confirm("Error retrieving project data. Try again?")) {
+                if (confirm("Error retrieving report data. Try again?")) {
                     $route.reload();
                 }
 
@@ -306,7 +306,7 @@ app.factory('database', function($http, $q) {
     };
 
 
-    //--------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
     // some functions to help link projects to managers and results and reports
     // to projects
 
