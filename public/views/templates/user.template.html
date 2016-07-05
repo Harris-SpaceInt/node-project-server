@@ -20,8 +20,9 @@
         <br>
         <button class="button" ng-show="database.projects.length > 0" ng-click="viewPreviousProjects()">View Previously Submitted Projects</button>
         <br>
+        <br>
         <h5 ng-show="sharedData.loggedIn()" class="text-center"><b>Submitted Projects:
-            {{items.length}}</b></h5>
+            {{database.projects.length}}</b></h5>
 
         <button class="button" ng-click="addNewProject()"><b>Add New Project</b></button>
     </div>
