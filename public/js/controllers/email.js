@@ -147,16 +147,29 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
      * @returns {boolean}
      */
     $scope.validateManager = function () {
-        if ($scope.addManager[0].email === "view admin") {
+        if ($scope.addManager[0] === undefined) {
+            return false;
+        }
+        //admin access
+        else if ($scope.addManager[0].email === "view admin") {
             return true;
         }
-        return !($scope.addManager[0] === undefined
-        || $scope.addManager[0].name.replace(/\s+/g, '') == ""
-        || $scope.addManager[0].unit.replace(/\s+/g, '') == ""
-        || $scope.addManager[0].function.replace(/\s+/g, '') == ""
-        || $scope.addManager[0].department.replace(/\s+/g, '') == ""
-        || $scope.addManager[0].phone.replace(/\s+/g, '') == ""
-        || $scope.addManager[0].email.replace(/\s+/g, '') == "");
+        else {
+            //checks for undefined fields
+            if ($scope.addManager[0].name === undefined
+            || $scope.addManager[0].unit === undefined
+                || $scope.addManager[0].function === undefined
+                || $scope.addManager[0].department === undefined
+                || $scope.addManager[0].phone === undefined) {
+                return false;
+            }
+            //if not undefined, checks for empty fields
+            return !($scope.addManager[0].name.replace(/\s+/g, '') == ""
+            || $scope.addManager[0].unit.replace(/\s+/g, '') == ""
+            || $scope.addManager[0].function.replace(/\s+/g, '') == ""
+            || $scope.addManager[0].department.replace(/\s+/g, '') == ""
+            || $scope.addManager[0].phone.replace(/\s+/g, '') == "");
+        }
     };
 
     /**
