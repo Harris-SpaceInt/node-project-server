@@ -61,9 +61,6 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
      * Loads the edit manager page
      */
     $scope.editManager = function() {
-        
-        //manager ID is undefined for some reason
-        
         $window.location.href = "#!/manage";
     };
     
@@ -88,7 +85,7 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
      * at least one project
      */
     $scope.hasPrevious = function() {
-        if ($scope.sharedData.globalManager[0] != null) {
+        if ($scope.sharedData.globalManager[0] !== null) {
             // admin editing functionality
             if ($scope.sharedData.checkAdmin()) {
                 return true;

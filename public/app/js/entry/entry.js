@@ -10,8 +10,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
     $scope.itemsToAdd = [];
     $scope.resultsToAdd = [];
     $scope.update = false; //whether a project is being added or updated
-    $scope.savingsNumber = true;
-    $scope.hoursNumber = true;
+    $scope.savingsNumber = true; //checks for number inputs for savings
+    $scope.hoursNumber = true; //checks for number inputs for hours
     $scope.hasImage = false;
     
     //date options for the date picked
