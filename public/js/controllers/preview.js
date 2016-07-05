@@ -8,7 +8,7 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
      * Initializes the page
      * Re-directs to user page
      */
-    $scope.pageInit = function() {
+    $scope.pageInit = function () {
         $scope.items = sharedData.projectList;
     };
 
@@ -16,7 +16,7 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
      * Clears the manager and returns the user to the
      * login page
      */
-    $scope.logOut = function() {
+    $scope.logOut = function () {
         sharedData.clearGlobalManager();
         $window.location.href = "#!/login";
     };
@@ -24,10 +24,10 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Goes back to user page without logging changes
      */
-    $scope.goBack = function() {
+    $scope.goBack = function () {
         $window.location.href = "#!/user";
     };
-    
+
     /**
      * Edits an existing project form
      * @param index index in the items array
@@ -55,7 +55,7 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Add contents in items array to the database
      */
-    $scope.addToDB = function() {
+    $scope.addToDB = function () {
         for (var i = 0; i < $scope.items.length; i++) {
             database.addProjectToDatabase($scope.items[i]);
             console.log("adding to db...");
@@ -69,7 +69,7 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
      * For adding additional projects
      * Reloads to entry page
      */
-    $scope.addNew = function() {
+    $scope.addNew = function () {
         $window.location.href = "#!/entry";
     };
 
@@ -78,7 +78,7 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
      * @param project
      * @returns {string}
      */
-    $scope.getDisciplineString = function(project) {
+    $scope.getDisciplineString = function (project) {
         var disciplineString = "";
         for (var j = 0; j < project.discipline.length - 1; j++) {
             disciplineString += (project.discipline[j] + ", ");

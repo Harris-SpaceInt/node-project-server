@@ -6,10 +6,10 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     // controls whether or not the selected reports tab is open
     // initially open
     $scope.showSelectedReports = true;
-    
+
     // toggles showing a list of previous reports
     $scope.showPrevReports = false;
-    
+
     // used to change from viewing individual projects to projects 
     // from a report
     $scope.prev_reports = false;
@@ -29,46 +29,46 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     // show savings with highest first by default
     $scope.reverse = true;
     $scope.sortOrder = "savings";
-    
-	//--------------------------------------------------------------------------
-	// link database factory and sharedData factory with scope variables from
+
+    //--------------------------------------------------------------------------
+    // link database factory and sharedData factory with scope variables from
     //   controller to allow the controller to use and update from factory
 
     $scope.database = database;
 
     $scope.sharedData = sharedData;
-    
+
     //--------------------------------------------------------------------------
     // initialize the page on load
 
     /**
      * Called on page load
      */
-    $scope.pageInit = function() {
+    $scope.pageInit = function () {
         // update the database
         $scope.database.getItemsFromDatabase();
-        
+
         // set credentials to admin
         if (!$scope.sharedData.checkAdmin()) {
             $scope.sharedData.setAdmin();
         }
     };
-        
+
     //--------------------------------------------------------------------------
 
     /**
      * Logs the user out
      */
-    $scope.logOut = function() {
+    $scope.logOut = function () {
         $scope.sharedData.clearGlobalManager();
         $window.location.href = '#!/login';
     };
-    
-    $scope.switchToFull = function() {
+
+    $scope.switchToFull = function () {
         $window.location.href = '#!/previous';
     };
-    
-    $scope.addReportsToDisplay = function(report) {
+
+    $scope.addReportsToDisplay = function (report) {
         $scope.setPrevReports();
         if ($scope.prev_reports) {
             $scope.report_projects = [];
@@ -83,7 +83,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     /**
      * Hides previous reports from view
      */
-    $scope.hideReports = function() {
+    $scope.hideReports = function () {
         $scope.prev_reports = false;
         $scope.report_projects = [];
     };
@@ -91,24 +91,24 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     /**
      * Sets showPrevReports to its opposite value
      */
-    $scope.setShowPrevReports = function() {
+    $scope.setShowPrevReports = function () {
         $scope.showPrevReports = !$scope.showPrevReports;
     };
 
     /**
      * Sets prev_reports to its opposite value
      */
-    $scope.setPrevReports = function() {
+    $scope.setPrevReports = function () {
         $scope.prev_reports = !$scope.prev_reports;
     };
-    
+
     /**
      * Sets showSelectedReports to its opposite value
      */
-    $scope.setSelectedReports = function() {
+    $scope.setSelectedReports = function () {
         $scope.showSelectedReports = !$scope.showSelectedReports;
     };
-    
+
     /**
      * Controls sorting by category for tabs
      * @param x  The category to sort by
@@ -185,15 +185,15 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
         $window.location.href = "#!/previous";
     };
 
-    
+
     //------------------------------------------------------------------------------------------------------------------
     // creating reports and generating PDFs
-    
+
     /**
      * Creates a new report, adds it to the database,
      * and generates a pdf with all the report info
      */
-    $scope.createReport = function() {
+    $scope.createReport = function () {
         var date = new Date();
 
         // create report with current date
@@ -296,12 +296,16 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                 headerRows: 1,
                 widths: [100, 141, 250],
                 body: [
-                    [{text: "Project Title", bold: true}, {text: "Team Members", bold: true}, {text: "Project Summary", bold: true, alignment: 'center'}],
+                    [{text: "Project Title", bold: true}, {text: "Team Members", bold: true}, {
+                        text: "Project Summary",
+                        bold: true,
+                        alignment: 'center'
+                    }],
                     [data.title, data.team, data.summary]
                 ]
             },
             layout: {
-                hLineWidth: function(i, node) {
+                hLineWidth: function (i, node) {
                     if (i === 0 || i === node.table.body.length) return 0;
                     return (i === node.table.headerRows) ? 2 : 0;
                 },
@@ -323,12 +327,19 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                 headerRows: 1,
                 widths: [250, 250],
                 body: [
-                    [{text: "Savings", bold: true, alignment: 'center'}, {text: "Saved Hours", bold: true, alignment: 'center'}],
-                    [{text: "$" + data.savings, alignment: 'center'}, {text: data.hours + " hours", alignment: 'center'}]
+                    [{text: "Savings", bold: true, alignment: 'center'}, {
+                        text: "Saved Hours",
+                        bold: true,
+                        alignment: 'center'
+                    }],
+                    [{text: "$" + data.savings, alignment: 'center'}, {
+                        text: data.hours + " hours",
+                        alignment: 'center'
+                    }]
                 ]
             },
             layout: {
-                hLineWidth: function(i, node) {
+                hLineWidth: function (i, node) {
                     if (i === 0 || i === node.table.body.length) return 0;
                     return (i === node.table.headerRows) ? 2 : 0;
                 },
@@ -344,13 +355,13 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                 }
             }
         });
-        
+
         var disciplineString = "";
         for (var j = 0; j < data.discipline.length - 1; j++) {
             disciplineString += (data.discipline[j] + ", ");
         }
         disciplineString += data.discipline[data.discipline.length - 1];
-        
+
         //if there's an image
         if (data.image !== undefined && data.image !== null) {
             project_body.push({
@@ -358,12 +369,16 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                     headerRows: 1,
                     widths: [250, 250],
                     body: [
-                        [{text: "Image", bold: true, alignment: 'center'}, {text: "Discipline(s)", bold: true, alignment: 'center'}],
+                        [{text: "Image", bold: true, alignment: 'center'}, {
+                            text: "Discipline(s)",
+                            bold: true,
+                            alignment: 'center'
+                        }],
                         [{image: data.image, width: 200}, {text: disciplineString + "", alignment: 'center'}]
                     ]
                 },
                 layout: {
-                    hLineWidth: function(i, node) {
+                    hLineWidth: function (i, node) {
                         if (i === 0 || i === node.table.body.length) return 0;
                         return (i === node.table.headerRows) ? 2 : 0;
                     },
@@ -380,11 +395,11 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                 }
             });
             /*
-            project_body.push({text: "\nImage:\n", bold: true});
-            project_body.push({image: data.image, width: 200});
-            */
+             project_body.push({text: "\nImage:\n", bold: true});
+             project_body.push({image: data.image, width: 200});
+             */
         }
-        
+
         project_body.push({text: "\n\n"});
         for (var i = 0; i < data.result.length; i++) {
             project_body.push({
@@ -398,7 +413,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                     ]
                 },
                 layout: {
-                    hLineWidth: function(i, node) {
+                    hLineWidth: function (i, node) {
                         if (i === 0 || i === node.table.body.length) return 0;
                         return (i === node.table.headerRows) ? 2 : 0;
                     },
@@ -417,15 +432,15 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
         }
         return project_body;
     }
-    
+
     //------------------------------------------------------------------------------------------------------------------
-    
+
 
     /**
      * Returns the number of projects that are selected
      * @returns {number} number of projects selected
      */
-    $scope.numChecked = function() {
+    $scope.numChecked = function () {
         var n = 0;
         for (var i = 0; i < $scope.database.projects.length; i++) {
             if ($scope.database.projects[i].checked === true) {
@@ -439,7 +454,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
      * Calculates the total savings from the selected projects
      * @returns {number} amount saved from selected projects
      */
-    $scope.totalSavings = function() {
+    $scope.totalSavings = function () {
         var n = 0;
         for (var i = 0; i < $scope.database.projects.length; i++) {
             if ($scope.database.projects[i].checked === true) {
@@ -454,19 +469,19 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
      * @param index
      * @returns {number}
      */
-     $scope.projectSavings = function(index) {
-         var total = 0;
-         for (var i = 0; i < $scope.database.projects[index].result.length; i++) {
-             total += $scope.database.projects[index].result[i].savings;
-         }
-         return total;
+    $scope.projectSavings = function (index) {
+        var total = 0;
+        for (var i = 0; i < $scope.database.projects[index].result.length; i++) {
+            total += $scope.database.projects[index].result[i].savings;
+        }
+        return total;
     };
 
     /**
      * Calculates the total hours saved from the selected projects
      * @returns {number} amount of hours saved from selected projects
      */
-    $scope.totalHours = function() {
+    $scope.totalHours = function () {
         var total = 0;
         for (var i = 0; i < $scope.database.projects.length; i++) {
             if ($scope.database.projects[i].checked === true) {
@@ -481,7 +496,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
      * @param index
      * @returns {number}
      */
-    $scope.projectHours = function(index) {
+    $scope.projectHours = function (index) {
         var total = 0;
         for (var i = 0; i < $scope.database.projects[index].result.length; i++) {
             total += $scope.database.projects[index].result[i].hours;
@@ -493,7 +508,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
      * Alerts the user when the benchmark is reached
      * @param total_savings total savings
      */
-    $scope.benchmark = function(total_savings) {
+    $scope.benchmark = function (total_savings) {
         return (total_savings >= 100000);
     };
 

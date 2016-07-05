@@ -19,7 +19,7 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Runs when the page is loaded
      */
-    $scope.pageInit = function() {
+    $scope.pageInit = function () {
         // check if user is already logged in
         if (!$scope.sharedData.loggedIn()) {
             // user is not logged in
@@ -36,10 +36,10 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Checks if the current manager is in the database
      */
-    $scope.checkManager = function() {
+    $scope.checkManager = function () {
         var getPromise = database.getManagerByEmail(sharedData.globalManager[0].email);
-        
-        getPromise.then(function(data) {
+
+        getPromise.then(function (data) {
             $scope.managerExists = (data !== null);
         });
     };
@@ -48,7 +48,7 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
      * Clears the manager and returns the user to the
      * login page
      */
-    $scope.logOut = function() {
+    $scope.logOut = function () {
         $scope.sharedData.clearGlobalManager();
         $window.location.href = "#!/login";
     };
@@ -56,21 +56,21 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Loads the edit manager page
      */
-    $scope.editManager = function() {
+    $scope.editManager = function () {
         $window.location.href = "#!/manage";
     };
-    
+
     /**
      * Takes the user to the entry page
      */
-    $scope.addNewProject = function() {
+    $scope.addNewProject = function () {
         $window.location.href = "#!/entry";
     };
 
     /**
      * Takes the user to the view previous page
      */
-    $scope.viewPreviousProjects = function() {
+    $scope.viewPreviousProjects = function () {
         $window.location.href = "#!/previous";
     };
 
@@ -80,7 +80,7 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
      * @returns {boolean} true if user has submitted
      * at least one project
      */
-    $scope.hasPrevious = function() {
+    $scope.hasPrevious = function () {
         if ($scope.sharedData.globalManager[0] !== null) {
             // admin editing functionality
             if ($scope.sharedData.checkAdmin()) {
