@@ -2,10 +2,6 @@
 
 var app = angular.module('user', ['myApp']);
 
-app.component('user', {
-    templateUrl: 'templates/user.template.html'
-});
-
 app.controller('userCtrl', function ($scope, $window, sharedData, database) {
 
     //------------------------------------------------------------------------------------------------------------------

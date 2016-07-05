@@ -1,8 +1,10 @@
-<div ng-app="previous" ng-controller="previousCtrl">
+<div>
     <div class="head-container">
         <img src="../assets/harris-logo.png">
         <div style="float:right">
-            <button ng-show="sharedData.checkAdmin()" class="button-secondary" ng-click="switchToDisplay()">Switch to List View</button>
+            <button ng-show="sharedData.checkAdmin()" class="button-secondary" ng-click="switchToDisplay()">Switch to
+                List View
+            </button>
             <button ng-hide="sharedData.checkAdmin()" class="button-secondary" ng-click="goBack()">Back</button>
             <button class="button" ng-click="logOut()">Log Out</button>
         </div>
@@ -90,7 +92,10 @@
                     <!-- manager information -->
                     <div class="row" ng-show="sharedData.checkAdmin()">
                         <br>
-                        <h5 class="text-center"><b>Project Manager:</b> <div class="highlight" ng-click="item.checked = !item.checked">{{item.manager.name}} <i>(click to show manager info)</i></div></h5>
+                        <h5 class="text-center"><b>Project Manager:</b>
+                            <div class="highlight" ng-click="item.checked = !item.checked">{{item.manager.name}} <i>(click
+                                to show manager info)</i></div>
+                        </h5>
                         <div></div>
                         <table ng-show="item.checked" class="text-center">
                             <tr>
