@@ -4,14 +4,22 @@ var app = angular.module('email', ['myApp']);
 
 app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
 
-    $scope.addManager = []; // used to keep track of text in the manager boxes on the website
+    $scope.addManager = [{
+        email: "",
+        name: "",
+        unit: "",
+        function: "",
+        department: "",
+        phone: ""
+    }]; // used to keep track of text in the manager boxes on the website
 
     //------------------------------------------------------------------------------------------------------------------
     // link database and sharedData to scope variables 
 
     $scope.database = database;
-
     $scope.sharedData = sharedData;
+    $scope.managerExists = false; //if manager exists in the database
+    $scope.createAccount = false; //variable for toggling fields when creating an account
 
     //------------------------------------------------------------------------------------------------------------------
     // initialize the page
@@ -34,16 +42,26 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
             }
         }
 
-
         // load all project data from the database
         $scope.database.getItemsFromDatabase();
-
-        // add a manager object to initialize the page
-        $scope.addManager.push({});
     };
 
     //------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Sets account creation settings to true
+     */
+    $scope.create = function () {
+        $scope.createAccount = true;
+    };
+
+    /**
+     * Cancels account creation
+     */
+    $scope.cancel = function () {
+        $scope.clearManager();
+        $scope.createAccount = false;
+    };
 
     /**
      * Autofills manager information upon entering a valid email address
@@ -58,16 +76,38 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
                 $scope.submit($scope.sharedData.globalManager[0]);
             }
 
-            for (var i = 0; i < $scope.database.managers.length; i++) {
-                if ($scope.database.managers[i].email.toLowerCase() === email.toLowerCase()) {
-                    $scope.addManager[0].name = $scope.database.managers[i].name;
-                    $scope.addManager[0].unit = $scope.database.managers[i].unit;
-                    $scope.addManager[0].function = $scope.database.managers[i].function;
-                    $scope.addManager[0].department = $scope.database.managers[i].department;
-                    $scope.addManager[0].phone = $scope.database.managers[i].phone;
-                }
+            var managerIndex = $scope.findManager(email);
+            $scope.managerExists = !(managerIndex === -1);
+
+            if ($scope.managerExists) {
+                $scope.addManager[0].name = $scope.database.managers[managerIndex].name;
+                $scope.addManager[0].unit = $scope.database.managers[managerIndex].unit;
+                $scope.addManager[0].function = $scope.database.managers[managerIndex].function;
+                $scope.addManager[0].department = $scope.database.managers[managerIndex].department;
+                $scope.addManager[0].phone = $scope.database.managers[managerIndex].phone;
+            }
+            else {
+                $scope.addManager[0].name = "";
+                $scope.addManager[0].unit = "";
+                $scope.addManager[0].function = "";
+                $scope.addManager[0].department = "";
+                $scope.addManager[0].phone = "";
             }
         }
+    };
+
+    /**
+     * Returns index of a manager in the database if an email match is found
+     * @param email
+     * @returns {number}
+     */
+    $scope.findManager = function (email) {
+        for (var i = 0; i < $scope.database.managers.length; i++) {
+            if ($scope.database.managers[i].email.toLowerCase() === email.toLowerCase()) {
+                return i;
+            }
+        }
+        return -1;
     };
 
     /**
@@ -106,46 +146,45 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
      * Validates a manager entry
      * @returns {boolean}
      */
-    $scope.validateManager = function (manager) {
-        return !(manager.name.replace(/\s+/g, '') == ""
-        || manager.unit.replace(/\s+/g, '') == ""
-        || manager.function.replace(/\s+/g, '') == ""
-        || manager.department.replace(/\s+/g, '') == ""
-        || manager.phone.replace(/\s+/g, '') == ""
-        || manager.email.replace(/\s+/g, '') == "");
+    $scope.validateManager = function () {
+        if ($scope.addManager[0].email === "view admin") {
+            return true;
+        }
+        return !($scope.addManager[0].name.replace(/\s+/g, '') == ""
+        || $scope.addManager[0].unit.replace(/\s+/g, '') == ""
+        || $scope.addManager[0].function.replace(/\s+/g, '') == ""
+        || $scope.addManager[0].department.replace(/\s+/g, '') == ""
+        || $scope.addManager[0].phone.replace(/\s+/g, '') == ""
+        || $scope.addManager[0].email.replace(/\s+/g, '') == "");
     };
 
     /**
      * Adds the manager to database
      */
-    $scope.submit = function (man) {
-        if (!$scope.validateManager(man)) {
+    $scope.submit = function () {
+        if (!$scope.validateManager()) {
             alert("Manager fields not filled out!");
         }
         else {
-            var e = man.email;
-            var p = man.phone;
-            if ($scope.validatePhone(p) && $scope.validateEmail(e)) {
-                var index = $scope.addManager.indexOf(man);
-                $scope.addManager.splice(index, 1);
-
-
-                // information has been verified
-                // store manager data and redirect to correct page
-                $scope.sharedData.setGlobalManager(angular.copy(man));
-
-                // handle admin and regular user cases for submit
-                if ($scope.sharedData.checkAdmin()) {
-                    // user is admin
-                    $window.location.href = "#!/display";
-                }
-                else {
-                    // regular user
-                    $window.location.href = "#!/user"
-                }
+            if ($scope.sharedData.checkAdmin()) {
+                // user is admin
+                $window.location.href = "#!/display";
             }
             else {
-                alert("Invalid phone and/or email");
+                var e = $scope.addManager[0].email;
+                var p = $scope.addManager[0].phone;
+                if ($scope.validatePhone(p) && $scope.validateEmail(e)) {
+                    $scope.addManager.splice(0, 1);
+
+                    // information has been verified
+                    // store manager data and redirect to correct page
+                    $scope.sharedData.setGlobalManager(angular.copy(addManager[0]));
+
+                    $window.location.href = "#!/user"
+                }
+                else {
+                    alert("Invalid phone and/or email");
+                }
             }
         }
     };
