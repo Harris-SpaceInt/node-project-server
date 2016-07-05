@@ -44,6 +44,10 @@ textarea {
     color: black;
 }
 
+.discipline {
+    margin-left: 50px;
+}
+
 #form {
     background-color: white;
 }
