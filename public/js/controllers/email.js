@@ -150,7 +150,8 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
         if ($scope.addManager[0].email === "view admin") {
             return true;
         }
-        return !($scope.addManager[0].name.replace(/\s+/g, '') == ""
+        return !($scope.addManager[0] === undefined
+        || $scope.addManager[0].name.replace(/\s+/g, '') == ""
         || $scope.addManager[0].unit.replace(/\s+/g, '') == ""
         || $scope.addManager[0].function.replace(/\s+/g, '') == ""
         || $scope.addManager[0].department.replace(/\s+/g, '') == ""
@@ -174,11 +175,8 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
                 var e = $scope.addManager[0].email;
                 var p = $scope.addManager[0].phone;
                 if ($scope.validatePhone(p) && $scope.validateEmail(e)) {
+                    $scope.sharedData.setGlobalManager(angular.copy($scope.addManager[0]));
                     $scope.addManager.splice(0, 1);
-
-                    // information has been verified
-                    // store manager data and redirect to correct page
-                    $scope.sharedData.setGlobalManager(angular.copy(addManager[0]));
 
                     $window.location.href = "#!/user"
                 }
