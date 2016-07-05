@@ -2,10 +2,6 @@
 
 var app = angular.module('previous', ['myApp']);
 
-app.component('previous', {
-    templateUrl: 'templates/previous.template.html'
-});
-
 app.controller('previousCtrl', function ($scope, $window, sharedData, database) {
 
     // stores the previous projects of the current user

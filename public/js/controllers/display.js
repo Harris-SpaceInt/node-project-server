@@ -2,10 +2,6 @@
 
 var app = angular.module('display', ['myApp']);
 
-app.component('display', {
-    templateUrl: '../../views/templates/display.template.html'
-});
-
 app.controller('displayCtrl', function ($scope, $window, sharedData, database, staticImages) {
     // controls whether or not the selected reports tab is open
     // initially open

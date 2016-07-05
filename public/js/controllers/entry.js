@@ -2,10 +2,6 @@
 
 var app = angular.module('entry', ['myApp']);
 
-app.component('entry', {
-    templateUrl: 'templates/entry.template.html'
-});
-
 app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
     $scope.itemsToAdd = [];
     $scope.resultsToAdd = [];

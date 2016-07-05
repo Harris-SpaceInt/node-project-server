@@ -2,10 +2,6 @@
 
 var app = angular.module('preview', ['myApp']);
 
-app.component('preview', {
-    templateUrl: 'templates/preview.template.html'
-});
-
 app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
     $scope.items = sharedData.projectList;
 

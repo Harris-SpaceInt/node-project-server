@@ -1,13 +1,6 @@
-/**
- * Created by ewu on 6/29/16.
- */
 'use strict';
 
 var app = angular.module('manage', ['myApp']);
-
-app.component('manage', {
-    templateUrl: 'templates/manage.template.html'
-});
 
 app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
 

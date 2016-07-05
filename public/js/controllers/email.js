@@ -2,10 +2,6 @@
 
 var app = angular.module('email', ['myApp']);
 
-app.component('email', {
-    templateUrl: 'templates/email.template.html'
-});
-
 app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
 
     $scope.addManager = []; // used to keep track of text in the manager boxes on the website

@@ -1,5 +1,5 @@
 <!-- Adding projects -->
-<div ng-app="entry" ng-controller="entryCtrl">
+<div>
     <div class="head-container">
         <img src="../assets/harris-logo.png">
         <div class="text-center">
@@ -29,7 +29,8 @@
                     <table>
                         <tr>
                             <td>
-                                <b>Project Title: </b><input type="text" ng-model="itemToAdd.title" placeholder="Name of the project" required>
+                                <b>Project Title: </b><input type="text" ng-model="itemToAdd.title"
+                                                             placeholder="Name of the project" required>
                             </td>
                         </tr>
                     </table>
@@ -38,7 +39,8 @@
                     <table>
                         <tr>
                             <td>
-                                <b>Date: </b> <br><input ui-date="dateOptions" ng-model="itemToAdd.date" placeholder="6/3/2016" required>
+                                <b>Date: </b> <br><input ui-date="dateOptions" ng-model="itemToAdd.date"
+                                                         placeholder="6/3/2016" required>
                             </td>
                         </tr>
                     </table>
@@ -108,7 +110,9 @@
                             </td>
                             <td>
                                 <input type="file" class="button" fileread="itemToAdd.image" accept="image/*"><br>
-                                <button ng-hide="itemToAdd.image === null" class="button-secondary" ng-click="removeImage()">Remove Image</button>
+                                <button ng-hide="itemToAdd.image === null" class="button-secondary"
+                                        ng-click="removeImage()">Remove Image
+                                </button>
                             </td>
                             <td>
                                 <img ng-show="itemToAdd.image !== null" ng-src="{{itemToAdd.image}}" width="200px">
@@ -144,7 +148,8 @@
                                     <b>Savings:</b>
                                 </td>
                                 <td>
-                                    <input type="number" ng-model="result.savings" ng-change="checkSavingsNumberInput($index)" placeholder="$" required>
+                                    <input type="number" ng-model="result.savings"
+                                           ng-change="checkSavingsNumberInput($index)" placeholder="$" required>
                                     <div ng-show="!savingsNumber">
                                         <p style="color: red">Non-number input!</p>
                                     </div>
@@ -155,7 +160,8 @@
                                     <b>Saved Hours:</b>
                                 </td>
                                 <td>
-                                    <input type="number" ng-model="result.hours" ng-change="checkHoursNumberInput($index)" numbers-only required>
+                                    <input type="number" ng-model="result.hours"
+                                           ng-change="checkHoursNumberInput($index)" numbers-only required>
                                     <div ng-show="!hoursNumber">
                                         <p style="color: red">Non-number input!</p>
                                     </div>
@@ -205,7 +211,8 @@
 
                 <!-- add or update a project depending on whether it's in the database -->
                 <button ng-hide="update" class="button" ng-click="addProject(itemToAdd)"><b>ADD PROJECT</b></button>
-                <button ng-show="update" class="button" ng-click="updateProject(itemToAdd)"><b>UPDATE PROJECT</b></button>
+                <button ng-show="update" class="button" ng-click="updateProject(itemToAdd)"><b>UPDATE PROJECT</b>
+                </button>
             </div>
         </div>
     </div>
