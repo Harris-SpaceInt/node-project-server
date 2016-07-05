@@ -1,7 +1,7 @@
 <!-- Adding projects -->
 <div ng-app="entry" ng-controller="entryCtrl">
     <div class="head-container">
-        <img src="../assets/harris-logo.png" width="375px">
+        <img src="../assets/harris-logo.png">
         <div class="text-center">
             <img src="../assets/title-logo.png" width="800px">
         </div>
@@ -202,6 +202,8 @@
         <div class="row">
             <br>
             <div class="text-center">
+
+                <!-- add or update a project depending on whether it's in the database -->
                 <button ng-hide="update" class="button" ng-click="addProject(itemToAdd)"><b>ADD PROJECT</b></button>
                 <button ng-show="update" class="button" ng-click="updateProject(itemToAdd)"><b>UPDATE PROJECT</b></button>
             </div>
