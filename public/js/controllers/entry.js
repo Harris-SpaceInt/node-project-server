@@ -10,8 +10,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
     $scope.itemsToAdd = [];
     $scope.resultsToAdd = [];
     $scope.update = false; //whether a project is being added or updated
-    $scope.savingsNumber = true;
-    $scope.hoursNumber = true;
+    $scope.savingsNumber = true; //checks for number inputs for savings
+    $scope.hoursNumber = true; //checks for number inputs for hours
     $scope.hasImage = false;
     
     //date options for the date picked
@@ -131,7 +131,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
             $window.location.href = "#!/login";
         }
         else {
-            if(sharedData.project == null) {
+            if(sharedData.project === null) {
                 $scope.addNew();
             }
             else {
@@ -139,6 +139,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
                 if (sharedData.project.image !== null) {
                     $scope.hasImage = true;
                 }
+
+                //updating results
                 for (var i = 0; i < sharedData.project.result.length; i++) {
                     $scope.resultsToAdd.push({
                         summary: sharedData.project.result[i].summary,
@@ -355,7 +357,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
             item = $scope.parseDate(item);
             item = $scope.calculateSavings(item);
             if (sharedData.fromDatabase) {
-                database.updateProjectFromDatabase(item.id, item);
+                database.updateProjectFromDatabase(item._id, item);
                 sharedData.project = null;
                 sharedData.fromDatabase = false;
                 $window.location.href = "#!/previous";
