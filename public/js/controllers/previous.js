@@ -254,7 +254,7 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
         // only proceed if the user confirms they want to delete the project
         if (confirmation) {
             // starts a delete request to delete the project from the database
-            var deletePromise = $scope.database.deleteProjectFromDatabase($scope.items[index].id);
+            var deletePromise = $scope.database.deleteProjectFromDatabase($scope.items[index]._id);
             // when deleting is finished, refresh the display
             deletePromise.then(function() {
                 // first, clear everything being displayed
