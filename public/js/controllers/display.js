@@ -69,15 +69,20 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     };
 
     $scope.addReportsToDisplay = function (report) {
-        $scope.setPrevReports();
-        if ($scope.prev_reports) {
-            $scope.report_projects = [];
-            for (var i = 0; i < report.project.length; i++) {
-                $scope.report_projects.push(report.project[i]);
+        var promise = database.getReportFromDatabase(report._id);
+
+        promise.then(function () {
+            report.project = database.currentReport;
+            $scope.setPrevReports();
+            if ($scope.prev_reports) {
+                $scope.report_projects = [];
+                for (var i = 0; i < report.project.length; i++) {
+                    $scope.report_projects.push(report.project[i]);
+                }
+                $scope.report_date = report.month + "/" + report.day + "/" + report.year;
+                $scope.currentReport = report;
             }
-            $scope.report_date = report.month + "/" + report.day + "/" + report.year;
-            $scope.currentReport = report;
-        }
+        });
     };
 
     /**
@@ -211,6 +216,9 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
             if ($scope.database.projects[i].checked === true) {
                 $scope.database.projects[i].generated = true;
                 $scope.database.projects[i].checked = false;
+
+                // TODO: fix setting projects to generated when creating reports
+                database.updateProjectFromDatabase(database.projects[i].id, database.projects[i]);
 
                 report.savings += $scope.database.projects[i].savings;
                 report.hours += $scope.database.projects[i].hours;
