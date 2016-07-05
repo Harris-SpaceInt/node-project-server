@@ -86,7 +86,7 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
                 all     : true,
                 none    : true,
                 reset   : true,
-                filter  : true
+                filter  : false
             };
 
             var 
