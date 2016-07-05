@@ -132,9 +132,9 @@ router.route('/projects')
             });
     });
 
-// on routes that end in /projects/:project_id
+// on routes that end in /projects/id/:project_id
 // ----------------------------------------------------
-router.route('/projects/:project_id')
+router.route('/projects/id/:project_id')
 
     // get the project with that id (accessed at GET http://localhost:8080/api/project/:project_id)
     .get(function(req, res) {
@@ -224,9 +224,9 @@ router.route('/projects/manager/:manager_email')
             });
     });
 
-// on routes that end in /projects/generated/manager/:manager_email
+// on routes that end in /projects/generated/:manager_email
 // ----------------------------------------------------
-router.route('/projects/generated/manager/:manager_email')
+router.route('/projects/generated/:manager_email')
 
     // get all projects in reports (accessed at GET http://localhost:8080/api/reported)
     .get(function(req, res) {
@@ -368,7 +368,7 @@ app.use('/api', router);
 // ============================================================================
 app.use(express.static(__dirname + '/public'));
 app.get('*', function(req, res) {
-    res.sendfile('./public/app/views/index.html');
+    res.sendfile('./public/views/index.html');
 });
 
 // START THE SERVER
