@@ -9,14 +9,14 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
     $scope.savingsNumber = true; //checks for number inputs for savings
     $scope.hoursNumber = true; //checks for number inputs for hours
     $scope.hasImage = false;
-    
+
     //date options for the date picked
     $scope.dateOptions = {
         changeYear: true,
         changeMonth: true,
         yearRange: '2010:-0'
     };
-    
+
     //array of project disciplines
     $scope.disciplines = [{
         label: "Software",
@@ -43,7 +43,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
         label: "Program Management",
         ticked: false
     }];
-    
+
     //output of disciplines check boxes
     $scope.projectDisciplines = [];
 
@@ -51,7 +51,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
      * Updates a project's disciplines
      * @param project
      */
-    $scope.updateDisciplines = function(project) {
+    $scope.updateDisciplines = function (project) {
         for (var i = 0; i < $scope.disciplines.length; i++) {
             var checked = $scope.disciplines[i].ticked;
             if (checked) {
@@ -59,11 +59,11 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
             }
         }
     };
-    
+
     /**
      * Alerts the values in the output disciplines array
      */
-    $scope.alertDisciplines = function() {
+    $scope.alertDisciplines = function () {
         var result = "";
         for (var i = 0; i < $scope.disciplines.length; i++) {
             if ($scope.disciplines[i].ticked) {
@@ -77,7 +77,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
      * Checks if none of the disciplines are selected
      * @returns {boolean}
      */
-    $scope.noDiscipline = function() {
+    $scope.noDiscipline = function () {
         for (var i = 0; i < $scope.disciplines.length; i++) {
             if ($scope.disciplines[i].ticked) {
                 return false;
@@ -85,12 +85,12 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
         }
         return true;
     };
-    
+
     /**
      * Checks if the savings input is a number
      * @param index index of result
      */
-    $scope.checkSavingsNumberInput = function(index) {
+    $scope.checkSavingsNumberInput = function (index) {
         var input = $scope.resultsToAdd[index].savings;
         if (input === '') {
             $scope.savingsNumber = true;
@@ -104,7 +104,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
      * Checks if the hours input is a number
      * @param index index of result
      */
-    $scope.checkHoursNumberInput = function(index) {
+    $scope.checkHoursNumberInput = function (index) {
         var input = $scope.resultsToAdd[index].hours;
         if (input == "") {
             $scope.hoursNumber = true;
@@ -113,21 +113,21 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
             $scope.hoursNumber = !isNaN(input);
         }
     };
-    
+
     //------------------------------------------------------------------------------------------------------------------
     // initialize the page
 
     /**
      * Runs when the page is loaded
      */
-    $scope.pageInit = function() {
+    $scope.pageInit = function () {
         // check if user is already logged in
         if (!sharedData.loggedIn()) {
             // user is not logged in
             $window.location.href = "#!/login";
         }
         else {
-            if(sharedData.project === null) {
+            if (sharedData.project === null) {
                 $scope.addNew();
             }
             else {
@@ -148,7 +148,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
                         hours: sharedData.project.result[i].hours
                     });
                 }
-                
+
                 //updating disciplines
                 for (var j = 0; j < sharedData.project.discipline.length; j++) {
                     switch (sharedData.project.discipline[j]) {
@@ -178,7 +178,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
                             break;
                     }
                 }
-                
+
                 $scope.update = true;
                 sharedData.project = null;
             }
@@ -186,11 +186,11 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
     };
 
     //------------------------------------------------------------------------------------------------------------------
-    
+
     /**
      * Adds a new results field
      */
-    $scope.addResultsField = function() {
+    $scope.addResultsField = function () {
         $scope.resultsToAdd.push({
             summary: '',
             details: '',
@@ -228,7 +228,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Deletes a project form
      */
-    $scope.delProjectForm = function() {
+    $scope.delProjectForm = function () {
         sharedData.project = null;
         if (sharedData.projectList.length > 0) {
             $window.location.href = "#!/preview";
@@ -239,9 +239,9 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
     };
 
     /**
-    * Cancels a project edit
-    */
-    $scope.cancelEdit = function() {
+     * Cancels a project edit
+     */
+    $scope.cancelEdit = function () {
         sharedData.project = null;
         $window.location.href = "#!/previous";
     };
@@ -249,17 +249,17 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Removes a currently uploaded image
      */
-    $scope.removeImage = function() {
+    $scope.removeImage = function () {
         $scope.itemsToAdd[0].image = null;
         $scope.hasImage = false;
     };
-    
+
     /**
      * Checks for any invalid parameters (negative numbers, empty fields)
      * @param item
      * @returns {boolean} true if something is invalid, false otherwise
      */
-    $scope.checkInvalids = function(item) {
+    $scope.checkInvalids = function (item) {
         if (item.title.replace(/\s+/g, '') == ""
             || item.summary.replace(/\s+/g, '') == ""
             || $scope.noDiscipline()
@@ -279,11 +279,11 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
         }
         return false;
     };
-    
+
     /**
      * Deletes a results field at a given index
      */
-    $scope.delResultsField = function(index) {
+    $scope.delResultsField = function (index) {
         if ($scope.resultsToAdd.length > 1) {
             $scope.resultsToAdd.splice(index, 1);
         }
@@ -297,7 +297,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
      * @param item
      * @returns {*}
      */
-    $scope.parseDate = function(item) {
+    $scope.parseDate = function (item) {
         var month = item.date.getMonth() + 1;
         var day = item.date.getDate();
         var year = item.date.getFullYear();
@@ -312,7 +312,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
      * @param item
      * @returns {*}
      */
-    $scope.calculateSavings = function(item) {
+    $scope.calculateSavings = function (item) {
         item.result = angular.copy($scope.resultsToAdd);
         var grand_savings = 0, grand_hours = 0;
         for (var j = 0; j < item.result.length; j++) {
@@ -332,7 +332,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
         }
         return item;
     };
-    
+
     /**
      * Adds a project to the items array
      * @param item project to be added
@@ -347,7 +347,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
             item = $scope.calculateSavings(item);
             item.manager = sharedData.globalManager[0];
             $scope.updateDisciplines(item);
-            
+
             sharedData.pushToProjectList(angular.copy(item));
             $window.location.href = "#!/preview";
         }
@@ -357,7 +357,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
      * Updates a project if it already exists in the database
      * @param item
      */
-    $scope.updateProject = function(item) {
+    $scope.updateProject = function (item) {
         if ($scope.checkInvalids(item)) {
             alert("Error in 1 or more fields");
         }
@@ -377,7 +377,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
         }
     };
 
-    
+
     //------------------------------------------------------------------------------------------------------------------
     // call the initialization function
 

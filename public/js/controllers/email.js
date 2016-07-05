@@ -8,10 +8,10 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
 
     //------------------------------------------------------------------------------------------------------------------
     // link database and sharedData to scope variables 
-    
+
     $scope.database = database;
 
-    $scope.sharedData = sharedData; 
+    $scope.sharedData = sharedData;
 
     //------------------------------------------------------------------------------------------------------------------
     // initialize the page
@@ -19,7 +19,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Runs when the page is loaded
      */
-    $scope.pageInit = function() {
+    $scope.pageInit = function () {
         // check if user is already logged in
         if ($scope.sharedData.loggedIn()) {
             // user is logged in
@@ -33,22 +33,22 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
                 $window.location.href = "#!/user";
             }
         }
-        
+
 
         // load all project data from the database
         $scope.database.getItemsFromDatabase();
-        
+
         // add a manager object to initialize the page
-        $scope.addManager.push({}); 
+        $scope.addManager.push({});
     };
-    
+
     //------------------------------------------------------------------------------------------------------------------
-    
+
 
     /**
      * Autofills manager information upon entering a valid email address
      */
-    $scope.autoFill = function() {
+    $scope.autoFill = function () {
         var email = $scope.addManager[0].email;
 
         if (email != null) {
@@ -75,7 +75,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
      * @param phone
      * @returns {boolean}
      */
-    $scope.validatePhone = function(phone) {
+    $scope.validatePhone = function (phone) {
         var phone_regex = /^((([0-9]{3}))|([0-9]{3}))[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
         return phone_regex.test(phone);
     };
@@ -85,7 +85,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
      * @param email
      * @returns {boolean}
      */
-    $scope.validateEmail = function(email) {
+    $scope.validateEmail = function (email) {
         var email_regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return email_regex.test(email);
     };
@@ -93,7 +93,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Clears manager fields
      */
-    $scope.clearManager = function() {
+    $scope.clearManager = function () {
         $scope.addManager[0].email = "";
         $scope.addManager[0].name = "";
         $scope.addManager[0].unit = "";
@@ -106,7 +106,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
      * Validates a manager entry
      * @returns {boolean}
      */
-    $scope.validateManager = function(manager) {
+    $scope.validateManager = function (manager) {
         return !(manager.name.replace(/\s+/g, '') == ""
         || manager.unit.replace(/\s+/g, '') == ""
         || manager.function.replace(/\s+/g, '') == ""
@@ -114,11 +114,11 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
         || manager.phone.replace(/\s+/g, '') == ""
         || manager.email.replace(/\s+/g, '') == "");
     };
-    
+
     /**
      * Adds the manager to database
      */
-    $scope.submit = function(man) {
+    $scope.submit = function (man) {
         if (!$scope.validateManager(man)) {
             alert("Manager fields not filled out!");
         }
@@ -133,7 +133,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
                 // information has been verified
                 // store manager data and redirect to correct page
                 $scope.sharedData.setGlobalManager(angular.copy(man));
-                
+
                 // handle admin and regular user cases for submit
                 if ($scope.sharedData.checkAdmin()) {
                     // user is admin

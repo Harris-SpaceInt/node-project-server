@@ -12,7 +12,7 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
     //   that have already been used in a report
     // these projects cannot be edited or deleted
     $scope.generatedUserProjects = [];
-    
+
     // holds projects that are currently being displayed
     $scope.items = [];
 
@@ -22,10 +22,9 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
 
     // linked to the text in the search box
     $scope.searchTerm = "";
-    
+
     // sets the view to display a full view of one project when true
     $scope.showingFullView = false;
-
 
 
     //------------------------------------------------------------------------------------------------------------------
@@ -52,7 +51,7 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
             // show the full view of the project
             $scope.items.push(sharedData.project);
             sharedData.project = null;
-            
+
             $scope.showingFullView = true;
         }
         else {
@@ -60,9 +59,9 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
             var getPromise = database.getItemsFromDatabase();
             // when that is done, load the projects back into the
             //   corresponding list and refresh the display
-            getPromise.then(function() {
+            getPromise.then(function () {
                 //adding toggle manager fields
-                database.projects.forEach(function(project) {
+                database.projects.forEach(function (project) {
                     project.checked = false;
                 });
 
@@ -78,38 +77,38 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
     /**
      * Logs user out
      */
-    $scope.logOut = function() {
+    $scope.logOut = function () {
         $scope.sharedData.clearGlobalManager();
         $window.location.href = '#!/login';
     };
 
-    $scope.switchToDisplay = function() {
+    $scope.switchToDisplay = function () {
         $window.location.href = '#!/display';
     };
 
     /**
      * Goes back to user landing page
      */
-    $scope.goBack = function() {
+    $scope.goBack = function () {
         $window.location.href = '#!/user';
     };
 
     /**
      * Finds all of the projects a user has submitted.
      * Places projects that have not been assigned to
-     * a report into userProjects and ones that have 
+     * a report into userProjects and ones that have
      * into generatedUserProjects. If the user is admin,
-     * projects that belong to any user are placed in 
+     * projects that belong to any user are placed in
      * these variables.
      */
-    $scope.loadUserProjects = function() {
+    $scope.loadUserProjects = function () {
         // handle admin and regular user cases
         if ($scope.sharedData.checkAdmin()) {
             // user is admin
             // display all projects
             for (var i = 0; i < $scope.database.projects.length; i++) {
                 var project = $scope.database.projects[i];
-                
+
                 if (!project.generated) {
                     // list of projects without reports
                     $scope.userProjects.push(project);
@@ -125,7 +124,7 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
             // only display user projects
             for (var i = 0; i < $scope.database.projects.length; i++) {
                 var project = $scope.database.projects[i];
-                
+
                 // check if project belongs to the manager
                 if ($scope.sharedData.globalManager[0].email.toLowerCase() === project.manager.email.toLocaleLowerCase()) {
                     if (!project.generated) {
@@ -245,51 +244,51 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
      */
     $scope.deleteProject = function (index) {
         // ask if the user wants to delete the project
-        var confirmation = confirm("Are you sure you want to delete the project, " + 
-                $scope.items[index].title + "?");
+        var confirmation = confirm("Are you sure you want to delete the project, " +
+            $scope.items[index].title + "?");
         // only proceed if the user confirms they want to delete the project
         if (confirmation) {
             // starts a delete request to delete the project from the database
             var deletePromise = $scope.database.deleteProjectFromDatabase($scope.items[index]._id);
             // when deleting is finished, refresh the display
-            deletePromise.then(function() {
+            deletePromise.then(function () {
                 // first, clear everything being displayed
                 $scope.items = [];
                 $scope.userProjects = [];
                 $scope.generatedUserProjects = [];
-                
+
                 // now refresh the list of projects from the database
                 var getPromise = database.getItemsFromDatabase();
                 // when that is done, load the projects back into the 
                 //   corresponding list and refresh the display
-                getPromise.then(function() {
+                getPromise.then(function () {
                     //adding toggle manager fields
-                    database.projects.forEach(function(project) {
+                    database.projects.forEach(function (project) {
                         project.checked = false;
                     });
-                    
+
                     $scope.loadUserProjects();
                     $scope.searchAndUpdate();
                 });
             });
         }
     };
-    
+
     /**
      * Converts the contents of a project's disciplines array to a string
      * @param project
      * @returns {string}
      */
-    $scope.getDisciplineString = function(project) {
+    $scope.getDisciplineString = function (project) {
         var disciplineString = "";
         for (var j = 0; j < project.discipline.length - 1; j++) {
             disciplineString += (project.discipline[j] + ", ");
         }
         return (disciplineString + project.discipline[project.discipline.length - 1]);
     };
-    
+
     //------------------------------------------------------------------------------------------------------------------
     // call the initialization function
-    
+
     $scope.pageInit();
 });
