@@ -216,7 +216,7 @@ app.factory('database', function($http, $q) {
     factoryData.updateProjectFromDatabase = function(id, project) {
         console.log("Starting function...");
 
-        $http({method : 'PUT', url : dataUrl + '/projects/' + id, data : project})
+        $http({method : 'PUT', url : dataUrl + '/projects/id/' + id, data : project})
             .success(function(data, status) {
                 console.log("PUT was successful");
 
@@ -266,7 +266,7 @@ app.factory('database', function($http, $q) {
         
         console.log("Starting function...");
 
-        $http({method : 'DELETE', url : dataUrl + '/projects/' + id})
+        $http({method : 'DELETE', url : dataUrl + '/projects/id/' + id})
             .success(function(data, status) {
                 console.log("DELETE was successful");
 
