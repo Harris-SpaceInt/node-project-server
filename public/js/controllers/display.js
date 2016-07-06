@@ -2,7 +2,7 @@
 
 var app = angular.module('display', ['myApp']);
 
-app.controller('displayCtrl', function ($scope, $window, sharedData, database, staticImages) {
+app.controller('displayCtrl', function ($scope, $window, sharedData, database, staticImages, disciplines) {
     // controls whether or not the selected reports tab is open
     // initially open
     $scope.showSelectedReports = true;
@@ -30,32 +30,8 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     $scope.reverse = true;
     $scope.sortOrder = "savings";
 
-    //discipline stuff
-    $scope.disciplines = [{
-        label: "Software",
-        ticked: false
-    }, {
-        label: "Systems",
-        ticked: false
-    }, {
-        label: "Electrical",
-        ticked: false
-    }, {
-        label: "Mechanical",
-        ticked: false
-    }, {
-        label: "Production",
-        ticked: false
-    }, {
-        label: "Integration and Test",
-        ticked: false
-    }, {
-        label: "Corporate",
-        ticked: false
-    }, {
-        label: "Program Management",
-        ticked: false
-    }];
+    // array of disciplines that are selectable
+    $scope.disciplines = disciplines.selectable;
     $scope.projectDisciplines = [];
 
     //--------------------------------------------------------------------------

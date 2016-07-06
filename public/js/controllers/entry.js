@@ -2,7 +2,7 @@
 
 var app = angular.module('entry', ['myApp']);
 
-app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
+app.controller('entryCtrl', function ($scope, $window, sharedData, database, disciplines) {
     $scope.itemsToAdd = [];
     $scope.resultsToAdd = [];
     $scope.update = false; //whether a project is being added or updated
@@ -18,31 +18,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
     };
 
     //array of project disciplines
-    $scope.disciplines = [{
-        label: "Software",
-        ticked: false
-    }, {
-        label: "Systems",
-        ticked: false
-    }, {
-        label: "Electrical",
-        ticked: false
-    }, {
-        label: "Mechanical",
-        ticked: false
-    }, {
-        label: "Production",
-        ticked: false
-    }, {
-        label: "Integration and Test",
-        ticked: false
-    }, {
-        label: "Corporate",
-        ticked: false
-    }, {
-        label: "Program Management",
-        ticked: false
-    }];
+    $scope.disciplines = disciplines.selectable;
 
     //output of disciplines check boxes
     $scope.projectDisciplines = [];

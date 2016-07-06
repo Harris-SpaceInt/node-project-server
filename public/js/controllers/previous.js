@@ -74,6 +74,9 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
         $window.location.href = '#!/login';
     };
 
+    /**
+     * Takes a user logged in as admin to the display page
+     */
     $scope.switchToDisplay = function () {
         $window.location.href = '#!/display';
     };
