@@ -294,7 +294,6 @@ app.factory('database', function($http, $q) {
     
     /**
      * Updates an item already in the database
-     * @type {*[]}
      */
     factoryData.updateProjectFromDatabase = function(id, project) {
         console.log("Starting function...");
@@ -315,12 +314,12 @@ app.factory('database', function($http, $q) {
                 alert("Error submitting project data");
                 deferred.reject();
             });
+        
         return deferred.promise;
     };
 
     /**
      * Updates a manager already in the database
-     * @type {*[]}
      */
     factoryData.updateManagerInDatabase = function(id, manager) {
         console.log("Starting function...");
@@ -347,7 +346,6 @@ app.factory('database', function($http, $q) {
 
     /**
      * Updates an item already in the database
-     * @type {*[]}
      */
     factoryData.deleteProjectFromDatabase = function(id) {
         var deferred = $q.defer();
@@ -374,7 +372,6 @@ app.factory('database', function($http, $q) {
 
     /**
      * Posts an item to the database from the items array
-     * @type {*[]}
      */
     factoryData.addReportToDatabase = function(report) {
         console.log("Starting POST...");
