@@ -132,7 +132,7 @@
                 <td>{{proj.month}}/{{proj.day}}/{{proj.year}}</td>
                 <td>{{proj.title}}</td>
                 <td>{{proj.manager.name}}</td>
-                <td>{{getDisciplineString(proj.discipline)}}</td>
+                <td>{{proj.discipline.join(", ")}}</td>
                 <td>$ {{proj.savings}}</td>
                 <td>{{proj.hours}}</td>
                 <td>
@@ -146,7 +146,7 @@
                 <td>{{x.month}}/{{x.day}}/{{x.year}}</td>
                 <td>{{x.title}}</td>
                 <td>{{x.manager.name}}</td>
-                <td>{{getDisciplineString(x.discipline)}}</td>
+                <td>{{x.discipline.join(", ")}}</td>
                 <td>$ {{x.savings}}</td>
                 <td>{{x.hours}}</td>
                 <td>

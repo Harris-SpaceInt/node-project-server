@@ -36,7 +36,7 @@ app.factory('sharedData', function() {
      * Checks if the global manager is an admin
      * @returns {boolean}
      */
-    data.checkAdmin = function() {
+    data.checkAdmin = function () {
         // check if there is a global manager
         if (!this.loggedIn()) {
             return false;
@@ -53,7 +53,7 @@ app.factory('sharedData', function() {
     /**
      * Set the global manager to the admin
      */
-    data.setAdmin = function() {
+    data.setAdmin = function () {
         var admin = {};
         admin.name = "admin";
         admin.unit = "admin";
@@ -75,7 +75,7 @@ app.factory('sharedData', function() {
      * already one)
      * @param {object} manager
      */
-    data.setGlobalManager = function(manager) {
+    data.setGlobalManager = function (manager) {
         if (this.globalManager.length == 0) {
             this.globalManager.push(manager);
         }
@@ -88,7 +88,7 @@ app.factory('sharedData', function() {
     /**
      * Clears the global manager (logs out)
      */
-    data.clearGlobalManager = function() {
+    data.clearGlobalManager = function () {
         this.globalManager = [];
     };
 
@@ -97,7 +97,7 @@ app.factory('sharedData', function() {
      * of the array
      * @param {object} projectToAdd
      */
-    data.pushToProjectList = function(projectToAdd) {
+    data.pushToProjectList = function (projectToAdd) {
         this.projectList.push(projectToAdd);
     };
 
@@ -105,7 +105,7 @@ app.factory('sharedData', function() {
      * Deletes a project from projectList at index
      * @param {number} index
      */
-    data.deleteFromProjectList = function(index) {
+    data.deleteFromProjectList = function (index) {
         if (typeof this.projectList[index] === 'undefined') {
             console.log('Error trying to remove from index in projectList. ' +
                 'Nothing is stored at index ' + index + '.');
@@ -118,8 +118,21 @@ app.factory('sharedData', function() {
     /**
      * Clears the list of projects
      */
-    data.clearProjectList = function() {
+    data.clearProjectList = function () {
         this.projectList = [];
+    };
+
+    /**
+     * To string for an array
+     * @param array
+     * @returns {string}
+     */
+    data.getArrayString = function (array) {
+        var string = "";
+        for (var i = 0; i < array.length - 1; i++) {
+            string += (array[i] + ", ");
+        }
+        return (string + array[array.length - 1]);
     };
 
 

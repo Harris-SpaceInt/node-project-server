@@ -213,19 +213,6 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     };
 
     /**
-     * Converts a discipline array into a string form
-     * @param disciplines
-     * @returns {string}
-     */
-    $scope.getDisciplineString = function (disciplines) {
-        var string = "";
-        for (var i = 0; i < disciplines.length - 1; i++) {
-            string += (disciplines[i] + ", ");
-        }
-        return (string + disciplines[disciplines.length - 1]);
-    };
-
-    /**
      * No/all disciplines checked; hides all projects
      */
     $scope.noOrAllDisciplines = function () {
@@ -378,13 +365,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     function singleProject(data) {
         var project_body = [];
         
-        var disciplineString = "";
-        for (var j = 0; j < data.discipline.length; j++) {
-            disciplineString += (data.discipline[j]);
-            if (j < data.discipline.length - 1) {
-                disciplineString += ", ";
-            }
-        }
+        var disciplineString = sharedData.getArrayString(data.discipline);
         
         project_body.push({image: staticImages.hbx, width: 535, pageBreak: "before"});
         project_body.push({
