@@ -2,7 +2,7 @@
 
 var app = angular.module('previous', ['myApp']);
 
-app.controller('previousCtrl', function ($scope, $window, sharedData, database) {
+app.controller('previousCtrl', function ($scope, $window, $q, sharedData, database) {
 
     // stores the previous projects of the current user
     //   or all projects in database if user is admin
@@ -55,18 +55,10 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
             $scope.showingFullView = true;
         }
         else {
-            // now refresh the list of projects from the database
-            var getPromise = database.getItemsFromDatabase();
-            // when that is done, load the projects back into the
-            //   corresponding list and refresh the display
-            getPromise.then(function () {
-                //adding toggle manager fields
-                database.projects.forEach(function (project) {
-                    project.checked = false;
-                });
+            // load and display the user's projects
+            var promise = $scope.loadUserProjects(false);
 
-                // load and display the user's projects
-                $scope.loadUserProjects();
+            promise.then(function() {
                 $scope.items = $scope.userProjects;
             });
         }
@@ -102,42 +94,47 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
      * these variables.
      */
     $scope.loadUserProjects = function () {
+        var deferred = $q.defer();
+
         // handle admin and regular user cases
         if ($scope.sharedData.checkAdmin()) {
             // user is admin
             // display all projects
-            for (var i = 0; i < $scope.database.projects.length; i++) {
-                var project = $scope.database.projects[i];
+            var promise1 = database.getProjectsFromDatabase();
 
-                if (!project.generated) {
-                    // list of projects without reports
-                    $scope.userProjects.push(project);
-                }
-                else {
-                    // list of projects with reports
-                    $scope.generatedUserProjects.push(project);
-                }
+            if ($scope.showingGenerated) {
+                var promise2 = database.getGenearatedProjectsFromDatabase();
+                promise2.then(function(data) {
+                    $scope.generatedUserProjects = data;
+                });
             }
+
+            promise1.then(function(data) {
+                $scope.userProjects = data;
+
+                deferred.resolve();
+            });
         }
         else {
             // user is not admin
             // only display user projects
-            for (var i = 0; i < $scope.database.projects.length; i++) {
-                var project = $scope.database.projects[i];
+            var promise1 = database.getManagerProjectsFromDatabase(sharedData.globalManager[0].email);
 
-                // check if project belongs to the manager
-                if ($scope.sharedData.globalManager[0].email.toLowerCase() === project.manager.email.toLocaleLowerCase()) {
-                    if (!project.generated) {
-                        // list of projects without reports
-                        $scope.userProjects.push(project);
-                    }
-                    else {
-                        // list of projects with reports
-                        $scope.generatedUserProjects.push(project);
-                    }
-                }
+            if ($scope.showingGenerated) {
+                var promise2 = database.getGeneratedManagerProjectsFromDatabase(sharedData.globalManager[0].email);
+                promise2.then(function(data) {
+                    $scope.generatedUserProjects = data;
+                });
             }
+
+            promise1.then(function(data) {
+                $scope.userProjects = data;
+
+                deferred.resolve();
+            });
         }
+
+        return deferred.promise;
     };
 
     /**
@@ -146,13 +143,17 @@ app.controller('previousCtrl', function ($scope, $window, sharedData, database) 
     $scope.showGenerated = function () {
         $scope.showingGenerated = true;
 
-        $scope.items = [];
-        for (var i = 0; i < $scope.userProjects.length; i++) {
-            $scope.items.push($scope.userProjects[i]);
-        }
-        for (var i = 0; i < $scope.generatedUserProjects.length; i++) {
-            $scope.items.push($scope.generatedUserProjects[i]);
-        }
+        var promise = $scope.loadUserProjects();
+
+        promise.then(function() {
+            $scope.items = [];
+            for (var i = 0; i < $scope.userProjects.length; i++) {
+                $scope.items.push($scope.userProjects[i]);
+            }
+            for (var i = 0; i < $scope.generatedUserProjects.length; i++) {
+                $scope.items.push($scope.generatedUserProjects[i]);
+            }
+        });
     };
 
     /**

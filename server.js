@@ -9,8 +9,8 @@ var cors       = require('cors');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.json({ limit: '50mb' }));
 
 // configure app to use cors
 // this will let angular communicate with rest
@@ -224,11 +224,28 @@ router.route('/projects/manager/:manager_email')
             });
     });
 
+// on routes that end in /projects/generated
+// ----------------------------------------------------
+router.route('/projects/generated')
+
+    // get all projects in reports (accessed at GET http://localhost:8080/api/projects/generated)
+    .get(function(req, res) {
+        Project.find({generated: true})
+            .populate('manager')
+            .exec(function(err, projects) {
+                if (err)
+                    res.send(err);
+
+                res.json(projects);
+            });
+    });
+
 // on routes that end in /projects/generated/:manager_email
 // ----------------------------------------------------
 router.route('/projects/generated/:manager_email')
 
-    // get all projects in reports (accessed at GET http://localhost:8080/api/reported)
+    // get all projects in reports from the manager with the matching email
+    // (accessed at GET http://localhost:8080/api/projects/generated/:manager_email)
     .get(function(req, res) {
         Manager.findOne({email: req.params.manager_email},
             function(err, manager) {
