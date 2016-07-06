@@ -67,14 +67,6 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
     //------------------------------------------------------------------------------------------------------------------
 
     /**
-     * Logs user out
-     */
-    $scope.logOut = function () {
-        $scope.sharedData.clearGlobalManager();
-        $window.location.href = '#!/login';
-    };
-
-    /**
      * Takes a user logged in as admin to the display page
      */
     $scope.switchToDisplay = function () {

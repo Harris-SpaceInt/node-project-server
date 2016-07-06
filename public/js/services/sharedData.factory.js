@@ -5,7 +5,7 @@ var app = angular.module('myApp');
 /**
  * Factory module to hold and transfer data between views
  */
-app.factory('sharedData', function() {
+app.factory('sharedData', function($window) {
     var data = {};
 
     // type this in the email box to go to the admin page
@@ -31,7 +31,15 @@ app.factory('sharedData', function() {
     data.loggedIn = function() {
         return this.globalManager[0] !== undefined;
     };
-    
+
+    /**
+     * Logs the user out
+     */
+    data.logOut = function () {
+        this.clearGlobalManager();
+        $window.location.href = '#!/login';
+    };
+
     /**
      * Checks if the global manager is an admin
      * @returns {boolean}

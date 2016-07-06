@@ -299,18 +299,23 @@ app.factory('database', function($http, $q) {
     factoryData.updateProjectFromDatabase = function(id, project) {
         console.log("Starting function...");
 
+        var deferred = $q.defer();
+        
         $http({method : 'PUT', url : dataUrl + '/projects/id/' + id, data : project})
             .success(function(data, status) {
                 console.log("PUT was successful");
 
                 // update on success
                 factoryData.getItemsFromDatabase();
+                deferred.resolve(data);
             })
             .error(function(data, status) {
                 console.log("Error sending data");
                 console.log("status: " + status);
                 alert("Error submitting project data");
+                deferred.reject();
             });
+        return deferred.promise;
     };
 
     /**

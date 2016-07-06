@@ -2,7 +2,7 @@
 
 var app = angular.module('entry', ['myApp']);
 
-app.controller('entryCtrl', function ($scope, $window, sharedData, database, disciplines) {
+app.controller('entryCtrl', function ($scope, $window, sharedData, database, disciplines, savings) {
     $scope.itemsToAdd = [];
     $scope.resultsToAdd = [];
     $scope.update = false; //whether a project is being added or updated
@@ -284,23 +284,6 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
     };
 
     /**
-     * Updates a project's savings and saved hours
-     * @param item
-     * @returns {*}
-     */
-    $scope.calculateSavings = function (item) {
-        item.result = angular.copy($scope.resultsToAdd);
-        var grand_savings = 0, grand_hours = 0;
-        for (var j = 0; j < item.result.length; j++) {
-            grand_savings += item.result[j].savings;
-            grand_hours += item.result[j].hours;
-        }
-        item.savings = grand_savings;
-        item.hours = grand_hours;
-        return item;
-    };
-
-    /**
      * Adds a project to the items array
      * @param item project to be added
      */
@@ -311,7 +294,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
         }
         else {
             item = $scope.parseDate(item);
-            item = $scope.calculateSavings(item);
+            item.savings = savings.projectSavings(item);
+            item.hours = savings.projectHours(item);
             
             if (item.savings < 0 || item.hours < 0) {
                 alert("Error: either savings or hours are negative");
@@ -339,7 +323,9 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
         }
         else {
             item = $scope.parseDate(item);
-            item = $scope.calculateSavings(item);
+            item.savings = savings.projectSavings(item);
+            item.hours = savings.projectHours(item);
+            
             if (item.savings < 0 || item.hours < 0) {
                 alert("Error: either savings or hours are negative");
             }
@@ -348,10 +334,12 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
             }
             else {
                 if (sharedData.fromDatabase) {
-                    database.updateProjectFromDatabase(item._id, item);
-                    sharedData.project = null;
-                    sharedData.fromDatabase = false;
-                    $window.location.href = "#!/previous";
+                    var promise = database.updateProjectFromDatabase(item._id, item);
+                    promise.then(function() {
+                        sharedData.project = null;
+                        sharedData.fromDatabase = false;
+                        $window.location.href = "#!/previous";
+                    });
                 }
                 else {
                     sharedData.pushToProjectList(angular.copy(item));
