@@ -118,9 +118,11 @@
         <table class="text-center">
             <tr>
                 <!-- controls sorting for the table -->
-                <th ng-click=setSortOrder('checked')><input type="checkbox" ng-change="selectFunction()"
-                                                            ng-model="majorSelection"> <strong>Select Reports</strong>
+                <th ng-hide="prev_reports" ng-click=setSortOrder('checked')>
+                    <input type="checkbox" ng-change="selectFunction()" ng-model="majorSelection">
+                    <strong>Select Projects</strong>
                 </th>
+                <th ng-show="prev_reports"><strong>Report Date</strong></th>
                 <th ng-click=setSortOrder('date')><strong>Date</strong></th>
                 <th ng-click=setSortOrder('title')><strong>Project Name</strong></th>
                 <th ng-click=setSortOrder('manager.name')><strong>Manager</strong></th>
