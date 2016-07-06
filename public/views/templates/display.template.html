@@ -28,7 +28,7 @@
                             <tr>
                                 <th>Report Date</th>
                             </tr>
-                            <tr ng-repeat="report in database.reports">
+                            <tr ng-repeat="report in database.reports | orderBy: date: true">
                                 <td class="text-center">
                                     <h4>{{report.month + "/" + report.day + "/" + report.year}}</h4>
                                     <button class="button-secondary" ng-click="addReportsToDisplay(report)">View Report

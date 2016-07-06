@@ -5,6 +5,8 @@ var ReportSchema = new Schema({
     day: Number,
     month: Number,
     year: Number,
+    savings: Number,
+    hours: Number,
     project: [{
         type: Schema.Types.ObjectId,
         ref: 'Project'

@@ -351,10 +351,11 @@ router.route('/reports/:report_id')
 
                 Project.populate(report.project, {
                     path: 'manager'
-                }, function(err, report) {
+                }, function(err, project) {
                     if (err)
                         res.send(err);
 
+                    report.project = project;
                     res.json(report);
                 });
             });

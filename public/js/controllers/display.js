@@ -79,7 +79,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
         for (var i = 0; i < $scope.database.projects.length; i++) {
             $scope.database.projects[i].visible = true;
         }
-        
+
         // set credentials to admin
         if (!$scope.sharedData.checkAdmin()) {
             $scope.sharedData.setAdmin();
@@ -104,7 +104,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
         var promise = database.getReportFromDatabase(report._id);
 
         promise.then(function () {
-            report.project = database.currentReport;
+            report = database.currentReport;
             $scope.setPrevReports();
             if ($scope.prev_reports) {
                 $scope.report_projects = [];
@@ -216,7 +216,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
      * No/all disciplines checked; hides all projects
      */
     $scope.noOrAllDisciplines = function () {
-        $scope.database.projects.forEach(function(element) {
+        $scope.database.projects.forEach(function (element) {
             element.visible = true;
         })
     };
@@ -346,11 +346,11 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
         body.push({text: 'Total savings: $' + data.savings + '\n\n', style: "subheader"});
         body.push({text: 'Total time saved: ' + data.hours + ' hours', style: "subheader"});
 
-        data.project.forEach(function (row) {
-            var proj = singleProject(row);
+        data.project.forEach(function (project) {
+            var projectPage = singleProject(project);
 
-            for (var i = 0; i < proj.length; i++) {
-                body.push(proj[i]);
+            for (var i = 0; i < projectPage.length; i++) {
+                body.push(projectPage[i]);
             }
         });
 
@@ -432,10 +432,12 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
         });
 
         var disciplineString = "";
-        for (var j = 0; j < data.discipline.length - 1; j++) {
-            disciplineString += (data.discipline[j] + ", ");
+        for (var j = 0; j < data.discipline.length; j++) {
+            disciplineString += (data.discipline[j]);
+            if (j < data.discipline.length - 1) {
+                disciplineString += ", ";
+            }
         }
-        disciplineString += data.discipline[data.discipline.length - 1];
 
         //if there's an image
         if (data.image !== undefined && data.image !== null) {
@@ -484,7 +486,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                     body: [
                         [{text: "Result #" + (i + 1), bold: true, alignment: 'center', colSpan: 2}, {}],
                         [{text: "Improvement Description", bold: true}, {text: "Improvement Results", bold: true}],
-                        [$scope.database.getResultById(data.result[i].id).summary, $scope.database.getResultById(data.result[i].id).details]
+                        [data.result[i].summary, data.result[i].details]
                     ]
                 },
                 layout: {
