@@ -30,6 +30,34 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     $scope.reverse = true;
     $scope.sortOrder = "savings";
 
+    //discipline stuff
+    $scope.disciplines = [{
+        label: "Software",
+        ticked: false
+    }, {
+        label: "Systems",
+        ticked: false
+    }, {
+        label: "Electrical",
+        ticked: false
+    }, {
+        label: "Mechanical",
+        ticked: false
+    }, {
+        label: "Production",
+        ticked: false
+    }, {
+        label: "Integration and Test",
+        ticked: false
+    }, {
+        label: "Corporate",
+        ticked: false
+    }, {
+        label: "Program Management",
+        ticked: false
+    }];
+    $scope.projectDisciplines = [];
+
     //--------------------------------------------------------------------------
     // link database factory and sharedData factory with scope variables from
     //   controller to allow the controller to use and update from factory
@@ -135,7 +163,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
      */
     $scope.somethingChecked = function () {
         for (var i = 0; i < $scope.database.projects.length; i++) {
-            if ($scope.database.projects[i].checked === true) {
+            if ($scope.database.projects[i].checked) {
                 return true;
             }
         }
@@ -176,6 +204,25 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
         for (var i = 0; i < $scope.database.projects.length; i++) {
             if (!$scope.database.projects[i].generated) {
                 $scope.database.projects[i].checked = false;
+            }
+        }
+    };
+
+    /**
+     * Filters the list by disciplines
+     */
+    $scope.filterDisciplines = function () {
+        var selected = [];
+        for (var i = 0; i < $scope.disciplines.length; i++) {
+            if ($scope.disciplines[i].ticked) {
+                selected.push($scope.disciplines[i].label);
+            }
+        }
+        for (var j = 0; j < $scope.database.projects.length; j++) {
+            var project = $scope.database.projects[j];
+            for (var x = 0; x < project.discipline.length; x++) {
+                var index = selected.indexOf(project.discipline[x]);
+                project.checked = index > -1;
             }
         }
     };

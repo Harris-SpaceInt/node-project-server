@@ -50,49 +50,67 @@
             </div>
         </div>
 
-        <!-- selected reports - can be shown or hidden -->
-        <div class="text-center">
-            <h5 class="highlight"><b>Total Savings: $ {{totalSavings()}}</b></h5><br>
-            <div ng-show="benchmark(totalSavings())">
-                <h4 class="highlight"><b>$100K BENCHMARK REACHED!</b></h4><br>
+        <div class="row">
+            <!-- selected reports - can be shown or hidden -->
+            <div class="text-center">
+                <h5 class="highlight"><b>Total Savings: $ {{totalSavings()}}</b></h5><br>
+                <div ng-show="benchmark(totalSavings())">
+                    <h4 class="highlight"><b>$100K BENCHMARK REACHED!</b></h4><br>
+                </div>
+                <h4><b>Selected Reports:</b></h4>
+                <button ng-click="setSelectedReports()" class="button-secondary">Show/Hide</button>
             </div>
-            <h4><b>Selected Reports:</b></h4>
-            <button ng-click="setSelectedReports()" class="button-secondary">Show/Hide</button>
+
+            <div ng-show="showSelectedReports" ng-repeat="x in database.projects | orderBy: 'title'" class="text-center">
+                <div ng-show="x.checked">
+                    {{x.title}}
+                </div>
+            </div>
+
+            <!-- Selected reports summary -->
+            <div ng-show="showSelectedReports" class="text-center">
+                <div ng-hide="somethingChecked()">
+                    No projects selected.
+                </div>
+            </div>
+
+            <div ng-show="somethingChecked()" class="text-center">
+                <strong>
+                    <br>
+                    {{numChecked()}} project(s) selected
+                </strong>
+            </div>
+            <br>
+
+            <!-- button to create report -->
+            <div class="text-center">
+                <div ng-show="somethingChecked()">
+                    <button ng-click="createReport()" class="button">Create Report PDF</button>
+                    <br><br>
+                </div>
+                <div ng-show="report_projects.length > 0">
+                    <button ng-click="createReportPDF(currentReport)" class="button">Show Report PDF</button>
+                    <br><br>
+                </div>
+            </div>
         </div>
 
-        <div ng-show="showSelectedReports" ng-repeat="x in database.projects | orderBy: 'title'" class="text-center">
-            <div ng-show="x.checked">
-                {{x.title}}
+        <!-- filtering by disciplines -->
+        <div class="discipline">
+            <h5><b>Filter by discipline:</b></h5>
+            <div isteven-multi-select
+                 input-model="disciplines"
+                 output-model="projectDisciplines"
+                 button-label="label"
+                 item-label="label"
+                 tick-property="ticked"
+                 on-item-click="filterDisciplines()"
+                 on-select-none="deselectAll()"
+                 on-select-all="selectAll()">
             </div>
+            <br>
         </div>
 
-        <!-- Selected reports summary -->
-        <div ng-show="showSelectedReports" class="text-center">
-            <div ng-hide="somethingChecked()">
-                No projects selected.
-            </div>
-        </div>
-
-        <div ng-show="somethingChecked()" class="text-center">
-            <strong>
-                <br>
-                {{numChecked()}} project(s) selected
-            </strong>
-        </div>
-
-        <br>
-
-        <!-- button to create report -->
-        <div class="text-center">
-            <div ng-show="somethingChecked()">
-                <button ng-click="createReport()" class="button">Create Report PDF</button>
-                <br><br>
-            </div>
-            <div ng-show="report_projects.length > 0">
-                <button ng-click="createReportPDF(currentReport)" class="button">Show Report PDF</button>
-                <br><br>
-            </div>
-        </div>
         <table class="text-center">
             <tr>
                 <!-- controls sorting for the table -->

@@ -83,10 +83,10 @@ angular.module( 'isteven-multi-select', ['ng'] ).directive( 'istevenMultiSelect'
             $scope.tabIndex         = 0;            
             $scope.lang             = {};
             $scope.helperStatus     = {
-                all     : false,
-                none    : false,
+                all     : true,
+                none    : true,
                 reset   : true,
-                filter  : true
+                filter  : false
             };
 
             var 

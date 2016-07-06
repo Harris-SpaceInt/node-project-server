@@ -8,10 +8,8 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
     // link database and sharedData to scope variables 
 
     $scope.database = database;
-
     $scope.sharedData = sharedData;
-
-    $scope.managerExists = false;
+    $scope.managerExists = false; //current manager exists in the database
 
     //------------------------------------------------------------------------------------------------------------------
     // initialize the page
