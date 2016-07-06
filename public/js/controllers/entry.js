@@ -10,6 +10,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
     $scope.hoursNumber = true; //checks for number inputs for hours
     $scope.hasImage = false;
 
+    $scope.sharedData = sharedData;
+
     //date options for the date picked
     $scope.dateOptions = {
         changeYear: true,
