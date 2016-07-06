@@ -91,23 +91,29 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
     $scope.loadUserProjects = function () {
         var deferred = $q.defer();
 
+        // first load projects not in reports
         // handle admin and regular user cases
         if ($scope.sharedData.checkAdmin()) {
             // user is admin
             // display all projects
             var promise1 = database.getProjectsFromDatabase();
 
-            if ($scope.showingGenerated) {
-                var promise2 = database.getGenearatedProjectsFromDatabase();
-                promise2.then(function(data) {
-                    $scope.generatedUserProjects = data;
-                });
-            }
-
             promise1.then(function(data) {
                 $scope.userProjects = data;
 
-                deferred.resolve();
+                // load projects from reports if they are requested
+                if ($scope.showingGenerated) {
+                    var promise2 = database.getGenearatedProjectsFromDatabase();
+                    
+                    promise2.then(function(data) {
+                        $scope.generatedUserProjects = data;
+                        deferred.resolve();
+                    });
+                }
+                else {
+                    // generated not requested
+                    deferred.resolve();
+                }
             });
         }
         else {
@@ -115,17 +121,22 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
             // only display user projects
             var promise1 = database.getManagerProjectsFromDatabase(sharedData.globalManager[0].email);
 
-            if ($scope.showingGenerated) {
-                var promise2 = database.getGeneratedManagerProjectsFromDatabase(sharedData.globalManager[0].email);
-                promise2.then(function(data) {
-                    $scope.generatedUserProjects = data;
-                });
-            }
-
             promise1.then(function(data) {
                 $scope.userProjects = data;
 
-                deferred.resolve();
+                // load projects from reports if they are requested
+                if ($scope.showingGenerated) {
+                    var promise2 = database.getGeneratedManagerProjectsFromDatabase(sharedData.globalManager[0].email);
+                    
+                    promise2.then(function(data) {
+                        $scope.generatedUserProjects = data;
+                        deferred.resolve();
+                    });
+                }
+                else {
+                    // generated not requested
+                    deferred.resolve();
+                }
             });
         }
 

@@ -27,10 +27,13 @@
                         <table>
                             <tr>
                                 <th>Report Date</th>
+                                <th>View Report</th>
                             </tr>
                             <tr ng-repeat="report in database.reports | orderBy: date: true">
                                 <td class="text-center">
-                                    <h4>{{report.month + "/" + report.day + "/" + report.year}}</h4>
+                                    <p>{{report.month + "/" + report.day + "/" + report.year}}</p>
+                                </td>
+                                <td class="text-center">
                                     <button class="button-secondary" ng-click="addReportsToDisplay(report)">View Report
                                         Projects
                                     </button>
@@ -61,7 +64,8 @@
                 <button ng-click="setSelectedReports()" class="button-secondary">Show/Hide</button>
             </div>
 
-            <div ng-show="showSelectedReports" ng-repeat="x in database.projects | orderBy: 'title'" class="text-center">
+            <div ng-show="showSelectedReports" ng-repeat="x in database.projects | orderBy: 'title'"
+                 class="text-center">
                 <div ng-show="x.checked">
                     {{x.title}}
                 </div>
