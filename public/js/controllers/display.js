@@ -213,6 +213,19 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     };
 
     /**
+     * Converts a discipline array into a string form
+     * @param disciplines
+     * @returns {string}
+     */
+    $scope.getDisciplineString = function (disciplines) {
+        var string = "";
+        for (var i = 0; i < disciplines.length - 1; i++) {
+            string += (disciplines[i] + ", ");
+        }
+        return (string + disciplines[disciplines.length - 1]);
+    };
+
+    /**
      * No/all disciplines checked; hides all projects
      */
     $scope.noOrAllDisciplines = function () {

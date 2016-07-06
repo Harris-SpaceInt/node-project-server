@@ -119,7 +119,8 @@
                 </th>
                 <th ng-click=setSortOrder('date')><strong>Date</strong></th>
                 <th ng-click=setSortOrder('title')><strong>Project Name</strong></th>
-                <th ng-click=setSortOrder('manager.name')><strong>Manager</strong></th> <!-- implement this -->
+                <th ng-click=setSortOrder('manager.name')><strong>Manager</strong></th>
+                <th><strong>Discipline(s)</strong></th>
                 <th ng-click=setSortOrder('savings')><strong>Savings</strong></th>
                 <th ng-click=setSortOrder('hours')><strong>Saved Hours</strong></th>
                 <th><strong>View Full Report</strong></th>
@@ -131,6 +132,7 @@
                 <td>{{proj.month}}/{{proj.day}}/{{proj.year}}</td>
                 <td>{{proj.title}}</td>
                 <td>{{proj.manager.name}}</td>
+                <td>{{getDisciplineString(proj.discipline)}}</td>
                 <td>$ {{proj.savings}}</td>
                 <td>{{proj.hours}}</td>
                 <td>
@@ -144,6 +146,7 @@
                 <td>{{x.month}}/{{x.day}}/{{x.year}}</td>
                 <td>{{x.title}}</td>
                 <td>{{x.manager.name}}</td>
+                <td>{{getDisciplineString(x.discipline)}}</td>
                 <td>$ {{x.savings}}</td>
                 <td>{{x.hours}}</td>
                 <td>
