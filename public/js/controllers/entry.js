@@ -319,17 +319,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
             grand_savings += item.result[j].savings;
             grand_hours += item.result[j].hours;
         }
-
-        if ($scope.resultsToAdd.length == 0) {
-            alert("Error: Project does not have any results.");
-        }
-        else if (grand_savings <= 0 && grand_hours <= 0) {
-            alert("Error: Project does not have any savings.");
-        }
-        else {
-            item.savings = grand_savings;
-            item.hours = grand_hours;
-        }
+        item.savings = grand_savings;
+        item.hours = grand_hours;
         return item;
     };
 
@@ -345,11 +336,20 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
         else {
             item = $scope.parseDate(item);
             item = $scope.calculateSavings(item);
-            item.manager = sharedData.globalManager[0];
-            $scope.updateDisciplines(item);
+            
+            if (item.savings < 0 || item.hours < 0) {
+                alert("Error: either savings or hours are negative");
+            }
+            else if (item.savings <= 0 && item.hours <= 0) {
+                alert("Error: project has no savings");
+            }
+            else {
+                item.manager = sharedData.globalManager[0];
+                $scope.updateDisciplines(item);
 
-            sharedData.pushToProjectList(angular.copy(item));
-            $window.location.href = "#!/preview";
+                sharedData.pushToProjectList(angular.copy(item));
+                $window.location.href = "#!/preview";
+            }
         }
     };
 
@@ -364,15 +364,23 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database) {
         else {
             item = $scope.parseDate(item);
             item = $scope.calculateSavings(item);
-            if (sharedData.fromDatabase) {
-                database.updateProjectFromDatabase(item._id, item);
-                sharedData.project = null;
-                sharedData.fromDatabase = false;
-                $window.location.href = "#!/previous";
+            if (item.savings < 0 || item.hours < 0) {
+                alert("Error: either savings or hours are negative");
+            }
+            else if (item.savings <= 0 && item.hours <= 0) {
+                alert("Error: project has no savings");
             }
             else {
-                sharedData.pushToProjectList(angular.copy(item));
-                $window.location.href = "#!/preview";
+                if (sharedData.fromDatabase) {
+                    database.updateProjectFromDatabase(item._id, item);
+                    sharedData.project = null;
+                    sharedData.fromDatabase = false;
+                    $window.location.href = "#!/previous";
+                }
+                else {
+                    sharedData.pushToProjectList(angular.copy(item));
+                    $window.location.href = "#!/preview";
+                }
             }
         }
     };

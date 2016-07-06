@@ -76,6 +76,10 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
         // update the database
         $scope.database.getItemsFromDatabase();
 
+        for (var i = 0; i < $scope.database.projects.length; i++) {
+            $scope.database.projects[i].visible = true;
+        }
+        
         // set credentials to admin
         if (!$scope.sharedData.checkAdmin()) {
             $scope.sharedData.setAdmin();
@@ -191,7 +195,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
      */
     $scope.selectAll = function () {
         for (var i = 0; i < $scope.database.projects.length; i++) {
-            if (!$scope.database.projects[i].generated) {
+            if (!$scope.database.projects[i].generated && $scope.database.projects[i].visible) {
                 $scope.database.projects[i].checked = true;
             }
         }
@@ -209,6 +213,15 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
     };
 
     /**
+     * No/all disciplines checked; hides all projects
+     */
+    $scope.noOrAllDisciplines = function () {
+        $scope.database.projects.forEach(function(element) {
+            element.visible = true;
+        })
+    };
+
+    /**
      * Filters the list by disciplines
      */
     $scope.filterDisciplines = function () {
@@ -218,11 +231,19 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                 selected.push($scope.disciplines[i].label);
             }
         }
-        for (var j = 0; j < $scope.database.projects.length; j++) {
-            var project = $scope.database.projects[j];
-            for (var x = 0; x < project.discipline.length; x++) {
-                var index = selected.indexOf(project.discipline[x]);
-                project.checked = index > -1;
+        if (selected.length === 0 || selected.length === $scope.disciplines.length) {
+            $scope.noOrAllDisciplines();
+        }
+        else {
+            for (var j = 0; j < $scope.database.projects.length; j++) {
+                var project = $scope.database.projects[j];
+                for (var x = 0; x < project.discipline.length; x++) {
+                    var index = selected.indexOf(project.discipline[x]);
+                    project.visible = index > -1;
+                    if (!project.visible) {
+                        project.checked = false;
+                    }
+                }
             }
         }
     };
