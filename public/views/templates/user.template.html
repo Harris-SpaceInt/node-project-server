@@ -18,7 +18,7 @@
         <!-- Can only edit manager info if the manager is in the database already -->
         <button ng-show="managerExists" class="button-secondary" ng-click="editManager()">Edit Manager Info</button>
         <br>
-        <button class="button" ng-show="database.projects.length > 0" ng-click="viewPreviousProjects()">View Previously
+        <button class="button" ng-show="managerExists > 0" ng-click="viewPreviousProjects()">View Previously
             Submitted Projects
         </button>
         <br>

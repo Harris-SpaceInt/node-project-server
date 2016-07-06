@@ -2,7 +2,7 @@
 
 var app = angular.module('display', ['myApp']);
 
-app.controller('displayCtrl', function ($scope, $window, sharedData, database, disciplines, pdf) {
+app.controller('displayCtrl', function ($scope, $window, sharedData, database, disciplines, pdf, savings) {
     // controls whether or not the selected reports tab is open
     // initially open
     $scope.showSelectedReports = true;
@@ -298,24 +298,11 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
      * @returns {number} amount saved from selected projects
      */
     $scope.totalSavings = function () {
-        var n = 0;
+        var total = 0;
         for (var i = 0; i < $scope.database.projects.length; i++) {
             if ($scope.database.projects[i].checked === true) {
-                n += $scope.projectSavings(i);
+                total += savings.projectSavings($scope.database.projects[i]);
             }
-        }
-        return n;
-    };
-
-    /**
-     * Total savings for a given project
-     * @param index
-     * @returns {number}
-     */
-    $scope.projectSavings = function (index) {
-        var total = 0;
-        for (var i = 0; i < $scope.database.projects[index].result.length; i++) {
-            total += $scope.database.projects[index].result[i].savings;
         }
         return total;
     };
@@ -328,21 +315,8 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
         var total = 0;
         for (var i = 0; i < $scope.database.projects.length; i++) {
             if ($scope.database.projects[i].checked === true) {
-                total += $scope.projectHours(i);
+                total += savings.projectHours($scope.database.projects[i]);
             }
-        }
-        return total;
-    };
-
-    /**
-     * Total saved hours for a given project
-     * @param index
-     * @returns {number}
-     */
-    $scope.projectHours = function (index) {
-        var total = 0;
-        for (var i = 0; i < $scope.database.projects[index].result.length; i++) {
-            total += $scope.database.projects[index].result[i].hours;
         }
         return total;
     };
