@@ -105,8 +105,8 @@
                  item-label="label"
                  tick-property="ticked"
                  on-item-click="filterDisciplines()"
-                 on-select-none="deselectAll()"
-                 on-select-all="selectAll()">
+                 on-select-none="noOrAllDisciplines()"
+                 on-select-all="noOrAllDisciplines()">
             </div>
             <br>
         </div>
@@ -139,7 +139,7 @@
             </tr>
             </tbody>
             <tbody ng-hide="prev_reports" ng-repeat="x in database.projects | orderBy: sortOrder: reverse">
-            <tr ng-hide="x.generated">
+            <tr ng-hide="x.generated" ng-show="x.visible">
                 <td><input type="checkbox" ng-model="x.checked" ng-show="!x.generated"></td>
                 <td>{{x.month}}/{{x.day}}/{{x.year}}</td>
                 <td>{{x.title}}</td>
