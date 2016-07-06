@@ -46,15 +46,6 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
     };
 
     /**
-     * Clears the manager and returns the user to the
-     * login page
-     */
-    $scope.logOut = function () {
-        $scope.sharedData.clearGlobalManager();
-        $window.location.href = "#!/login";
-    };
-
-    /**
      * Loads the edit manager page
      */
     $scope.editManager = function () {

@@ -334,10 +334,12 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
             }
             else {
                 if (sharedData.fromDatabase) {
-                    database.updateProjectFromDatabase(item._id, item);
-                    sharedData.project = null;
-                    sharedData.fromDatabase = false;
-                    $window.location.href = "#!/previous";
+                    var promise = database.updateProjectFromDatabase(item._id, item);
+                    promise.then(function() {
+                        sharedData.project = null;
+                        sharedData.fromDatabase = false;
+                        $window.location.href = "#!/previous";
+                    });
                 }
                 else {
                     sharedData.pushToProjectList(angular.copy(item));

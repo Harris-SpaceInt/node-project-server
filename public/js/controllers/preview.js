@@ -4,21 +4,14 @@ var app = angular.module('preview', ['myApp']);
 
 app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
     
+    $scope.sharedData = sharedData;
+    
     /**
      * Initializes the page
      * Re-directs to user page
      */
     $scope.pageInit = function () {
-        $scope.items = sharedData.projectList;
-    };
-
-    /**
-     * Clears the manager and returns the user to the
-     * login page
-     */
-    $scope.logOut = function () {
-        sharedData.clearGlobalManager();
-        $window.location.href = "#!/login";
+        $scope.items = $scope.sharedData.projectList;
     };
 
     /**
@@ -33,7 +26,7 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
      * @param index index in the items array
      */
     $scope.edit = function (index) {
-        sharedData.project = $scope.items[index];
+        $scope.sharedData.project = $scope.items[index];
         $scope.items.splice(index, 1);
         $window.location.href = "#!/entry";
     };
@@ -71,19 +64,6 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
      */
     $scope.addNew = function () {
         $window.location.href = "#!/entry";
-    };
-
-    /**
-     * Converts the contents of a project's disciplines array to a string
-     * @param project
-     * @returns {string}
-     */
-    $scope.getDisciplineString = function (project) {
-        var disciplineString = "";
-        for (var j = 0; j < project.discipline.length - 1; j++) {
-            disciplineString += (project.discipline[j] + ", ");
-        }
-        return (disciplineString + project.discipline[project.discipline.length - 1]);
     };
 
     //initialize view

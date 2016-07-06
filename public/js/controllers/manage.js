@@ -3,7 +3,8 @@
 var app = angular.module('manage', ['myApp']);
 
 app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
-
+    
+    //linking sharedData to scope
     $scope.sharedData = sharedData;
 
     $scope.manager = sharedData.globalManager[0];

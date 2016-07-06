@@ -39,7 +39,6 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
     //   controller to allow the controller to use and update from factory
 
     $scope.database = database;
-
     $scope.sharedData = sharedData;
 
     //--------------------------------------------------------------------------
@@ -63,14 +62,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
     };
 
     //--------------------------------------------------------------------------
-
-    /**
-     * Logs the user out
-     */
-    $scope.logOut = function () {
-        $scope.sharedData.clearGlobalManager();
-        $window.location.href = '#!/login';
-    };
+    
 
     $scope.switchToFull = function () {
         $window.location.href = '#!/previous';
