@@ -23,74 +23,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
     //output of disciplines check boxes
     $scope.projectDisciplines = [];
 
-    /**
-     * Updates a project's disciplines
-     * @param project
-     */
-    $scope.updateDisciplines = function (project) {
-        for (var i = 0; i < $scope.disciplines.length; i++) {
-            var checked = $scope.disciplines[i].ticked;
-            if (checked) {
-                project.discipline.push($scope.disciplines[i].label);
-            }
-        }
-    };
-
-    /**
-     * Alerts the values in the output disciplines array
-     */
-    $scope.alertDisciplines = function () {
-        var result = "";
-        for (var i = 0; i < $scope.disciplines.length; i++) {
-            if ($scope.disciplines[i].ticked) {
-                result += ($scope.disciplines[i].label + " ");
-            }
-        }
-        alert(result);
-    };
-
-    /**
-     * Checks if none of the disciplines are selected
-     * @returns {boolean}
-     */
-    $scope.noDiscipline = function () {
-        for (var i = 0; i < $scope.disciplines.length; i++) {
-            if ($scope.disciplines[i].ticked) {
-                return false;
-            }
-        }
-        return true;
-    };
-
-    /**
-     * Checks if the savings input is a number
-     * @param index index of result
-     */
-    $scope.checkSavingsNumberInput = function (index) {
-        var input = $scope.resultsToAdd[index].savings;
-        if (input === '') {
-            $scope.savingsNumber = true;
-        }
-        else {
-            $scope.savingsNumber = !isNaN(input);
-        }
-    };
-
-    /**
-     * Checks if the hours input is a number
-     * @param index index of result
-     */
-    $scope.checkHoursNumberInput = function (index) {
-        var input = $scope.resultsToAdd[index].hours;
-        if (input == "") {
-            $scope.hoursNumber = true;
-        }
-        else {
-            $scope.hoursNumber = !isNaN(input);
-        }
-    };
-
     //------------------------------------------------------------------------------------------------------------------
+    
     // initialize the page
 
     /**
@@ -162,7 +96,80 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
     };
 
     //------------------------------------------------------------------------------------------------------------------
+    
+    //discipline related functions
+    
+    /**
+     * Updates a project's disciplines
+     * @param project
+     */
+    $scope.updateDisciplines = function (project) {
+        for (var i = 0; i < $scope.disciplines.length; i++) {
+            var checked = $scope.disciplines[i].ticked;
+            if (checked) {
+                project.discipline.push($scope.disciplines[i].label);
+            }
+        }
+    };
 
+    /**
+     * Alerts the values in the output disciplines array
+     */
+    $scope.alertDisciplines = function () {
+        var result = "";
+        for (var i = 0; i < $scope.disciplines.length; i++) {
+            if ($scope.disciplines[i].ticked) {
+                result += ($scope.disciplines[i].label + " ");
+            }
+        }
+        alert(result);
+    };
+
+    /**
+     * Checks if none of the disciplines are selected
+     * @returns {boolean}
+     */
+    $scope.noDiscipline = function () {
+        for (var i = 0; i < $scope.disciplines.length; i++) {
+            if ($scope.disciplines[i].ticked) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    /**
+     * Checks if the savings input is a number
+     * @param index index of result
+     */
+    $scope.checkSavingsNumberInput = function (index) {
+        var input = $scope.resultsToAdd[index].savings;
+        if (input === '') {
+            $scope.savingsNumber = true;
+        }
+        else {
+            $scope.savingsNumber = !isNaN(input);
+        }
+    };
+
+    /**
+     * Checks if the hours input is a number
+     * @param index index of result
+     */
+    $scope.checkHoursNumberInput = function (index) {
+        var input = $scope.resultsToAdd[index].hours;
+        if (input == "") {
+            $scope.hoursNumber = true;
+        }
+        else {
+            $scope.hoursNumber = !isNaN(input);
+        }
+    };
+    
+    //------------------------------------------------------------------------------------------------------------------
+    
+    //Project form-related functions
+    
     /**
      * Adds a new results field
      */
@@ -283,6 +290,11 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
         return item;
     };
 
+    
+    //------------------------------------------------------------------------------------------------------------------
+    
+    //Adding/updating projects
+    
     /**
      * Adds a project to the items array
      * @param item project to be added
