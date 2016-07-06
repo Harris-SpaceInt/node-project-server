@@ -275,19 +275,6 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
         }
     };
 
-    /**
-     * Converts the contents of a project's disciplines array to a string
-     * @param project
-     * @returns {string}
-     */
-    $scope.getDisciplineString = function (project) {
-        var disciplineString = "";
-        for (var j = 0; j < project.discipline.length - 1; j++) {
-            disciplineString += (project.discipline[j] + ", ");
-        }
-        return (disciplineString + project.discipline[project.discipline.length - 1]);
-    };
-
     //------------------------------------------------------------------------------------------------------------------
     // call the initialization function
 
