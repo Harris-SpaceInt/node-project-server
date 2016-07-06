@@ -74,13 +74,6 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
     };
 
     /**
-     * Goes back to user landing page
-     */
-    $scope.goBack = function () {
-        $window.location.href = '#!/user';
-    };
-
-    /**
      * Finds all of the projects a user has submitted.
      * Places projects that have not been assigned to
      * a report into userProjects and ones that have

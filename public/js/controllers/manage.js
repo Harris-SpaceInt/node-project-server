@@ -11,13 +11,6 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
     $scope.addManager = []; //fields for manager information to be edited
 
     /**
-     * Goes back to user page without logging changes
-     */
-    $scope.goBack = function () {
-        $window.location.href = "#!/user";
-    };
-
-    /**
      * Validates a phone number
      * @param phone
      * @returns {boolean}

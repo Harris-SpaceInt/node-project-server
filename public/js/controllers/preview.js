@@ -15,13 +15,6 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
     };
 
     /**
-     * Goes back to user page without logging changes
-     */
-    $scope.goBack = function () {
-        $window.location.href = "#!/user";
-    };
-
-    /**
      * Edits an existing project form
      * @param index index in the items array
      */
