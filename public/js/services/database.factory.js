@@ -11,6 +11,8 @@ app.factory('database', function($http, $q) {
     factoryData.managers = [];
     factoryData.results = [];
     
+    factoryData.generatedProjects = [];
+    
     factoryData.currentReport = {};
 
 
@@ -83,6 +85,8 @@ app.factory('database', function($http, $q) {
     /**
      * gets project information from the database from the projects 
      * url and gives it to projects
+     * 
+     * only gets projects not in reports
      */
     factoryData.getProjectsFromDatabase = function() {
         console.log("Starting GET for projects...");
@@ -110,6 +114,36 @@ app.factory('database', function($http, $q) {
     };
 
     /**
+     * gets project information from the database from the projects
+     * url and gives it to projects
+     * 
+     * only gets projects in reports
+     */
+    factoryData.getGenearatedProjectsFromDatabase = function() {
+        console.log("Starting GET for projects...");
+
+        var deferred = $q.defer();
+
+        $http({method: 'GET', url: dataUrl + '/projects/generated'})
+            .success(function (data, status) {
+                console.log("GET was successful for projects");
+
+                deferred.resolve(data);
+            })
+            .error(function (data, status) {
+                console.log("Error retrieving projects");
+                console.log("status: " + status);
+                if (confirm("Error retrieving project data. Try again?")) {
+                    $route.reload();
+                }
+
+                deferred.reject();
+            });
+
+        return deferred.promise;
+    };
+
+    /**
      * Gets all ungenerated projects submitted by the current
      * manager
      */
@@ -119,6 +153,31 @@ app.factory('database', function($http, $q) {
         $http({method : 'GET', url : dataUrl + '/projects/manager/' + email})
             .success(function(data, status) {
                 factoryData.projects = data;
+
+                deferred.resolve(data);
+            })
+            .error(function(data, status) {
+                console.log("Error retrieving projects");
+                console.log("status: " + status);
+                if (confirm("Error retrieving project data. Try again?")) {
+                    $route.reload();
+                }
+
+                deferred.reject();
+            });
+
+        return deferred.promise;
+    };
+
+    /**
+     * Gets all ungenerated projects submitted by the current
+     * manager
+     */
+    factoryData.getGeneratedManagerProjectsFromDatabase = function(email) {
+        var deferred = $q.defer();
+
+        $http({method : 'GET', url : dataUrl + '/projects/generated/' + email})
+            .success(function(data, status) {
 
                 deferred.resolve(data);
             })
@@ -202,8 +261,6 @@ app.factory('database', function($http, $q) {
             this.getReportsFromDatabase()
         ]).then(function(success) {
             // data retrieved
-            // do post processing
-            console.log('All data retrieved');
             deferred.resolve();
         });
         
