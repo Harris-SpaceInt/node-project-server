@@ -43,7 +43,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
         }
 
         // load all project data from the database
-        $scope.database.getItemsFromDatabase();
+        $scope.database.getManagersFromDatabase();
     };
 
     //------------------------------------------------------------------------------------------------------------------

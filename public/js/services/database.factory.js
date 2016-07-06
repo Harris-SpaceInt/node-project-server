@@ -110,6 +110,32 @@ app.factory('database', function($http, $q) {
     };
 
     /**
+     * Gets all ungenerated projects submitted by the current
+     * manager
+     */
+    factoryData.getManagerProjectsFromDatabase = function(email) {
+        var deferred = $q.defer();
+
+        $http({method : 'GET', url : dataUrl + '/projects/manager/' + email})
+            .success(function(data, status) {
+                factoryData.projects = data;
+
+                deferred.resolve(data);
+            })
+            .error(function(data, status) {
+                console.log("Error retrieving projects");
+                console.log("status: " + status);
+                if (confirm("Error retrieving project data. Try again?")) {
+                    $route.reload();
+                }
+
+                deferred.reject();
+            });
+
+        return deferred.promise;
+    };
+
+    /**
      * gets manager information from the database from the managers 
      * url and gives it to managers
      */

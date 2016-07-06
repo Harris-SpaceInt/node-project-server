@@ -264,8 +264,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                 $scope.database.projects[i].generated = true;
                 $scope.database.projects[i].checked = false;
 
-                // TODO: fix setting projects to generated when creating reports
-                database.updateProjectFromDatabase(database.projects[i].id, database.projects[i]);
+                database.updateProjectFromDatabase(database.projects[i]._id, database.projects[i]);
 
                 report.savings += $scope.database.projects[i].savings;
                 report.hours += $scope.database.projects[i].hours;

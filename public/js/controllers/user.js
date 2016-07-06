@@ -35,10 +35,13 @@ app.controller('userCtrl', function ($scope, $window, sharedData, database) {
      * Checks if the current manager is in the database
      */
     $scope.checkManager = function () {
-        var getPromise = database.getManagerByEmail(sharedData.globalManager[0].email);
+        var promise = database.getManagerByEmail(sharedData.globalManager[0].email);
 
-        getPromise.then(function (data) {
+        promise.then(function (data) {
             $scope.managerExists = (data !== null);
+            if ($scope.managerExists) {
+                database.getManagerProjectsFromDatabase(data.email);
+            }
         });
     };
 
