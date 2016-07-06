@@ -340,6 +340,9 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
      */
     function singleProject(data) {
         var project_body = [];
+        
+        var disciplineString = sharedData.getArrayString(data.discipline);
+        
         project_body.push({image: staticImages.hbx, width: 535, pageBreak: "before"});
         project_body.push({
             table: {
@@ -348,11 +351,11 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                 widths: [100, 141, 250],
                 body: [
                     [{text: "Project Title", bold: true}, {text: "Team Members", bold: true}, {
-                        text: "Project Summary",
+                        text: "Discipline(s)",
                         bold: true,
                         alignment: 'center'
                     }],
-                    [data.title, data.team, data.summary]
+                    [data.title, data.team, disciplineString]
                 ]
             },
             layout: {
@@ -407,14 +410,6 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
             }
         });
 
-        var disciplineString = "";
-        for (var j = 0; j < data.discipline.length; j++) {
-            disciplineString += (data.discipline[j]);
-            if (j < data.discipline.length - 1) {
-                disciplineString += ", ";
-            }
-        }
-
         //if there's an image
         if (data.image !== undefined && data.image !== null) {
             project_body.push({
@@ -422,12 +417,12 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                     headerRows: 1,
                     widths: [250, 250],
                     body: [
-                        [{text: "Image", bold: true, alignment: 'center'}, {
-                            text: "Discipline(s)",
+                        [{text: "Summary", bold: true, alignment: 'center'}, {
+                            text: "Image",
                             bold: true,
                             alignment: 'center'
                         }],
-                        [{image: data.image, width: 200}, {text: disciplineString + "", alignment: 'center'}]
+                        [{text: data.summary + "", alignment: 'center'}, {image: data.image, width: 200}]
                     ]
                 },
                 layout: {
@@ -447,10 +442,34 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, s
                     }
                 }
             });
-            /*
-             project_body.push({text: "\nImage:\n", bold: true});
-             project_body.push({image: data.image, width: 200});
-             */
+        }
+        else {
+            project_body.push({
+                table: {
+                    headerRows: 1,
+                    widths: [500],
+                    body: [
+                        [{text: "Summary", bold: true, alignment: 'center'}],
+                        [{text: data.summary + "", alignment: 'center'}]
+                    ]
+                },
+                layout: {
+                    hLineWidth: function (i, node) {
+                        if (i === 0 || i === node.table.body.length) return 0;
+                        return (i === node.table.headerRows) ? 2 : 0;
+                    },
+                    vLineWidth: function (i, node) {
+                        return (i === 0 || i === node.table.widths.length) ? 0 : 1;
+                    },
+
+                    hLineColor: function (i, node) {
+                        return 'black';
+                    },
+                    vLineColor: function (i, node) {
+                        return 'gray';
+                    }
+                }
+            });
         }
 
         project_body.push({text: "\n\n"});

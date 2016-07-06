@@ -3,7 +3,7 @@
 var app = angular.module('preview', ['myApp']);
 
 app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
-
+    
     /**
      * Initializes the page
      * Re-directs to user page
