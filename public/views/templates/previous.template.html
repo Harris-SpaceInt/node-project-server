@@ -5,7 +5,7 @@
             <button ng-show="sharedData.checkAdmin()" class="button-secondary" ng-click="switchToDisplay()">Switch to
                 List View
             </button>
-            <button ng-hide="sharedData.checkAdmin()" class="button-secondary" ng-click="goBack()">Back</button>
+            <button ng-hide="sharedData.checkAdmin()" class="button-secondary" ng-click="sharedData.goBackToUser()">Back</button>
             <button class="button" ng-click="sharedData.logOut()">Log Out</button>
         </div>
         <div class="text-center" ng-hide="showingFullView">

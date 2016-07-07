@@ -11,22 +11,6 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
     $scope.addManager = []; //fields for manager information to be edited
 
     /**
-     * Clears the manager and returns the user to the
-     * login page
-     */
-    $scope.logOut = function () {
-        $scope.sharedData.clearGlobalManager();
-        $window.location.href = "#!/login";
-    };
-
-    /**
-     * Goes back to user page without logging changes
-     */
-    $scope.goBack = function () {
-        $window.location.href = "#!/user";
-    };
-
-    /**
      * Validates a phone number
      * @param phone
      * @returns {boolean}

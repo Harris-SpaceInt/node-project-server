@@ -41,6 +41,15 @@ app.factory('sharedData', function($window) {
     };
 
     /**
+     * Re-directs user to user landing page
+     */
+    data.goBackToUser = function () {
+        this.project = null;
+        this.clearProjectList();
+        $window.location.href = '#!/user';
+    };
+
+    /**
      * Checks if the global manager is an admin
      * @returns {boolean}
      */
