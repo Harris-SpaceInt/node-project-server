@@ -34,7 +34,7 @@
     </div>
 
     <!-- Displaying completed forms -->
-    <div ng-repeat="item in items track by $index" class="large-6 float-center">
+    <div ng-repeat="item in items | orderBy:'date':true track by $index" class="large-6 float-center">
         <table>
             <tr>
                 <td>
