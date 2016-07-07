@@ -21,7 +21,12 @@
             <div class="large-6 columns">
                 <div ng-hide="prev_reports">
                     <div class="text-center">
-                        <button class="button" ng-click="setShowPrevReports()">Show/Hide Previous Reports</button>
+                        <button ng-hide="showPrevReports" class="button" ng-click="setShowPrevReports()">Show Previous
+                            Reports
+                        </button>
+                        <button ng-show="showPrevReports" class="button" ng-click="setShowPrevReports()">Hide Previous
+                            Reports
+                        </button>
                     </div>
                     <div ng-show="showPrevReports">
                         <table>
@@ -57,14 +62,17 @@
             <!-- selected reports - can be shown or hidden -->
             <div class="text-center">
                 <h5 class="highlight"><b>Total Savings: $ {{totalSavings()}}</b></h5><br>
-                <div ng-show="benchmark(totalSavings())">
-                    <h4 class="highlight"><b>$100K BENCHMARK REACHED!</b></h4><br>
+                <div ng-show="benchmarkReached(totalSavings())">
+                    <h4 class="highlight"><b>$ {{benchmark}} BENCHMARK REACHED!</b></h4><br>
                 </div>
-                <h4><b>Selected Reports:</b></h4>
-                <button ng-click="setSelectedReports()" class="button-secondary">Show/Hide</button>
+                <h4><b>Selected Projects:</b></h4>
+                <button ng-hide="showSelectedProjects" ng-click="setSelectedProjects()" class="button-secondary">Show
+                </button>
+                <button ng-show="showSelectedProjects" ng-click="setSelectedProjects()" class="button-secondary">Hide
+                </button>
             </div>
 
-            <div ng-show="showSelectedReports" ng-repeat="x in database.projects | orderBy: 'title'"
+            <div ng-show="showSelectedProjects" ng-repeat="x in database.projects | orderBy: 'title'"
                  class="text-center">
                 <div ng-show="x.checked">
                     {{x.title}}
@@ -72,7 +80,7 @@
             </div>
 
             <!-- Selected reports summary -->
-            <div ng-show="showSelectedReports" class="text-center">
+            <div ng-show="showSelectedProjects" class="text-center">
                 <div ng-hide="somethingChecked()">
                     No projects selected.
                 </div>
@@ -84,7 +92,6 @@
                     {{numChecked()}} project(s) selected
                 </strong>
             </div>
-            <br>
 
             <!-- button to create report -->
             <div class="text-center">
@@ -100,7 +107,7 @@
         </div>
 
         <!-- filtering by disciplines -->
-        <div class="discipline">
+        <div ng-hide="prev_reports" class="discipline">
             <h5><b>Filter by discipline:</b></h5>
             <div isteven-multi-select
                  input-model="disciplines"
@@ -112,12 +119,13 @@
                  on-select-none="noOrAllDisciplines()"
                  on-select-all="noOrAllDisciplines()">
             </div>
-            <br>
         </div>
+        <br>
 
+        <div class="text-center">Click headers to change sorting</div>
         <table class="text-center">
             <tr>
-                <!-- controls sorting for the table -->
+                <!-- ng-clicks control sorting for the table -->
                 <th ng-hide="prev_reports" ng-click=setSortOrder('checked')>
                     <input type="checkbox" ng-change="selectFunction()" ng-model="majorSelection">
                     <strong>Select Projects</strong>

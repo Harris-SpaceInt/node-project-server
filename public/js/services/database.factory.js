@@ -65,6 +65,8 @@ app.factory('database', function($http, $q) {
         $http({method: 'GET', url: dataUrl + '/reports/' + id})
             .success(function (data, status) {
                 console.log("GET was successful for report");
+                data.project = factoryData.addProjectDates(data.project);
+
                 factoryData.currentReport = data;
 
                 deferred.resolve(data);
@@ -96,6 +98,8 @@ app.factory('database', function($http, $q) {
         $http({method: 'GET', url: dataUrl + '/projects'})
             .success(function (data, status) {
                 console.log("GET was successful for projects");
+                data = factoryData.addProjectDates(data);
+                
                 factoryData.projects = data;
 
                 deferred.resolve(data);
@@ -127,6 +131,7 @@ app.factory('database', function($http, $q) {
         $http({method: 'GET', url: dataUrl + '/projects/generated'})
             .success(function (data, status) {
                 console.log("GET was successful for projects");
+                data = factoryData.addProjectDates(data);
 
                 deferred.resolve(data);
             })
@@ -152,6 +157,8 @@ app.factory('database', function($http, $q) {
 
         $http({method : 'GET', url : dataUrl + '/projects/manager/' + email})
             .success(function(data, status) {
+                factoryData.addProjectDates(data);
+
                 factoryData.projects = data;
 
                 deferred.resolve(data);
@@ -178,6 +185,7 @@ app.factory('database', function($http, $q) {
 
         $http({method : 'GET', url : dataUrl + '/projects/generated/' + email})
             .success(function(data, status) {
+                data = factoryData.addProjectDates(data);
 
                 deferred.resolve(data);
             })
@@ -278,18 +286,24 @@ app.factory('database', function($http, $q) {
     factoryData.addProjectToDatabase = function(project) {
         console.log("Starting POST...");
 
+        var deferred = $q.defer();
+
         $http({method : 'POST', url : dataUrl + '/projects', data : project})
             .success(function(data, status) {
                 console.log("POST was successful");
 
                 // update on success
                 factoryData.getItemsFromDatabase();
+                deferred.resolve();
             })
             .error(function(data, status) {
                 console.log("Error sending data");
                 console.log("status: " + status);
                 alert("Error submitting project data");
+                deferred.reject();
             });
+
+        return deferred.promise;
     };
     
     /**
@@ -390,56 +404,24 @@ app.factory('database', function($http, $q) {
             });
     };
 
-
-    //------------------------------------------------------------------------------------------------------------------
-    // some functions to help link projects to managers and results and reports
-    // to projects
-
-    /**
-     * Retrieves a project given an ID number
-     * @param id
-     * @returns {object}
-     */
-    factoryData.getProjectById = function(id) {
-        for (var i = 0; i < factoryData.projects.length; i++) {
-            if (id === factoryData.projects[i].id) {
-                return factoryData.projects[i];
-            }
-        }
-        return {};
-    };
-
-    /**
-     * Retrieves a manager (their email) given an ID number
-     * @param id
-     * @returns {object}
-     */
-    factoryData.getManagerById = function(id) {
-        for (var i = 0; i < factoryData.managers.length; i++) {
-            if (id === factoryData.managers[i].id) {
-                return factoryData.managers[i];
-            }
-        }
-        return {};
-    };
-
-    /**
-     * Retrieves a result given an ID
-     * @param id
-     * @returns {object}
-     */
-    factoryData.getResultById = function(id) {
-        for (var i = 0; i < factoryData.results.length; i++) {
-            if (id === factoryData.results[i].id) {
-                return factoryData.results[i];
-            }
-        }
-        return {};
-    };
-
     
     //------------------------------------------------------------------------------------------------------------------
-    
+    // adding fields to projects
+
+    /**
+     * Adds date fields to a given array of projects
+     */
+    factoryData.addProjectDates = function(projects) {
+        projects.forEach(function(project) {
+            project.date = new Date(project.year, project.month, project.day, 0, 0, 0, 0);
+        });
+        
+        return projects;
+    };
+
+
+    //------------------------------------------------------------------------------------------------------------------
+
 
     return factoryData;
 });
