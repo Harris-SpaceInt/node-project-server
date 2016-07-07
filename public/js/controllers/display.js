@@ -12,6 +12,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
 
     // toggles showing a list of previous reports
     $scope.showPrevReports = false;
+    $scope.expandedList = false;
 
     // used to change from viewing individual projects to projects 
     // from a report
@@ -104,6 +105,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
      */
     $scope.setShowPrevReports = function () {
         $scope.showPrevReports = !$scope.showPrevReports;
+        $scope.expandedList = false;
     };
 
     /**
@@ -118,6 +120,13 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
      */
     $scope.setSelectedProjects = function () {
         $scope.showSelectedProjects = !$scope.showSelectedProjects;
+    };
+
+    /**
+     * Expands the report list if there are additional hidden reports
+     */
+    $scope.expandList = function () {
+        $scope.expandedList = true;
     };
 
     /**
