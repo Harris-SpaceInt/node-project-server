@@ -7,7 +7,6 @@ var app = angular.module('myApp', [
     'display',          //admin display projects page
     'email',            //log in screen
     'entry',            //entering projects
-    'user',             //user landing page after logging in
     'preview',          //preview project reports
     'previous',         //previous projects
     'manage'            //editing manager info
