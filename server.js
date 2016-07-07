@@ -386,7 +386,7 @@ app.use('/api', router);
 // ============================================================================
 app.use(express.static(__dirname + '/public'));
 app.get('*', function(req, res) {
-    res.sendfile('./public/views/index.html');
+    res.redirect('/views/index.html');
 });
 
 // START THE SERVER
