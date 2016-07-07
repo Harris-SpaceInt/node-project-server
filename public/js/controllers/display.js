@@ -44,6 +44,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
 
     $scope.database = database;
     $scope.sharedData = sharedData;
+    $scope.pdf = pdf;
 
     //------------------------------------------------------------------------------------------------------------------
     // initialize the page on load
@@ -300,7 +301,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
         var report = {
             project: [],
             day: date.getDate(),
-            month: date.getMonth(),
+            month: date.getMonth() + 1,
             year: date.getFullYear(),
             savings: 0,
             hours: 0
