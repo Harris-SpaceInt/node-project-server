@@ -137,6 +137,20 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
     };
 
     /**
+     * Re-directs to the edit profile information page
+     */
+    $scope.editManager = function () {
+        $window.location.href = '#!/manage';
+    };
+
+    /**
+     * Re-directs user to entry page
+     */
+    $scope.addProject = function () {
+        $window.location.href = '#!/entry';
+    };
+
+    /**
      * Shows projects already in reports
      */
     $scope.showGenerated = function () {

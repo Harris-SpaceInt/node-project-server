@@ -71,7 +71,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
                     if (data !== null) {
                         var updatePromise = database.updateManagerInDatabase(data._id, manager);
                         updatePromise.then(function () {
-                            $window.location.href = "#!/user";
+                            $window.location.href = "#!/previous";
                         });
                     }
                     else {
@@ -83,6 +83,13 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
                 alert("Invalid phone");
             }
         }
+    };
+
+    /**
+     * Returns to previous page
+     */
+    $scope.goBackToPrevious = function () {
+        $window.location.href = "#!/previous";
     };
 
     //initialize page

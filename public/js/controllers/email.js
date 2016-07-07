@@ -173,7 +173,24 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
     };
 
     /**
-     * Adds the manager to database
+     * Checks if the current manager is in the database and redirects accordingly
+     */
+    $scope.redirect = function () {
+        var promise = database.getManagerByEmail(sharedData.globalManager[0].email);
+
+        promise.then(function (data) {
+            $scope.managerExists = (data !== null);
+            if ($scope.managerExists) {
+                $window.location.href = "#!/previous";
+            }
+            else {
+                $window.location.href = "#!/entry";
+            }
+        });
+    };
+
+    /**
+     * Logs user in
      */
     $scope.submit = function () {
         if (!$scope.validateManager()) {
@@ -191,7 +208,8 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
                     $scope.sharedData.setGlobalManager(angular.copy($scope.addManager[0]));
                     $scope.addManager.splice(0, 1);
 
-                    $window.location.href = "#!/user"
+                    //runs asynchronously
+                    $scope.redirect();
                 }
                 else {
                     alert("Invalid phone and/or email");

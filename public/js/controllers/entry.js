@@ -211,6 +211,24 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
     };
 
     /**
+     * Checks if the current manager is in the database and redirects accordingly
+     */
+    $scope.redirect = function () {
+        var promise = database.getManagerByEmail(sharedData.globalManager[0].email);
+
+        promise.then(function (data) {
+            sharedData.project = null;
+            $scope.managerExists = (data !== null);
+            if ($scope.managerExists) {
+                $window.location.href = "#!/previous";
+            }
+            else {
+                sharedData.logOut();
+            }
+        });
+    };
+
+    /**
      * Deletes a project form
      */
     $scope.delProjectForm = function () {
@@ -219,7 +237,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
             $window.location.href = "#!/preview";
         }
         else {
-            $window.location.href = "#!/user";
+            $scope.redirect();
         }
     };
 

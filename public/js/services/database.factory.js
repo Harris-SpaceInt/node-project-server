@@ -274,11 +274,12 @@ app.factory('database', function($http, $q) {
         
         return deferred.promise;
     };
-
-
+    
+    
     //------------------------------------------------------------------------------------------------------------------
     // functions to add, update, and delete from the database
 
+    
     /**
      * Posts an item to the database from the items array
      * @type {*[]}
