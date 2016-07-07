@@ -3,9 +3,12 @@
 var app = angular.module('display', ['myApp']);
 
 app.controller('displayCtrl', function ($scope, $window, sharedData, database, disciplines, pdf, savings) {
+    // constant value used to set the target benchmark for project savings
+    $scope.benchmark = 100000;    
+    
     // controls whether or not the selected reports tab is open
-    // initially open
-    $scope.showSelectedReports = true;
+    // initially closed
+    $scope.showSelectedProjects = false;
 
     // toggles showing a list of previous reports
     $scope.showPrevReports = false;
@@ -34,14 +37,14 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
     $scope.disciplines = disciplines.selectable;
     $scope.projectDisciplines = [];
 
-    //--------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
     // link database factory and sharedData factory with scope variables from
     //   controller to allow the controller to use and update from factory
 
     $scope.database = database;
     $scope.sharedData = sharedData;
 
-    //--------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------------
     // initialize the page on load
 
     /**
@@ -61,29 +64,32 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
         }
     };
 
-    //--------------------------------------------------------------------------
-    
+    //------------------------------------------------------------------------------------------------------------------
+    // showing full projects
 
+    /**
+     * Sends the user to the previously submitted
+     * projects view. For the admin, this display
+     * shows detailed reports of all projects and
+     * allows searching
+     */
     $scope.switchToFull = function () {
         $window.location.href = '#!/previous';
     };
 
-    $scope.addReportsToDisplay = function (report) {
-        var promise = database.getReportFromDatabase(report._id);
+    /**
+     * Shows the full report for a project
+     * @param project
+     */
+    $scope.showFull = function (project) {
+        sharedData.project = project;
 
-        promise.then(function () {
-            report = database.currentReport;
-            $scope.setPrevReports();
-            if ($scope.prev_reports) {
-                $scope.report_projects = [];
-                for (var i = 0; i < report.project.length; i++) {
-                    $scope.report_projects.push(report.project[i]);
-                }
-                $scope.report_date = report.month + "/" + report.day + "/" + report.year;
-                $scope.currentReport = report;
-            }
-        });
+        $window.location.href = "#!/previous";
     };
+    
+    
+    //------------------------------------------------------------------------------------------------------------------
+    // functions for showing and hiding reports 
 
     /**
      * Hides previous reports from view
@@ -108,11 +114,36 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
     };
 
     /**
-     * Sets showSelectedReports to its opposite value
+     * Sets showSelectedProjects to its opposite value
      */
-    $scope.setSelectedReports = function () {
-        $scope.showSelectedReports = !$scope.showSelectedReports;
+    $scope.setSelectedProjects = function () {
+        $scope.showSelectedProjects = !$scope.showSelectedProjects;
     };
+
+    /**
+     * Adds projects for the selected report to the display
+     * @param report
+     */
+    $scope.addReportsToDisplay = function (report) {
+        var promise = database.getReportFromDatabase(report._id);
+
+        promise.then(function () {
+            report = database.currentReport;
+            $scope.setPrevReports();
+            if ($scope.prev_reports) {
+                $scope.report_projects = [];
+                for (var i = 0; i < report.project.length; i++) {
+                    $scope.report_projects.push(report.project[i]);
+                }
+                $scope.report_date = report.month + "/" + report.day + "/" + report.year;
+                $scope.currentReport = report;
+            }
+        });
+    };
+    
+    
+    //------------------------------------------------------------------------------------------------------------------
+    // sorting and selecting projects
 
     /**
      * Controls sorting by category for tabs
@@ -162,9 +193,11 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
      * Selects all projects
      */
     $scope.selectAll = function () {
-        for (var i = 0; i < $scope.database.projects.length; i++) {
-            if (!$scope.database.projects[i].generated && $scope.database.projects[i].visible) {
-                $scope.database.projects[i].checked = true;
+        for (var i = 0; i < database.projects.length; i++) {
+            if (!database.projects[i].generated) {
+                if (database.projects[i].visible || database.projects[i].visible === undefined) {
+                    database.projects[i].checked = true;
+                }
             }
         }
     };
@@ -173,19 +206,24 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
      * Deselects all projects
      */
     $scope.deselectAll = function () {
-        for (var i = 0; i < $scope.database.projects.length; i++) {
-            if (!$scope.database.projects[i].generated) {
-                $scope.database.projects[i].checked = false;
+        for (var i = 0; i < database.projects.length; i++) {
+            if (!database.projects[i].generated) {
+                database.projects[i].checked = false;
             }
         }
     };
+    
+    
+    //------------------------------------------------------------------------------------------------------------------
+    // filtering disciplines
 
     /**
-     * No/all disciplines checked; hides all projects
+     * No/all disciplines checked. Shows all projects
      */
     $scope.noOrAllDisciplines = function () {
-        $scope.database.projects.forEach(function (element) {
-            element.visible = true;
+        // every project is visible
+        $scope.database.projects.forEach(function (project) {
+            project.visible = true;
         })
     };
 
@@ -193,39 +231,51 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
      * Filters the list by disciplines
      */
     $scope.filterDisciplines = function () {
+        // get all the selected disciplines and
+        //   put them in an array called selected
         var selected = [];
         for (var i = 0; i < $scope.disciplines.length; i++) {
             if ($scope.disciplines[i].ticked) {
                 selected.push($scope.disciplines[i].label);
             }
         }
+
+        // if no disciplines are selected or all
+        //   disciplines are selected, show all projects
         if (selected.length === 0 || selected.length === $scope.disciplines.length) {
             $scope.noOrAllDisciplines();
         }
+        // otherwise, some but not all disciplines are selected,
+        //   so we need to find out which projects have those disciplines
         else {
-            for (var j = 0; j < $scope.database.projects.length; j++) {
-                var project = $scope.database.projects[j];
-                for (var x = 0; x < project.discipline.length; x++) {
-                    var index = selected.indexOf(project.discipline[x]);
-                    project.visible = index > -1;
-                    if (!project.visible) {
-                        project.checked = false;
+            // loop through each project
+            for (var i = 0; i < $scope.database.projects.length; i++) {
+                var project = $scope.database.projects[i];
+
+                // loop through the disciplines of the project
+                project.visible = false;
+                for (var j = 0; j < project.discipline.length; j++) {
+                    // if any of the project's disciplines are selected
+                    //   set the project to visible
+                    var index = selected.indexOf(project.discipline[j]);
+                    if (index > -1) {
+                        project.visible = true;
                     }
                 }
+                // at this point we have compared all of the
+                //   project's disciplines
+                // if none of the project's disciplines are selected
+                //   make sure the project is not checked and keep
+                //   it invisible
+                if (!project.visible) {
+                    project.checked = false;
+                }
+
+                $scope.database.projects[i] = project;
             }
         }
     };
-
-    /**
-     * Shows the full report for a project
-     * @param project
-     */
-    $scope.showFull = function (project) {
-        sharedData.project = project;
-
-        $window.location.href = "#!/previous";
-    };
-
+    
 
     //------------------------------------------------------------------------------------------------------------------
     // creating reports and generating PDFs
@@ -269,7 +319,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
     };
 
     //------------------------------------------------------------------------------------------------------------------
-
+    // helper functions for totaling project amounts
 
     /**
      * Returns the number of projects that are selected
@@ -317,8 +367,8 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
      * Alerts the user when the benchmark is reached
      * @param total_savings total savings
      */
-    $scope.benchmark = function (total_savings) {
-        return (total_savings >= 100000);
+    $scope.benchmarkReached = function (total_savings) {
+        return (total_savings >= $scope.benchmark);
     };
 
 
