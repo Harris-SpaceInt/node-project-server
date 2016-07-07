@@ -2,7 +2,7 @@
 
 var app = angular.module('preview', ['myApp']);
 
-app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
+app.controller('previewCtrl', function ($scope, $window, $q, sharedData, database) {
     
     $scope.sharedData = sharedData;
     
@@ -42,13 +42,17 @@ app.controller('previewCtrl', function ($scope, $window, sharedData, database) {
      * Add contents in items array to the database
      */
     $scope.addToDB = function () {
+        var promises = [];
         for (var i = 0; i < $scope.items.length; i++) {
-            database.addProjectToDatabase($scope.items[i]);
-            console.log("adding to db...");
+            var promise = database.addProjectToDatabase($scope.items[i]);
+            promises.push(promise);
         }
-        $scope.items = [];
-        sharedData.clearProjectList();
-        $window.location.href = "#!/user";
+
+        $q.all(promises).then(function() {
+            $scope.items = [];
+            sharedData.clearProjectList();
+            $window.location.href = "#!/user";
+        });
     };
 
     /**
