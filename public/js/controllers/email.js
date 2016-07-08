@@ -38,7 +38,16 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
             }
             else {
                 // regular user
-                $window.location.href = "#!/user";
+                var promise = database.getManagerByEmail(sharedData.globalManager[0].email);
+
+                promise.then(function(data) {
+                    if (data) {
+                        $window.location.href = "#!/previous";
+                    }
+                    else {
+                        $window.location.href = "#!/entry";
+                    }
+                });
             }
         }
 
