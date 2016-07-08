@@ -24,6 +24,8 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
      * Initializes the page
      */
     $scope.pageInit = function () {
+        sharedData.view = 'manage';
+        
         //if user is logged in
         if (!$scope.sharedData.loggedIn()) {
             // user is not logged in

@@ -11,7 +11,29 @@ app.controller('previewCtrl', function ($scope, $window, $q, sharedData, databas
      * Re-directs to user page
      */
     $scope.pageInit = function () {
-        $scope.items = $scope.sharedData.projectList;
+        sharedData.view = 'preview';
+
+        // check if user is already logged in
+        if (!$scope.sharedData.loggedIn()) {
+            // user is not logged in
+            $window.location.href = "#!/login";
+        }
+        else if (sharedData.checkAdmin()) {
+            // user is admin
+            // this user should not be here
+            // redirect to admin page
+            $window.location.href = "#!/display";
+        }
+        else if (sharedData.projectList.length === 0) {
+            // user has not filled out a project on
+            //   the entry page
+            // redirect to entry
+            $window.location.href = "#!/entry";
+        }
+        else {
+            // user has taken a valid path to get here
+            $scope.items = $scope.sharedData.projectList;
+        }
     };
 
     /**

@@ -28,6 +28,8 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
      * Runs when the page is loaded
      */
     $scope.pageInit = function () {
+        sharedData.view = 'email';
+        
         // check if user is already logged in
         if ($scope.sharedData.loggedIn()) {
             // user is logged in

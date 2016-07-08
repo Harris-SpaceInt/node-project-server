@@ -51,6 +51,7 @@
     <script type="text/javascript" src="../js/services/savings.factory.js"></script>
     <script type="text/javascript" src="../js/services/fileread.directive.js"></script>
 
+    <script type="text/javascript" src="../js/controllers/navbar.js"></script>
     <script type="text/javascript" src="../js/controllers/email.js"></script>
     <script type="text/javascript" src="../js/controllers/entry.js"></script>
     <script type="text/javascript" src="../js/controllers/preview.js"></script>
@@ -59,8 +60,29 @@
     <script type="text/javascript" src="../js/controllers/display.js"></script>
 </head>
 <body>
+<!-- nav bar -->
+<div ng-controller="navbarCtrl">
+    <nav class="top-bar">
+        <div class="top-bar-left">
+            <ul class="dropdown menu" data-dropdown-menu>
+                <li class="menu-text"><img src="../assets/harris-logo.png"></li>
+            </ul>
+        </div>
+    </nav>
+    <nav class="top-bar">
+        <div class="top-bar-right">
+            <ul class="dropdown menu" data-dropdown-menu>
+                <li><a href="#">New Project</a></li>
+                <li><a href="#">Submitted Projects</a></li>
+                <li><a href="#">Edit Profile</a></li>
+                <li><a class="button" ng-show="sharedData.loggedIn()" ng-click="sharedData.logOut()">Log Out</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<br>
 
-<!-- http://localhost:8080/views/index.html -->
+<!-- display views -->
 <div class="view-container">
     <div ng-view class="view-frame"></div>
 </div>

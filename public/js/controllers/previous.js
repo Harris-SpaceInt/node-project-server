@@ -41,6 +41,8 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
      * Runs when the page is loaded
      */
     $scope.pageInit = function () {
+        sharedData.view = 'previous';
+        
         // check if user is already logged in
         if (!$scope.sharedData.loggedIn()) {
             // user is not logged in

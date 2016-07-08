@@ -33,6 +33,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
      * Runs when the page is loaded
      */
     $scope.pageInit = function () {
+        sharedData.view = 'entry';
+        
         // check if user is already logged in
         if (!sharedData.loggedIn()) {
             // user is not logged in

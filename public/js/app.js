@@ -4,6 +4,7 @@ var app = angular.module('myApp', [
     'ngRoute', 
     'ui.date',
     'isteven-multi-select',
+    'navbar',
     'display',          //admin display projects page
     'email',            //log in screen
     'entry',            //entering projects

@@ -2617,7 +2617,7 @@ input:checked + label > .switch-inactive {
 
 .top-bar,
 .top-bar ul {
-    background-color: #e6e6e6;
+    background-color: #afafaf;
 }
 
 .top-bar input {

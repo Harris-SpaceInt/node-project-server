@@ -20,9 +20,11 @@ app.factory('sharedData', function($window) {
 
     // list of projects to transfer between views before submitting to database
     data.projectList = [];
-    
 
-    data.fromDatabase = false; //boolean to check whether or not an edited project is coming from the database
+    //boolean to check whether or not an edited project is coming from the database
+    data.fromDatabase = false; 
+    
+    data.view = 'email';
     
     /**
      * Checks if there is a global manager
