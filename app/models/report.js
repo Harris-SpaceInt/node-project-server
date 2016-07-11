@@ -1,3 +1,7 @@
+/**
+ * Defines the schema for reports
+ */
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
