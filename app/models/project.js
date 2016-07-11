@@ -36,7 +36,7 @@ var ProjectSchema = new Schema({
     },
     team: {
         type: String,
-        required: true
+        default: null
     },
     image: {
         type: String, 

@@ -35,6 +35,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
     $scope.sortOrder = "savings";
 
     // array of disciplines that are selectable
+    dropdown.resetDisciplines();
     $scope.disciplines = dropdown.disciplines;
     $scope.projectDisciplines = [];
 
@@ -306,6 +307,8 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
             savings: 0,
             hours: 0
         };
+        
+        var reportProjects = [];
 
         // add all selected projects to the report
         for (var i = 0; i < $scope.database.projects.length; i++) {
@@ -317,7 +320,11 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
 
                 report.savings += $scope.database.projects[i].savings;
                 report.hours += $scope.database.projects[i].hours;
-                report.project.push($scope.database.projects[i]);
+                
+                reportProjects.push($scope.database.projects[i]);
+                
+                var projectId = {_id: $scope.database.projects[i]._id};
+                report.project.push(projectId);
             }
         }
 
@@ -325,6 +332,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
         $scope.database.addReportToDatabase(report);
 
         // generate and display the pdf
+        report.project = reportProjects;
         pdf.createReportPDF(report);
     };
 

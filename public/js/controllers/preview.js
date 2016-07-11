@@ -10,6 +10,16 @@ app.controller('previewCtrl', function ($scope, $window, $q, sharedData, databas
      * Initializes the page
      */
     $scope.pageInit = function () {
+        // check if user is already logged in
+        if (!$scope.sharedData.loggedIn()) {
+            // user is not logged in
+            $window.location.href = "#!/login";
+        }
+        else if (sharedData.checkAdmin()) {
+            // user is admin
+            // user should not be on this page
+            $window.location.href = "#!/display";
+        }
         $scope.items = $scope.sharedData.projectList;
     };
 

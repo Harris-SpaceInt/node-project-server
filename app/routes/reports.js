@@ -31,6 +31,8 @@ router.route('/')
         report.day = req.body.day;
         report.month = req.body.month;
         report.year = req.body.year;
+        report.savings = req.body.savings;
+        report.hours = req.body.hours;
 
         req.body.project.forEach(function(element, index, array) {
             report.project.push(element._id);

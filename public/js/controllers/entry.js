@@ -20,6 +20,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
     };
 
     //array of project disciplines
+    dropdown.resetDisciplines();
     $scope.disciplines = dropdown.disciplines;
 
     //output of disciplines check boxes
