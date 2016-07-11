@@ -255,10 +255,9 @@ app.factory('database', function($http, $q) {
         
         return deferred.promise;
     };
-    
+
     /**
-     * fills reports, projects, managers, and results with information
-     * from the database 
+     * Updates all fields with information from the database
      */
     factoryData.getItemsFromDatabase = function() {
         var deferred = $q.defer();
@@ -274,14 +273,15 @@ app.factory('database', function($http, $q) {
         
         return deferred.promise;
     };
-
-
+    
+    
     //------------------------------------------------------------------------------------------------------------------
     // functions to add, update, and delete from the database
 
+
     /**
-     * Posts an item to the database from the items array
-     * @type {*[]}
+     * Adds a project to the database
+     * @param project
      */
     factoryData.addProjectToDatabase = function(project) {
         console.log("Starting POST...");
@@ -305,9 +305,11 @@ app.factory('database', function($http, $q) {
 
         return deferred.promise;
     };
-    
+
     /**
-     * Updates an item already in the database
+     * Updates a project in the database
+     * @param id id of the project
+     * @param project
      */
     factoryData.updateProjectFromDatabase = function(id, project) {
         console.log("Starting function...");
@@ -333,7 +335,9 @@ app.factory('database', function($http, $q) {
     };
 
     /**
-     * Updates a manager already in the database
+     * Updates a manager in the database
+     * @param id id of the manager
+     * @param manager
      */
     factoryData.updateManagerInDatabase = function(id, manager) {
         console.log("Starting function...");
@@ -359,7 +363,8 @@ app.factory('database', function($http, $q) {
     };
 
     /**
-     * Updates an item already in the database
+     * Deletes a project from the database
+     * @param id id of the project
      */
     factoryData.deleteProjectFromDatabase = function(id) {
         var deferred = $q.defer();
@@ -385,7 +390,8 @@ app.factory('database', function($http, $q) {
     };
 
     /**
-     * Posts an item to the database from the items array
+     * Adds a report (compilation of projects) to the database
+     * @param report
      */
     factoryData.addReportToDatabase = function(report) {
         console.log("Starting POST...");
@@ -409,7 +415,9 @@ app.factory('database', function($http, $q) {
     // adding fields to projects
 
     /**
-     * Adds date fields to a given array of projects
+     * Adds dates to the projects list
+     * @param projects
+     * @returns {*} list of projects
      */
     factoryData.addProjectDates = function(projects) {
         projects.forEach(function(project) {

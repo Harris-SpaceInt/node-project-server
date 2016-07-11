@@ -9,7 +9,8 @@ app.factory('pdf', function(staticImages) {
     var data = {};
 
     /**
-     * Creates a report pdf from the selected projects
+     * Creates a report pdf of a list of projects
+     * @param projects
      */
     data.createReportPDF = function (projects) {
         var docDefinition = {

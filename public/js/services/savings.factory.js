@@ -11,7 +11,7 @@ app.factory('savings', function() {
     /**
      * Calculates total savings for a project
      * @param project
-     * @returns {number}
+     * @returns {number} total savings for that project
      */
     data.projectSavings = function (project) {
         var total = 0;
@@ -24,7 +24,7 @@ app.factory('savings', function() {
     /**
      * Calculates the total hours saved for a project
      * @param project
-     * @returns {number}
+     * @returns {number} total saved hours for that project
      */
     data.projectHours = function (project) {
         var total = 0;

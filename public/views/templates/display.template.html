@@ -34,14 +34,17 @@
                                 <th>Report Date</th>
                                 <th>View Report</th>
                             </tr>
-                            <tr ng-repeat="report in database.reports | orderBy: date: true">
-                                <td class="text-center">
+                            <tr ng-repeat="report in database.reports | orderBy:'date':true track by $index">
+                                <td class="text-center" ng-hide="$index > 4 && !expandedList">
                                     <p>{{report.month + "/" + report.day + "/" + report.year}}</p>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center" ng-hide="$index > 4 && !expandedList">
                                     <button class="button-secondary" ng-click="addReportsToDisplay(report)">View Report
                                         Projects
                                     </button>
+                                </td>
+                                <td colspan="2" ng-show="$index === 5 && !expandedList" class="text-center" id="expand-button">
+                                    <button class="button" ng-click="expandList()">Show More</button>
                                 </td>
                             </tr>
                         </table>
@@ -100,7 +103,7 @@
                     <br><br>
                 </div>
                 <div ng-show="report_projects.length > 0">
-                    <button ng-click="createReportPDF(currentReport)" class="button">Show Report PDF</button>
+                    <button ng-click="pdf.createReportPDF(currentReport)" class="button">Show Report PDF</button>
                     <br><br>
                 </div>
             </div>
@@ -120,8 +123,8 @@
                  on-select-all="noOrAllDisciplines()">
             </div>
         </div>
-        <br>
 
+        <!-- project display table -->
         <div class="text-center">Click headers to change sorting</div>
         <table class="text-center">
             <tr>

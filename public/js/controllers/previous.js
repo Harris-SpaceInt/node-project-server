@@ -38,7 +38,7 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
     // initialize the page
 
     /**
-     * Runs when the page is loaded
+     * Initializes page
      */
     $scope.pageInit = function () {
         // check if user is already logged in
@@ -137,6 +137,20 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
     };
 
     /**
+     * Re-directs to the edit profile information page
+     */
+    $scope.editManager = function () {
+        $window.location.href = '#!/manage';
+    };
+
+    /**
+     * Re-directs user to entry page
+     */
+    $scope.addProject = function () {
+        $window.location.href = '#!/entry';
+    };
+
+    /**
      * Shows projects already in reports
      */
     $scope.showGenerated = function () {
@@ -185,7 +199,7 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
     /**
      * Searches the given list of projects and adds
      * matches to the items array
-     * @param list
+     * @param list project list
      */
     $scope.searchList = function (list) {
         for (var i = 0; i < list.length; i++) {
@@ -230,7 +244,7 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
 
     /**
      * Sends the user to the entry view to update the project
-     * @param {number} index index in items
+     * @param {number} index index in items (projects array)
      */
     $scope.editProject = function (index) {
         sharedData.fromDatabase = true;
@@ -240,7 +254,7 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
 
     /**
      * Deletes a project from the items array
-     * @param {number} index index in items
+     * @param {number} index index in items (projects array)
      */
     $scope.deleteProject = function (index) {
         // ask if the user wants to delete the project

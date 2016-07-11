@@ -12,6 +12,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
 
     // toggles showing a list of previous reports
     $scope.showPrevReports = false;
+    $scope.expandedList = false;
 
     // used to change from viewing individual projects to projects 
     // from a report
@@ -43,6 +44,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
 
     $scope.database = database;
     $scope.sharedData = sharedData;
+    $scope.pdf = pdf;
 
     //------------------------------------------------------------------------------------------------------------------
     // initialize the page on load
@@ -104,6 +106,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
      */
     $scope.setShowPrevReports = function () {
         $scope.showPrevReports = !$scope.showPrevReports;
+        $scope.expandedList = false;
     };
 
     /**
@@ -118,6 +121,13 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
      */
     $scope.setSelectedProjects = function () {
         $scope.showSelectedProjects = !$scope.showSelectedProjects;
+    };
+
+    /**
+     * Expands the report list if there are additional hidden reports
+     */
+    $scope.expandList = function () {
+        $scope.expandedList = true;
     };
 
     /**
@@ -291,7 +301,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
         var report = {
             project: [],
             day: date.getDate(),
-            month: date.getMonth(),
+            month: date.getMonth() + 1,
             year: date.getFullYear(),
             savings: 0,
             hours: 0
@@ -364,8 +374,9 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
     };
 
     /**
-     * Alerts the user when the benchmark is reached
-     * @param total_savings total savings
+     * Determines if the savings benchmark has been reached
+     * @param total_savings total savings from projects
+     * @returns {boolean} true if the total savings exceeds the benchmark
      */
     $scope.benchmarkReached = function (total_savings) {
         return (total_savings >= $scope.benchmark);

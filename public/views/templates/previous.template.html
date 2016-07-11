@@ -5,7 +5,8 @@
             <button ng-show="sharedData.checkAdmin()" class="button-secondary" ng-click="switchToDisplay()">Switch to
                 List View
             </button>
-            <button ng-hide="sharedData.checkAdmin()" class="button-secondary" ng-click="sharedData.goBackToUser()">Back</button>
+            <button ng-hide="sharedData.checkAdmin()" class="button" ng-click="addProject()">Add Project</button>
+            <button ng-hide="sharedData.checkAdmin()" class="button-secondary" ng-click="editManager()">Edit Profile</button>
             <button class="button" ng-click="sharedData.logOut()">Log Out</button>
         </div>
         <div class="text-center" ng-hide="showingFullView">
@@ -23,10 +24,10 @@
     </div>
     <div class="row" ng-hide="showingFullView">
         <div class="text-center">
-            <button class="button-secondary" ng-click="showGenerated()" ng-hide="showingGenerated">Show Projects from
+            <button class="button" ng-click="showGenerated()" ng-hide="showingGenerated">Show Projects from
                 Reports
             </button>
-            <button class="button-secondary" ng-click="hideGenerated()" ng-show="showingGenerated">Hide Projects from
+            <button class="button" ng-click="hideGenerated()" ng-show="showingGenerated">Hide Projects from
                 Reports
             </button>
             <button class="button-secondary" ng-click="clearSearch()">Clear Search</button>
@@ -34,7 +35,7 @@
     </div>
 
     <!-- Displaying completed forms -->
-    <div ng-repeat="item in items | orderBy:'date':true track by $index" class="large-6 float-center">
+    <div ng-repeat="item in items track by $index" class="large-6 float-center">
         <table>
             <tr>
                 <td>

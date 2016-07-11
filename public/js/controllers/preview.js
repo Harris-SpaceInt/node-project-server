@@ -8,7 +8,6 @@ app.controller('previewCtrl', function ($scope, $window, $q, sharedData, databas
     
     /**
      * Initializes the page
-     * Re-directs to user page
      */
     $scope.pageInit = function () {
         $scope.items = $scope.sharedData.projectList;
