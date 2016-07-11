@@ -75,7 +75,16 @@ app.factory('pdf', function(staticImages) {
         var project_body = [];
 
         var disciplineString = project.discipline.join(", ");
-
+        
+        //manager becomes first team member
+        var managerInfo = project.manager.name + " - " + project.manager.email;
+        if (project.team === null) {
+            project.team = managerInfo;
+        }
+        else {
+            project.team = managerInfo + ", " + project.team;
+        }
+        
         project_body.push({image: staticImages.hbx, width: 535, pageBreak: "before"});
         project_body.push({
             table: {
