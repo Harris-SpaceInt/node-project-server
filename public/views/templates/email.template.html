@@ -25,7 +25,7 @@
                                            required>
                                 </td>
                             </tr>
-                            <tr ng-show="validateEmail(manager.email) && !managerExists && createAccount">
+                            <tr ng-show="validate.validateEmail(manager.email) && !managerExists && createAccount">
                                 <td>
                                     <b>Name:</b>
                                 </td>
@@ -33,7 +33,7 @@
                                     <input type="text" ng-model="manager.name" required>
                                 </td>
                             </tr>
-                            <tr ng-show="validateEmail(manager.email) && !managerExists && createAccount">
+                            <tr ng-show="validate.validateEmail(manager.email) && !managerExists && createAccount">
                                 <td>
                                     <b>Business Unit:</b>
                                 </td>
@@ -55,7 +55,7 @@
                                 </td>
                             </tr>
                             -->
-                            <tr ng-show="validateEmail(manager.email) && !managerExists && createAccount">
+                            <tr ng-show="validate.validateEmail(manager.email) && !managerExists && createAccount">
                                 <td>
                                     <b>Department:</b>
                                 </td>
@@ -63,7 +63,7 @@
                                     <input type="text" ng-model="manager.department" required>
                                 </td>
                             </tr>
-                            <tr ng-show="validateEmail(manager.email) && !managerExists && createAccount">
+                            <tr ng-show="validate.validateEmail(manager.email) && !managerExists && createAccount">
                                 <td>
                                     <b>Phone:</b>
                                 </td>
@@ -76,8 +76,8 @@
                 </div>
                 <div class="row">
                     <button ng-show="createAccount && !managerExists" ng-click="cancel()" class="button-secondary">CANCEL</button>
-                    <button ng-show="validateEmail(addManager[0].email) && !managerExists && !createAccount" ng-click="create()" class="button"><b>CREATE ACCOUNT</b></button>
-                    <button ng-show="validateManager() || managerExists || createAccount" ng-click="submit()" class="button"><b>LOG IN</b></button>
+                    <button ng-show="validate.validateEmail(addManager[0].email) && !managerExists && !createAccount" ng-click="create()" class="button"><b>CREATE ACCOUNT</b></button>
+                    <button ng-show="managerExists || createAccount" ng-click="submit()" class="button"><b>LOG IN</b></button>
                 </div>
             </div>
         </div>

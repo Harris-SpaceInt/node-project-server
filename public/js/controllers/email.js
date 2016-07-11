@@ -2,13 +2,13 @@
 
 var app = angular.module('email', ['myApp']);
 
-app.controller('emailCtrl', function ($scope, $window, sharedData, database, dropdown) {
+app.controller('emailCtrl', function ($scope, $window, sharedData, database, dropdown, validate) {
 
     $scope.addManager = [{
         email: "",
         name: "",
         unit: "",
-        function: "",
+        //function: "",
         department: "",
         phone: ""
     }]; // used to keep track of text in the manager boxes on the website
@@ -19,6 +19,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
     $scope.database = database;
     $scope.sharedData = sharedData;
     $scope.dropdown = dropdown;
+    $scope.validate = validate;
     $scope.managerExists = false; //if manager exists in the database
     $scope.createAccount = false; //variable for toggling fields when creating an account
 
@@ -112,56 +113,6 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
     };
 
     /**
-     * Validates a phone number
-     * @param phone
-     * @returns {boolean} true if the phone number form is valid
-     */
-    $scope.validatePhone = function (phone) {
-        var phone_regex = /^((([0-9]{3}))|([0-9]{3}))[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
-        return phone_regex.test(phone);
-    };
-
-    /**
-     * Validates an email address
-     * @param email
-     * @returns {boolean} true if the email is of valid format
-     */
-    $scope.validateEmail = function (email) {
-        var email_regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return email_regex.test(email);
-    };
-
-    /**
-     * Validates a manager entry
-     * @returns {boolean} true if all the fields are filled out properly
-     */
-    $scope.validateManager = function () {
-        if ($scope.addManager[0] === undefined) {
-            return false;
-        }
-        //admin access
-        else if ($scope.addManager[0].email === "view admin") {
-            return true;
-        }
-        else {
-            //checks for undefined fields
-            if ($scope.addManager[0].name === undefined
-            || $scope.addManager[0].unit === undefined
-                || $scope.addManager[0].function === undefined
-                //|| $scope.addManager[0].department === undefined
-                || $scope.addManager[0].phone === undefined) {
-                return false;
-            }
-            //if not undefined, checks for empty fields
-            return !($scope.addManager[0].name.replace(/\s+/g, '') == ""
-            || $scope.addManager[0].unit.replace(/\s+/g, '') == ""
-            //|| $scope.addManager[0].function.replace(/\s+/g, '') == ""
-            || $scope.addManager[0].department.replace(/\s+/g, '') == ""
-            || $scope.addManager[0].phone.replace(/\s+/g, '') == "");
-        }
-    };
-
-    /**
      * Clears manager fields
      */
     $scope.clearManager = function () {
@@ -194,8 +145,15 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
      * Logs user in
      */
     $scope.submit = function () {
-        if (!$scope.validateManager()) {
-            alert("Manager fields not filled out!");
+        var manager = $scope.addManager[0];
+        if (!$scope.validate.validateField(manager.name)) {
+            alert("Invalid name");
+        }
+        else if (!$scope.validate.validateField(manager.unit)) {
+            alert("Invalid unit");
+        }
+        else if (!$scope.validate.validateField(manager.department)) {
+            alert("Invalid department");
         }
         else {
             if ($scope.sharedData.checkAdmin()) {
@@ -203,10 +161,10 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
                 $window.location.href = "#!/display";
             }
             else {
-                var e = $scope.addManager[0].email;
-                var p = $scope.addManager[0].phone;
-                if ($scope.validatePhone(p) && $scope.validateEmail(e)) {
-                    $scope.sharedData.setGlobalManager(angular.copy($scope.addManager[0]));
+                var e = manager.email;
+                var p = manager.phone;
+                if ($scope.validate.validatePhone(p) && $scope.validate.validateEmail(e)) {
+                    $scope.sharedData.setGlobalManager(angular.copy(manager));
                     $scope.addManager.splice(0, 1);
 
                     //runs asynchronously
