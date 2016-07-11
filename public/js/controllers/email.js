@@ -132,18 +132,6 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
     };
 
     /**
-     * Clears manager fields
-     */
-    $scope.clearManager = function () {
-        $scope.addManager[0].email = "";
-        $scope.addManager[0].name = "";
-        $scope.addManager[0].unit = "";
-        //$scope.addManager[0].function = "";
-        $scope.addManager[0].department = "";
-        $scope.addManager[0].phone = "";
-    };
-
-    /**
      * Validates a manager entry
      * @returns {boolean} true if all the fields are filled out properly
      */
@@ -171,6 +159,18 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
             || $scope.addManager[0].department.replace(/\s+/g, '') == ""
             || $scope.addManager[0].phone.replace(/\s+/g, '') == "");
         }
+    };
+
+    /**
+     * Clears manager fields
+     */
+    $scope.clearManager = function () {
+        $scope.addManager[0].email = "";
+        $scope.addManager[0].name = "";
+        $scope.addManager[0].unit = "";
+        //$scope.addManager[0].function = "";
+        $scope.addManager[0].department = "";
+        $scope.addManager[0].phone = "";
     };
 
     /**
