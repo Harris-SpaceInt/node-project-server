@@ -2,7 +2,7 @@
 
 var app = angular.module('entry', ['myApp']);
 
-app.controller('entryCtrl', function ($scope, $window, sharedData, database, dropdown, savings) {
+app.controller('entryCtrl', function ($scope, $window, sharedData, database, dropdown, savings, validate) {
     $scope.itemsToAdd = [];
     $scope.resultsToAdd = [];
     $scope.update = false; //whether a project is being added or updated
@@ -10,6 +10,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
     $scope.hoursNumber = true; //checks for number inputs for hours
     $scope.hasImage = false;
 
+    $scope.validate = validate;
     $scope.sharedData = sharedData;
 
     //date options for the date picked
@@ -266,7 +267,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         if (item.title.replace(/\s+/g, '') == ""
             || item.summary.replace(/\s+/g, '') == ""
             || $scope.noDiscipline()
-            || item.team.replace(/\s+/g, '') == ""
+            //|| item.team.replace(/\s+/g, '') == ""
             || item.date === undefined) {
             return true;
         }
@@ -319,19 +320,34 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      */
     $scope.addProject = function (item) {
         //if any required fields are empty
-        if ($scope.checkInvalids(item)) {
-            alert("Error in 1 or more fields");
+        if (!$scope.validate.validateField(item.title)) {
+            alert("Invalid project title");
+        }
+        else if (item.date === undefined || item.date === null) {
+            alert("Invalid date");
+        }
+        else if (!$scope.validate.validateField(item.summary)) {
+            alert("Invalid summary");
+        }
+        else if ($scope.noDiscipline()) {
+            alert("No disciplines selected!");
         }
         else {
             item = $scope.parseDate(item);
             item.savings = savings.projectSavings(item);
             item.hours = savings.projectHours(item);
-            
-            if (item.savings < 0 || item.hours < 0) {
-                alert("Error: either savings or hours are negative");
+
+            if (!$scope.validate.validateSavings(item.savings) || !$scope.validate.validateHours(item.hours)) {
+                if (!$scope.validate.validateSavings(item.savings)) {
+                    item.savings = 0;
+                }
+                else {
+                    item.hours = 0;
+                }
             }
-            else if (item.savings <= 0 && item.hours <= 0) {
-                alert("Error: project has no savings");
+
+            if (item.savings <= 0 && item.hours <= 0) {
+                alert("Error: project has no/negative savings");
             }
             else {
                 item.manager = sharedData.globalManager[0];
