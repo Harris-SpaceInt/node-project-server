@@ -36,7 +36,7 @@
                         <tr>
                             <td>
                                 <b>Project Title: </b><input type="text" ng-model="itemToAdd.title"
-                                                             placeholder="Name of the project" required>
+                                                             placeholder="Title of the project" required>
                             </td>
                         </tr>
                     </table>
@@ -46,7 +46,7 @@
                         <tr>
                             <td>
                                 <b>Completion Date: </b> <br><input ui-date="dateOptions" ng-model="itemToAdd.date"
-                                                         placeholder="6/3/2016" required>
+                                                         placeholder="MM/DD/YYYY" required>
                             </td>
                         </tr>
                     </table>
@@ -62,7 +62,7 @@
                         </tr>
                         <tr>
                             <td>
-                            <textarea ng-model="itemToAdd.team" placeholder="Ex: Robert Dylan, William Joel, etc."
+                            <textarea ng-model="itemToAdd.team" placeholder="Ex: person 1, person 2, person 3..."
                                       required>Team Members</textarea>
                             </td>
                         </tr>
@@ -142,7 +142,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <textarea ng-model="result.summary" placeholder="Summary of what was done" required>Results</textarea>
+                                    <textarea ng-model="result.summary" placeholder="Briefly summarize the improvement" required>Results</textarea>
                                 </td>
                             </tr>
                         </table>
@@ -155,7 +155,7 @@
                                 </td>
                                 <td>
                                     <input type="number" ng-model="result.savings"
-                                           ng-change="checkSavingsNumberInput($index)" placeholder="$" required>
+                                           ng-change="checkSavingsNumberInput($index)" placeholder="$0" required>
                                     <div ng-show="!savingsNumber">
                                         <p style="color: red">Non-number input!</p>
                                     </div>
@@ -167,7 +167,7 @@
                                 </td>
                                 <td>
                                     <input type="number" ng-model="result.hours"
-                                           ng-change="checkHoursNumberInput($index)" numbers-only required>
+                                           ng-change="checkHoursNumberInput($index)" placeholder="0" required>
                                     <div ng-show="!hoursNumber">
                                         <p style="color: red">Non-number input!</p>
                                     </div>
@@ -188,7 +188,7 @@
                             <tr>
                                 <td>
                             <textarea ng-model="result.details"
-                                      placeholder="Describe in detail what was accomplished with above improvements"
+                                      placeholder="Describe the improvement in greater detail"
                                       required>Results</textarea>
                                 </td>
                             </tr>
