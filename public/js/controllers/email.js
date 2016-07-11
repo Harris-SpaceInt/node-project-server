@@ -18,8 +18,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
 
     $scope.database = database;
     $scope.sharedData = sharedData;
-    $scope.units = dropdown.businessUnits; //business units array
-    $scope.functions = dropdown.functions; //functions array
+    $scope.dropdown = dropdown;
     $scope.managerExists = false; //if manager exists in the database
     $scope.createAccount = false; //variable for toggling fields when creating an account
 
@@ -40,7 +39,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
             }
             else {
                 // regular user
-                $window.location.href = "#!/user";
+                $window.location.href = "#!/previous";
             }
         }
 
@@ -84,14 +83,14 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
             if ($scope.managerExists) {
                 $scope.addManager[0].name = $scope.database.managers[managerIndex].name;
                 $scope.addManager[0].unit = $scope.database.managers[managerIndex].unit;
-                $scope.addManager[0].function = $scope.database.managers[managerIndex].function;
+                //$scope.addManager[0].function = $scope.database.managers[managerIndex].function;
                 $scope.addManager[0].department = $scope.database.managers[managerIndex].department;
                 $scope.addManager[0].phone = $scope.database.managers[managerIndex].phone;
             }
             else {
                 $scope.addManager[0].name = "";
                 $scope.addManager[0].unit = "";
-                $scope.addManager[0].function = "";
+                //$scope.addManager[0].function = "";
                 $scope.addManager[0].department = "";
                 $scope.addManager[0].phone = "";
             }
@@ -139,7 +138,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
         $scope.addManager[0].email = "";
         $scope.addManager[0].name = "";
         $scope.addManager[0].unit = "";
-        $scope.addManager[0].function = "";
+        //$scope.addManager[0].function = "";
         $scope.addManager[0].department = "";
         $scope.addManager[0].phone = "";
     };
@@ -161,14 +160,14 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
             if ($scope.addManager[0].name === undefined
             || $scope.addManager[0].unit === undefined
                 || $scope.addManager[0].function === undefined
-                || $scope.addManager[0].department === undefined
+                //|| $scope.addManager[0].department === undefined
                 || $scope.addManager[0].phone === undefined) {
                 return false;
             }
             //if not undefined, checks for empty fields
             return !($scope.addManager[0].name.replace(/\s+/g, '') == ""
             || $scope.addManager[0].unit.replace(/\s+/g, '') == ""
-            || $scope.addManager[0].function.replace(/\s+/g, '') == ""
+            //|| $scope.addManager[0].function.replace(/\s+/g, '') == ""
             || $scope.addManager[0].department.replace(/\s+/g, '') == ""
             || $scope.addManager[0].phone.replace(/\s+/g, '') == "");
         }

@@ -33,10 +33,10 @@ app.factory('dropdown', function() {
     }];
 
     //array of business units
-    data.businessUnits = [];
+    data.businessUnits = ["ISR", "Space Superiority", "Proprietary", "Geospatial", "Environmental", "PNT"];
 
     //array of functions
-    data.functions = [];
+    data.functions = ["Software", "Systems", "Integration & Test", "Mechanical", "Electrical"];
     
     return data;
 });

@@ -288,6 +288,7 @@ router.route('/managers/id/:manager_id')
                 res.send(err);
     
             manager.name = req.body.name;  // update the manager info
+            manager.unit = req.body.unit;
             manager.function = req.body.function;
             manager.department = req.body.department;
             manager.phone = req.body.phone;
