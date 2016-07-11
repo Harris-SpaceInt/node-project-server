@@ -136,7 +136,6 @@ router.route('/id/:project_id')
             project.month = req.body.month;
             project.year = req.body.year;
             project.result = req.body.result;
-            console.log(req.body.result);
 
             if (req.body.generated) {
                 project.generated = req.body.generated;

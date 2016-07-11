@@ -38,5 +38,11 @@ app.factory('dropdown', function() {
     //array of functions
     data.functions = ["Software", "Systems", "Integration & Test", "Mechanical", "Electrical"];
     
+    data.resetDisciplines = function () {
+        data.disciplines.forEach(function (discipline) {
+            discipline.ticked = false;
+        });
+    };
+    
     return data;
 });

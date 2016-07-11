@@ -288,7 +288,7 @@ app.factory('database', function($http, $q) {
 
         var deferred = $q.defer();
 
-        $http({method : 'POST', url : dataUrl + '/projects', data : project})
+        $http({method : 'POST', url : dataUrl + '/projects', data : JSON.stringify(project)})
             .success(function(data, status) {
                 console.log("POST was successful");
 
@@ -316,7 +316,7 @@ app.factory('database', function($http, $q) {
 
         var deferred = $q.defer();
         
-        $http({method : 'PUT', url : dataUrl + '/projects/id/' + id, data : project})
+        $http({method : 'PUT', url : dataUrl + '/projects/id/' + id, data : JSON.stringify(project)})
             .success(function(data, status) {
                 console.log("PUT was successful");
 
@@ -344,7 +344,7 @@ app.factory('database', function($http, $q) {
 
         var deferred = $q.defer();
         
-        $http({method : 'PUT', url : dataUrl + '/managers/id/' + id, data : manager})
+        $http({method : 'PUT', url : dataUrl + '/managers/id/' + id, data : JSON.stringify(manager)})
             .success(function(data, status) {
                 console.log("PUT was successful");
 
@@ -396,7 +396,7 @@ app.factory('database', function($http, $q) {
     factoryData.addReportToDatabase = function(report) {
         console.log("Starting POST...");
 
-        $http({method : 'POST', url : dataUrl + '/reports', data : report})
+        $http({method : 'POST', url : dataUrl + '/reports', data : JSON.stringify(report)})
             .success(function(data, status) {
                 console.log("POST was successful");
 

@@ -5,10 +5,6 @@
 
 var express    = require('express');
 
-var Project    = require('../models/project');
-var Manager    = require('../models/manager');
-var Report     = require('../models/report');
-
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
