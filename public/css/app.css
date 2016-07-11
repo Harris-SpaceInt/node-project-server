@@ -1,4 +1,4 @@
-.display-body, body {
+.display-body, #expand-button, body {
     font-family: Montserrat, Helvetica;
     background: #d9d9d9;
 }
@@ -47,8 +47,4 @@ textarea {
 
 #form {
     background-color: white;
-}
-
-#expand-button {
-    background-color: #d9d9d9;
 }
