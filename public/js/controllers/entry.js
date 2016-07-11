@@ -326,6 +326,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
             item = $scope.parseDate(item);
             item.savings = savings.projectSavings(item);
             item.hours = savings.projectHours(item);
+            item.result = $scope.resultsToAdd;
             
             if (item.savings < 0 || item.hours < 0) {
                 alert("Error: either savings or hours are negative");
@@ -355,6 +356,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
             item = $scope.parseDate(item);
             item.savings = savings.projectSavings(item);
             item.hours = savings.projectHours(item);
+            item.result = $scope.resultsToAdd;
             
             if (item.savings < 0 || item.hours < 0) {
                 alert("Error: either savings or hours are negative");
