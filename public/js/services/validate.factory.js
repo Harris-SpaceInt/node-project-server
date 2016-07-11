@@ -34,12 +34,7 @@ app.factory('validate', function() {
      * @returns {boolean} false if it's NaN, null or undefined
      */
     data.validateSavings = function (savings) {
-        if (isNaN(savings) || savings === undefined || savings === null) {
-            return false;
-        }
-        else {
-            return !(savings.replace(/\s+/g, '') == "");
-        }
+        return !(isNaN(savings) || savings === undefined || savings === null);
     };
 
     /**
@@ -48,13 +43,7 @@ app.factory('validate', function() {
      * @returns {boolean} false if it's NaN, null, or undefined
      */
     data.validateHours = function (hours) {
-        if (isNaN(hours) || hours === undefined || hours === null) {
-            return false;
-        }
-        else {
-            //check if empty
-            return !(hours.replace(/\s+/g, '') == "");
-        }
+        return !(isNaN(hours) || hours === undefined || hours === null);
     };
 
     /**

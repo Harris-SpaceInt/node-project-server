@@ -17,8 +17,8 @@ app.factory('database', function($http, $q) {
 
 
     // set the url of the database server
-    var dataUrl = "http://localhost:8080/api";
-
+    var dataUrl = "http://10.39.96.223/api";
+    //var dataUrl = "http://localhost:8080/api";
     
     //------------------------------------------------------------------------------------------------------------------
     // functions to retrieve data from the database
