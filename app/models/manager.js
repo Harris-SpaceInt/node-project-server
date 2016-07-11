@@ -1,3 +1,7 @@
+/**
+ * Defines the schema for managers
+ */
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
