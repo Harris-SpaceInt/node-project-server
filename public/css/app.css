@@ -1,17 +1,18 @@
 .display-body, body {
-    font-family: 'Montserrat';
+    font-family: Montserrat, Helvetica;
     background: #d9d9d9;
 }
 
 h1, h3, h4 {
     text-align: center;
+    font-family: Montserrat, Helvetica;
 }
 
 h4 {
     font-weight: bold;
 }
 
-a:link, a:visited {
+a:link, a:visited, .button-secondary:hover {
     color: black;
 }
 
@@ -37,11 +38,7 @@ textarea {
     margin: 0 0 1rem 0;
     font-size: 0.9rem;
     background-color: gray;
-    color: #fefefe;
-}
-
-.button-secondary:hover {
-    color: black;
+    color: white;
 }
 
 .discipline {
