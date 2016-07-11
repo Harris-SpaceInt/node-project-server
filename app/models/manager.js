@@ -2,12 +2,27 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ManagerSchema = new Schema({
-    name: String,
-    unit: String,
+    name: {
+        type: String,
+        required: true
+    },
+    unit: {
+        type: String,
+        required: true
+    },
     function: String,
-    department: String,
-    phone: String,
-    email: String
+    department: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    }
 });
 
 module.exports = mongoose.model('Manager', ManagerSchema);

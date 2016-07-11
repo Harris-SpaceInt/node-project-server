@@ -2,15 +2,33 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ReportSchema = new Schema({
-    day: Number,
-    month: Number,
-    year: Number,
-    savings: Number,
-    hours: Number,
-    project: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Project'
-    }]
+    day: {
+        type: Number,
+        required: true
+    },
+    month: {
+        type: Number,
+        required: true
+    },
+    year: {
+        type: Number,
+        required: true
+    },
+    savings: {
+        type: Number,
+        required: true
+    },
+    hours: {
+        type: Number,
+        required: true
+    },
+    project: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Project'
+        }],
+        required: true
+    }
 });
 
 module.exports = mongoose.model('Report', ReportSchema);
