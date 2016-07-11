@@ -2,7 +2,7 @@
 
 var app = angular.module('entry', ['myApp']);
 
-app.controller('entryCtrl', function ($scope, $window, sharedData, database, dropdown, savings) {
+app.controller('entryCtrl', function ($scope, $window, sharedData, database, dropdown, savings, validate) {
     $scope.itemsToAdd = [];
     $scope.resultsToAdd = [];
     $scope.update = false; //whether a project is being added or updated
@@ -10,6 +10,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
     $scope.hoursNumber = true; //checks for number inputs for hours
     $scope.hasImage = false;
 
+    $scope.validate = validate;
     $scope.sharedData = sharedData;
 
     //date options for the date picked
@@ -193,6 +194,9 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
             alert("Fill out existing report(s) first!");
         }
         else {
+            for (var i = 0; i < $scope.disciplines.length; i++) {
+                $scope.disciplines[i].ticked = false;
+            }
             $scope.addResultsField();
             $scope.itemsToAdd.push({
                 title: '',
@@ -259,32 +263,6 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
     };
 
     /**
-     * Checks for any invalid parameters (negative numbers, empty fields)
-     * @param item project
-     * @returns {boolean} true if something is invalid, false otherwise
-     */
-    $scope.checkInvalids = function (item) {
-        if (item.title.replace(/\s+/g, '') == ""
-            || item.summary.replace(/\s+/g, '') == ""
-            || $scope.noDiscipline()
-            || item.team.replace(/\s+/g, '') == ""
-            || item.date === undefined) {
-            return true;
-        }
-        else {
-            for (var i = 0; i < item.result.length; i++) {
-                if (item.result[i].savings < 0 || item.result[i].hours < 0
-                    || isNaN(item.result[i].savings) || isNaN(item.result[i].hours)
-                    || item.result[i].summary.replace(/\s+/g, '') == ""
-                    || item.result[i].details.replace(/\s+/g, '') == "") {
-                    return true;
-                }
-            }
-        }
-        return false;
-    };
-
-    /**
      * Deletes a result field at a given index
      * @param index
      */
@@ -320,19 +298,47 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      */
     $scope.addProject = function (item) {
         //if any required fields are empty
-        if ($scope.checkInvalids(item)) {
-            alert("Error in 1 or more fields");
+        if (!$scope.validate.validateField(item.title)) {
+            alert("Invalid project title");
+        }
+        else if (item.date === undefined || item.date === null) {
+            alert("Invalid date");
+        }
+        else if (!$scope.validate.validateField(item.summary)) {
+            alert("Invalid summary");
+        }
+        else if ($scope.noDiscipline()) {
+            alert("No disciplines selected!");
         }
         else {
             item = $scope.parseDate(item);
+            item.result = [];
+
+            for (var i = 0; i < $scope.resultsToAdd.length; i++) {
+                var result = $scope.resultsToAdd[i];
+                if (!$scope.validate.validateField(result.summary)) {
+                    alert("Invalid improvement description");
+                }
+                else if (!$scope.validate.validateField(result.details)) {
+                    alert("Invalid results accomplished");
+                }
+                else {
+                    if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
+                        if (!$scope.validate.validateSavings(result.savings)) {
+                            result.savings = 0;
+                        }
+                        else {
+                            result.hours = 0;
+                        }
+                    }
+                    item.result.push(result);
+                }
+            }
+
             item.savings = savings.projectSavings(item);
             item.hours = savings.projectHours(item);
-            item.result = $scope.resultsToAdd;
-            
-            if (item.savings < 0 || item.hours < 0) {
-                alert("Error: either savings or hours are negative");
-            }
-            else if (item.savings <= 0 && item.hours <= 0) {
+
+            if (item.savings <= 0 && item.hours <= 0) {
                 alert("Error: project has no savings");
             }
             else {
@@ -350,19 +356,48 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      * @param item updated project
      */
     $scope.updateProject = function (item) {
-        if ($scope.checkInvalids(item)) {
-            alert("Error in 1 or more fields");
+        //if any required fields are empty
+        if (!$scope.validate.validateField(item.title)) {
+            alert("Invalid project title");
+        }
+        else if (item.date === undefined || item.date === null) {
+            alert("Invalid date");
+        }
+        else if (!$scope.validate.validateField(item.summary)) {
+            alert("Invalid summary");
+        }
+        else if ($scope.noDiscipline()) {
+            alert("No disciplines selected!");
         }
         else {
             item = $scope.parseDate(item);
+            item.result = [];
+
+            for (var i = 0; i < $scope.resultsToAdd.length; i++) {
+                var result = $scope.resultsToAdd[i];
+                if (!$scope.validate.validateField(result.summary)) {
+                    alert("Invalid improvement description");
+                }
+                else if (!$scope.validate.validateField(result.details)) {
+                    alert("Invalid results accomplished");
+                }
+                else {
+                    if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
+                        if (!$scope.validate.validateSavings(result.savings)) {
+                            result.savings = 0;
+                        }
+                        else {
+                            result.hours = 0;
+                        }
+                    }
+                    item.result.push(result);
+                }
+            }
+
             item.savings = savings.projectSavings(item);
             item.hours = savings.projectHours(item);
-            item.result = $scope.resultsToAdd;
-            
-            if (item.savings < 0 || item.hours < 0) {
-                alert("Error: either savings or hours are negative");
-            }
-            else if (item.savings <= 0 && item.hours <= 0) {
+
+            if (item.savings <= 0 && item.hours <= 0) {
                 alert("Error: project has no savings");
             }
             else {

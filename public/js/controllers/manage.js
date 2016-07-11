@@ -2,7 +2,7 @@
 
 var app = angular.module('manage', ['myApp']);
 
-app.controller('manageCtrl', function ($scope, $window, sharedData, database, dropdown) {
+app.controller('manageCtrl', function ($scope, $window, sharedData, database, dropdown, validate) {
     
     //linking sharedData to scope
     $scope.sharedData = sharedData;
@@ -10,16 +10,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database, dr
     $scope.manager = sharedData.globalManager[0];
     $scope.addManager = []; //fields for manager information to be edited
     $scope.dropdown = dropdown;
-    
-    /**
-     * Validates a phone number
-     * @param phone
-     * @returns {boolean} true if the phone number is of valid formatting
-     */
-    $scope.validatePhone = function (phone) {
-        var phone_regex = /^((([0-9]{3}))|([0-9]{3}))[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
-        return phone_regex.test(phone);
-    };
+    $scope.validate = validate;
 
     /**
      * Initializes the page
@@ -36,29 +27,21 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database, dr
     };
 
     /**
-     * Validates a manager entry
-     * @returns {boolean} true if the updated manager fields are valid
-     */
-    $scope.validateManager = function () {
-        return !($scope.manager.name.replace(/\s+/g, '') == ""
-        || $scope.manager.unit.replace(/\s+/g, '') == ""
-        //|| $scope.manager.function.replace(/\s+/g, '') == ""
-        || $scope.manager.department.replace(/\s+/g, '') == ""
-        || $scope.manager.phone.replace(/\s+/g, '') == ""
-        || $scope.manager.email.replace(/\s+/g, '') == "");
-    };
-
-    /**
      * Updates the manager's information in the database
      */
     $scope.updateInfo = function () {
-        if (!$scope.validateManager()) {
-            alert("Manager fields not filled out!");
+        var manager = $scope.addManager[0];
+        if (!$scope.validate.validateField(manager.name)) {
+            alert("Invalid name");
+        }
+        else if (!$scope.validate.validateField(manager.unit)) {
+            alert("Invalid unit");
+        }
+        else if (!$scope.validate.validateField(manager.department)) {
+            alert("Invalid department");
         }
         else {
-            var p = $scope.manager.phone;
-            if ($scope.validatePhone(p)) {
-                var manager = $scope.addManager[0];
+            if ($scope.validate.validatePhone(manager.phone)) {
 
                 // information has been verified
                 // store manager data and redirect to correct page
