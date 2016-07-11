@@ -13,7 +13,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Validates a phone number
      * @param phone
-     * @returns {boolean}
+     * @returns {boolean} true if the phone number is of valid formatting
      */
     $scope.validatePhone = function (phone) {
         var phone_regex = /^((([0-9]{3}))|([0-9]{3}))[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
@@ -36,7 +36,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
 
     /**
      * Validates a manager entry
-     * @returns {boolean}
+     * @returns {boolean} true if the updated manager fields are valid
      */
     $scope.validateManager = function () {
         return !($scope.manager.name.replace(/\s+/g, '') == ""

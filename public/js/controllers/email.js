@@ -99,7 +99,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Returns index of a manager in the database if an email match is found
      * @param email
-     * @returns {number}
+     * @returns {number} index of the manager in the database array, -1 if not found
      */
     $scope.findManager = function (email) {
         for (var i = 0; i < $scope.database.managers.length; i++) {
@@ -113,7 +113,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Validates a phone number
      * @param phone
-     * @returns {boolean}
+     * @returns {boolean} true if the phone number form is valid
      */
     $scope.validatePhone = function (phone) {
         var phone_regex = /^((([0-9]{3}))|([0-9]{3}))[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
@@ -123,7 +123,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
     /**
      * Validates an email address
      * @param email
-     * @returns {boolean}
+     * @returns {boolean} true if the email is of valid format
      */
     $scope.validateEmail = function (email) {
         var email_regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -144,7 +144,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
 
     /**
      * Validates a manager entry
-     * @returns {boolean}
+     * @returns {boolean} true if all the fields are filled out properly
      */
     $scope.validateManager = function () {
         if ($scope.addManager[0] === undefined) {

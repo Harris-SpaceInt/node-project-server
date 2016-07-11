@@ -374,8 +374,9 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
     };
 
     /**
-     * Alerts the user when the benchmark is reached
-     * @param total_savings total savings
+     * Determines if the savings benchmark has been reached
+     * @param total_savings total savings from projects
+     * @returns {boolean} true if the total savings exceeds the benchmark
      */
     $scope.benchmarkReached = function (total_savings) {
         return (total_savings >= $scope.benchmark);

@@ -129,7 +129,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
 
     /**
      * Checks if none of the disciplines are selected
-     * @returns {boolean}
+     * @returns {boolean} true if none of the disciplines are ticked, false otherwise
      */
     $scope.noDiscipline = function () {
         for (var i = 0; i < $scope.disciplines.length; i++) {
@@ -259,7 +259,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
 
     /**
      * Checks for any invalid parameters (negative numbers, empty fields)
-     * @param item
+     * @param item project
      * @returns {boolean} true if something is invalid, false otherwise
      */
     $scope.checkInvalids = function (item) {
@@ -284,7 +284,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
     };
 
     /**
-     * Deletes a results field at a given index
+     * Deletes a result field at a given index
+     * @param index
      */
     $scope.delResultsField = function (index) {
         if ($scope.resultsToAdd.length > 1) {
@@ -297,16 +298,13 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
 
     /**
      * Updates a project's month/day/year fields given a date
-     * @param item
-     * @returns {*}
+     * @param item project
+     * @returns {*} the project with its date updated
      */
     $scope.parseDate = function (item) {
-        var month = item.date.getMonth() + 1;
-        var day = item.date.getDate();
-        var year = item.date.getFullYear();
-        item.month = month;
-        item.day = day;
-        item.year = year;
+        item.month = item.date.getMonth() + 1;
+        item.day = item.date.getDate();
+        item.year = item.date.getFullYear();
         return item;
     };
 
@@ -347,7 +345,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dis
 
     /**
      * Updates a project if it already exists in the database
-     * @param item
+     * @param item updated project
      */
     $scope.updateProject = function (item) {
         if ($scope.checkInvalids(item)) {

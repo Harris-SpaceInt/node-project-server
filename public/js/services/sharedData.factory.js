@@ -26,7 +26,7 @@ app.factory('sharedData', function($window) {
     
     /**
      * Checks if there is a global manager
-     * @returns {boolean}
+     * @returns {boolean} the status of the global manager, false if it's undefined
      */
     data.loggedIn = function() {
         return this.globalManager[0] !== undefined;
@@ -51,7 +51,7 @@ app.factory('sharedData', function($window) {
 
     /**
      * Checks if the global manager is an admin
-     * @returns {boolean}
+     * @returns {boolean} the status of the global manager, true if it's an admin
      */
     data.checkAdmin = function () {
         // check if there is a global manager
@@ -112,7 +112,7 @@ app.factory('sharedData', function($window) {
     /**
      * Adds a project to projectList and the end
      * of the array
-     * @param {object} projectToAdd
+     * @param {object} projectToAdd a project to be added to the list
      */
     data.pushToProjectList = function (projectToAdd) {
         this.projectList.push(projectToAdd);
@@ -120,7 +120,7 @@ app.factory('sharedData', function($window) {
 
     /**
      * Deletes a project from projectList at index
-     * @param {number} index
+     * @param {number} index index of the project to be deleted
      */
     data.deleteFromProjectList = function (index) {
         if (typeof this.projectList[index] === 'undefined') {
@@ -141,8 +141,8 @@ app.factory('sharedData', function($window) {
 
     /**
      * To string for an array
-     * @param array
-     * @returns {string}
+     * @param array any given array
+     * @returns {string} a string representation of the array's comments separated by commas
      */
     data.getArrayString = function (array) {
         var string = "";

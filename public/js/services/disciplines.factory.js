@@ -4,7 +4,8 @@ var app = angular.module('myApp');
 
 app.factory('disciplines', function() {
     var data = {};
-    
+
+    //array of disciplines
     data.selectable = [{
         label: "Software",
         ticked: false
