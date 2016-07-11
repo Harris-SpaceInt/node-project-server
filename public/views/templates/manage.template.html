@@ -30,17 +30,23 @@
                                 <b>Business Unit:</b>
                             </td>
                             <td>
-                                <input type="text" ng-model="manager.unit" required>
+                                <select name="unit" ng-model="manager.unit">
+                                    <option ng-repeat="unit in dropdown.businessUnits" value="{{unit}}">{{unit}}</option>
+                                </select>
                             </td>
                         </tr>
+                        <!--
                         <tr>
                             <td>
                                 <b>Function:</b>
                             </td>
                             <td>
-                                <input type="text" ng-model="manager.function" required>
+                                <select name="function" ng-model="manager.function">
+                                    <option ng-repeat="function in dropdown.functions" value="{{function}}">{{function}}</option>
+                                </select>
                             </td>
                         </tr>
+                        -->
                         <tr>
                             <td>
                                 <b>Department:</b>

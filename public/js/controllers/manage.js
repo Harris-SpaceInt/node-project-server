@@ -9,8 +9,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database, dr
 
     $scope.manager = sharedData.globalManager[0];
     $scope.addManager = []; //fields for manager information to be edited
-    $scope.units = dropdown.businessUnits; //business units array
-    $scope.functions = dropdown.functions; //functions array
+    $scope.dropdown = dropdown;
     
     /**
      * Validates a phone number
@@ -43,7 +42,7 @@ app.controller('manageCtrl', function ($scope, $window, sharedData, database, dr
     $scope.validateManager = function () {
         return !($scope.manager.name.replace(/\s+/g, '') == ""
         || $scope.manager.unit.replace(/\s+/g, '') == ""
-        || $scope.manager.function.replace(/\s+/g, '') == ""
+        //|| $scope.manager.function.replace(/\s+/g, '') == ""
         || $scope.manager.department.replace(/\s+/g, '') == ""
         || $scope.manager.phone.replace(/\s+/g, '') == ""
         || $scope.manager.email.replace(/\s+/g, '') == "");

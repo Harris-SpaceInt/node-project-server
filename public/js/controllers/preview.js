@@ -32,7 +32,7 @@ app.controller('previewCtrl', function ($scope, $window, $q, sharedData, databas
         if (confirmation) {
             $scope.items.splice(index, 1);
             if ($scope.items.length == 0) {
-                $window.location.href = "#!/user";
+                $window.location.href = "#!/previous";
             }
         }
     };
@@ -50,7 +50,7 @@ app.controller('previewCtrl', function ($scope, $window, $q, sharedData, databas
         $q.all(promises).then(function() {
             $scope.items = [];
             sharedData.clearProjectList();
-            $window.location.href = "#!/user";
+            $window.location.href = "#!/previous";
         });
     };
 
