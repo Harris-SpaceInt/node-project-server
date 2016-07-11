@@ -2,7 +2,7 @@
 
 var app = angular.module('email', ['myApp']);
 
-app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
+app.controller('emailCtrl', function ($scope, $window, sharedData, database, dropdown) {
 
     $scope.addManager = [{
         email: "",
@@ -18,6 +18,8 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database) {
 
     $scope.database = database;
     $scope.sharedData = sharedData;
+    $scope.units = dropdown.businessUnits; //business units array
+    $scope.functions = dropdown.functions; //functions array
     $scope.managerExists = false; //if manager exists in the database
     $scope.createAccount = false; //variable for toggling fields when creating an account
 

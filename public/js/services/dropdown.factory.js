@@ -2,11 +2,11 @@
 
 var app = angular.module('myApp');
 
-app.factory('disciplines', function() {
+app.factory('dropdown', function() {
     var data = {};
 
     //array of disciplines
-    data.selectable = [{
+    data.disciplines = [{
         label: "Software",
         ticked: false
     }, {
@@ -31,6 +31,12 @@ app.factory('disciplines', function() {
         label: "Program Management",
         ticked: false
     }];
+
+    //array of business units
+    data.businessUnits = [];
+
+    //array of functions
+    data.functions = [];
     
     return data;
 });

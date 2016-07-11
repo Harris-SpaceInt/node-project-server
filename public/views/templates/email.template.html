@@ -35,10 +35,13 @@
                             </tr>
                             <tr ng-show="validateEmail(manager.email) && !managerExists && createAccount">
                                 <td>
-                                    <b>Unit:</b>
+                                    <b>Business Unit:</b>
                                 </td>
                                 <td>
-                                    <input type="text" ng-model="manager.unit" required>
+                                    <select name="unit" ng-model="manager.unit">
+                                        <option value="software">Software</option>
+                                        <option value="hardware">Hardware</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr ng-show="validateEmail(manager.email) && !managerExists && createAccount">
@@ -46,7 +49,10 @@
                                     <b>Function:</b>
                                 </td>
                                 <td>
-                                    <input type="text" ng-model="manager.function" required>
+                                    <select name="unit" ng-model="manager.function">
+                                        <option value="func1">x^2</option>
+                                        <option value="func2">x + 1</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr ng-show="validateEmail(manager.email) && !managerExists && createAccount">
