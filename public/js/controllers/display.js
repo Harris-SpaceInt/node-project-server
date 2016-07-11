@@ -2,7 +2,7 @@
 
 var app = angular.module('display', ['myApp']);
 
-app.controller('displayCtrl', function ($scope, $window, sharedData, database, disciplines, pdf, savings) {
+app.controller('displayCtrl', function ($scope, $window, sharedData, database, dropdown, pdf, savings) {
     // constant value used to set the target benchmark for project savings
     $scope.benchmark = 100000;    
     
@@ -35,7 +35,7 @@ app.controller('displayCtrl', function ($scope, $window, sharedData, database, d
     $scope.sortOrder = "savings";
 
     // array of disciplines that are selectable
-    $scope.disciplines = disciplines.selectable;
+    $scope.disciplines = dropdown.disciplines;
     $scope.projectDisciplines = [];
 
     //------------------------------------------------------------------------------------------------------------------

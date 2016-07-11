@@ -2,14 +2,16 @@
 
 var app = angular.module('manage', ['myApp']);
 
-app.controller('manageCtrl', function ($scope, $window, sharedData, database) {
+app.controller('manageCtrl', function ($scope, $window, sharedData, database, dropdown) {
     
     //linking sharedData to scope
     $scope.sharedData = sharedData;
 
     $scope.manager = sharedData.globalManager[0];
     $scope.addManager = []; //fields for manager information to be edited
-
+    $scope.units = dropdown.businessUnits; //business units array
+    $scope.functions = dropdown.functions; //functions array
+    
     /**
      * Validates a phone number
      * @param phone
