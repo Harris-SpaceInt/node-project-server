@@ -27,7 +27,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
     $scope.projectDisciplines = [];
 
     //------------------------------------------------------------------------------------------------------------------
-    
+
     // initialize the page
 
     /**
@@ -127,9 +127,9 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
     };
 
     //------------------------------------------------------------------------------------------------------------------
-    
+
     //discipline related functions
-    
+
     /**
      * Updates a project's disciplines
      * @param project
@@ -196,11 +196,11 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
             $scope.hoursNumber = !isNaN(input);
         }
     };
-    
+
     //------------------------------------------------------------------------------------------------------------------
-    
+
     //Project form-related functions
-    
+
     /**
      * Adds a new results field
      */
@@ -285,7 +285,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         return item;
     };
 
-    
+
     //------------------------------------------------------------------------------------------------------------------
 
     //Adding/updating projects
