@@ -309,10 +309,20 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
             return false;
         }
         else if ($scope.noDiscipline()) {
-            alert("No disciplines selected!");
+            alert("No disciplines selected");
             return false;
         }
         else {
+            for (var i = 0; i < $scope.resultsToAdd.length; i++) {
+                if (!$scope.validate.validateField($scope.resultsToAdd[i].summary)) {
+                    alert("Invalid improvement description ");
+                    return false;
+                }
+                if (!$scope.validate.validateField($scope.resultsToAdd[i].details)) {
+                    alert("Invalid results accomplished");
+                    return false;
+                }
+            }
             return true;
         }
     };
@@ -350,34 +360,24 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         //loop through all the results
         for (var i = 0; i < $scope.resultsToAdd.length; i++) {
             var result = $scope.resultsToAdd[i];
-            if (!$scope.validate.validateField(result.summary)) {
-                alert("Invalid improvement description");
-            }
-            else if (!$scope.validate.validateField(result.details)) {
-                alert("Invalid results accomplished");
-            }
+            //checking for valid savings/hours amounts
 
-            //results summary and description are validated
+            //if both are invalid then alert error message
+            if (!$scope.validate.validateSavings(result.savings) && !$scope.validate.validateHours(result.hours)) {
+                alert("Need at least savings or hours");
+            }
+            else if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
+                //set them to 0 if invalid
+                if (!$scope.validate.validateSavings(result.savings)) {
+                    result.savings = 0;
+                }
+                else if (!$scope.validate.validateHours(result.hours)){
+                    result.hours = 0;
+                }
+                item.result.push(result);
+            }
             else {
-                //checking for valid savings/hours amounts
-
-                //if both are invalid then alert error message
-                if (!$scope.validate.validateSavings(result.savings) && !$scope.validate.validateHours(result.hours)) {
-                    alert("Need at least savings or hours");
-                }
-                else if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
-                    //set them to 0 if invalid
-                    if (!$scope.validate.validateSavings(result.savings)) {
-                        result.savings = 0;
-                    }
-                    else if (!$scope.validate.validateHours(result.hours)){
-                        result.hours = 0;
-                    }
-                    item.result.push(result);
-                }
-                else {
-                    item.result.push(result);
-                }
+                item.result.push(result);
             }
         }
 
