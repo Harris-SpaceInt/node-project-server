@@ -21,7 +21,6 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
     };
 
     //array of project disciplines
-    dropdown.resetDisciplines();
     $scope.disciplines = dropdown.disciplines;
 
     //output of disciplines check boxes
@@ -45,6 +44,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
                 $scope.addNew();
             }
             else {
+                //editing existing project
                 $scope.itemsToAdd.push(sharedData.project);
                 if (sharedData.project.image !== null) {
                     $scope.hasImage = true;
@@ -96,6 +96,33 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
                 $scope.update = true;
                 sharedData.project = null;
             }
+        }
+    };
+
+    /**
+     * Adds a new project form
+     */
+    $scope.addNew = function () {
+        if ($scope.itemsToAdd.length >= 1) {
+            alert("Fill out existing report(s) first!");
+        }
+        else {
+            dropdown.resetDisciplines();
+            $scope.addResultsField();
+            $scope.itemsToAdd.push({
+                title: '',
+                discipline: [],
+                disciplineString: '',
+                month: '',
+                day: '',
+                year: '',
+                date: '',
+                manager: '',
+                team: '',
+                summary: '',
+                result: $scope.resultsToAdd,
+                image: null
+            });
         }
     };
 
@@ -184,35 +211,6 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
             savings: '',
             hours: ''
         });
-    };
-
-    /**
-     * Adds a new project form
-     */
-    $scope.addNew = function () {
-        if ($scope.itemsToAdd.length >= 1) {
-            alert("Fill out existing report(s) first!");
-        }
-        else {
-            for (var i = 0; i < $scope.disciplines.length; i++) {
-                $scope.disciplines[i].ticked = false;
-            }
-            $scope.addResultsField();
-            $scope.itemsToAdd.push({
-                title: '',
-                discipline: [],
-                disciplineString: '',
-                month: '',
-                day: '',
-                year: '',
-                date: '',
-                manager: '',
-                team: '',
-                summary: '',
-                result: $scope.resultsToAdd,
-                image: null
-            });
-        }
     };
 
     /**
@@ -312,6 +310,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         }
         else {
             item = $scope.parseDate(item);
+
             item.result = [];
 
             for (var i = 0; i < $scope.resultsToAdd.length; i++) {
@@ -323,15 +322,21 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
                     alert("Invalid results accomplished");
                 }
                 else {
-                    if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
+                    if (!$scope.validate.validateSavings(result.savings) && !$scope.validate.validateHours(result.hours)) {
+                        alert("Need at least savings or hours");
+                    }
+                    else if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
                         if (!$scope.validate.validateSavings(result.savings)) {
                             result.savings = 0;
                         }
-                        else {
+                        else if (!$scope.validate.validateHours(result.hours)){
                             result.hours = 0;
                         }
+                        item.result.push(result);
                     }
-                    item.result.push(result);
+                    else {
+                        item.result.push(result);
+                    }
                 }
             }
 
@@ -371,6 +376,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         }
         else {
             item = $scope.parseDate(item);
+
             item.result = [];
 
             for (var i = 0; i < $scope.resultsToAdd.length; i++) {

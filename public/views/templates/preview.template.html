@@ -7,7 +7,7 @@
             <button class="button" ng-click="sharedData.logOut()">Log Out</button>
         </div>
         <div class="text-center">
-            <img src="../assets/title-logo.png" width="800px">
+            <!--<img src="../assets/title-logo.png" width="800px">-->
         </div>
         <br>
     </div>
@@ -75,8 +75,11 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="text-center">
+                                        <td ng-hide="item.team === undefined || item.team === ''" class="text-center">
                                             {{item.team}}
+                                        </td>
+                                        <td ng-show="item.team === undefined || item.team === ''" class="text-center">
+                                            N/A
                                         </td>
                                     </tr>
                                 </table>
