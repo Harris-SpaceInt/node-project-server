@@ -377,22 +377,34 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         item.savings = savings.projectSavings(item);
         item.hours = savings.projectHours(item);
     };
-    
+
+    /**
+     * Compiles a project by validating it and updating its results
+     * @param item project
+     * @returns {boolean} true if it's compiled and the savings are legitimate
+     */
+    $scope.compileProject = function (item) {
+        if ($scope.validateProject(item)) {
+            $scope.updateResults(item);
+
+            if ($scope.legitSavings(item)) {
+                return true;
+            }
+        }
+        return false;
+    };
+
     /**
      * Adds a project to the items array
      * @param item project to be added
      */
     $scope.addProject = function (item) {
-        if ($scope.validateProject(item)) {
-            $scope.updateResults(item);
+        if ($scope.compileProject(item)) {
+            item.manager = sharedData.globalManager[0];
+            $scope.updateDisciplines(item);
 
-            if ($scope.legitSavings(item)) {
-                item.manager = sharedData.globalManager[0];
-                $scope.updateDisciplines(item);
-
-                sharedData.pushToProjectList(angular.copy(item));
-                $window.location.href = "#!/preview";
-            }
+            sharedData.pushToProjectList(angular.copy(item));
+            $window.location.href = "#!/preview";
         }
     };
 
@@ -401,23 +413,19 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      * @param item updated project
      */
     $scope.updateProject = function (item) {
-        if ($scope.validateProject(item)) {
-            $scope.updateResults(item);
-
-            if ($scope.legitSavings(item)) {
-                //checks if it's stored in the database
-                if (sharedData.fromDatabase) {
-                    var promise = database.updateProjectFromDatabase(item._id, item);
-                    promise.then(function() {
-                        sharedData.project = null;
-                        sharedData.fromDatabase = false;
-                        $window.location.href = "#!/previous";
-                    });
-                }
-                else {
-                    sharedData.pushToProjectList(angular.copy(item));
-                    $window.location.href = "#!/preview";
-                }
+        if ($scope.compileProject(item)) {
+            //checks if it's stored in the database
+            if (sharedData.fromDatabase) {
+                var promise = database.updateProjectFromDatabase(item._id, item);
+                promise.then(function() {
+                    sharedData.project = null;
+                    sharedData.fromDatabase = false;
+                    $window.location.href = "#!/previous";
+                });
+            }
+            else {
+                sharedData.pushToProjectList(angular.copy(item));
+                $window.location.href = "#!/preview";
             }
         }
     };
