@@ -310,6 +310,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         }
         else {
             item = $scope.parseDate(item);
+
             item.result = [];
 
             for (var i = 0; i < $scope.resultsToAdd.length; i++) {
@@ -321,15 +322,21 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
                     alert("Invalid results accomplished");
                 }
                 else {
-                    if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
+                    if (!$scope.validate.validateSavings(result.savings) && !$scope.validate.validateHours(result.hours)) {
+                        alert("Need at least savings or hours");
+                    }
+                    else if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
                         if (!$scope.validate.validateSavings(result.savings)) {
                             result.savings = 0;
                         }
-                        else {
+                        else if (!$scope.validate.validateHours(result.hours)){
                             result.hours = 0;
                         }
+                        item.result.push(result);
                     }
-                    item.result.push(result);
+                    else {
+                        item.result.push(result);
+                    }
                 }
             }
 
@@ -369,6 +376,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         }
         else {
             item = $scope.parseDate(item);
+
             item.result = [];
 
             for (var i = 0; i < $scope.resultsToAdd.length; i++) {

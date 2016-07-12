@@ -34,7 +34,7 @@ app.factory('validate', function() {
      * @returns {boolean} false if it's NaN, null or undefined
      */
     data.validateSavings = function (savings) {
-        return !(isNaN(savings) || savings === undefined || savings === null);
+        return !(isNaN(savings) || savings === undefined || savings === null || savings === "");
     };
 
     /**
@@ -43,7 +43,7 @@ app.factory('validate', function() {
      * @returns {boolean} false if it's NaN, null, or undefined
      */
     data.validateHours = function (hours) {
-        return !(isNaN(hours) || hours === undefined || hours === null);
+        return !(isNaN(hours) || hours === undefined || hours === null || hours === "");
     };
 
     /**

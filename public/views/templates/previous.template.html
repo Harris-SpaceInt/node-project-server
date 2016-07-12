@@ -122,8 +122,11 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="text-center">
+                                    <td ng-hide="item.team === null" class="text-center">
                                         {{item.team}}
+                                    </td>
+                                    <td ng-show="item.team === null" class="text-center">
+                                        N/A
                                     </td>
                                 </tr>
                             </table>

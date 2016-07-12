@@ -150,6 +150,7 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
             $window.location.href = "#!/display";
         }
         else {
+            $scope.addManager[0].email = $scope.addManager[0].email.toLowerCase();
             var manager = $scope.addManager[0];
             if (!$scope.validate.validateField(manager.name)) {
                 alert("Invalid name");
