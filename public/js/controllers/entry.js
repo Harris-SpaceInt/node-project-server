@@ -26,8 +26,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
     //output of disciplines check boxes
     $scope.projectDisciplines = [];
 
-    //------------------------------------------------------------------------------------------------------------------
     
+    //------------------------------------------------------------------------------------------------------------------
     // initialize the page
 
     /**
@@ -126,9 +126,9 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         }
     };
 
-    //------------------------------------------------------------------------------------------------------------------
     
-    //discipline related functions
+    //------------------------------------------------------------------------------------------------------------------
+    // discipline related functions
     
     /**
      * Updates a project's disciplines
@@ -197,9 +197,9 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         }
     };
     
-    //------------------------------------------------------------------------------------------------------------------
     
-    //Project form-related functions
+    //------------------------------------------------------------------------------------------------------------------
+    // Project form-related functions
     
     /**
      * Adds a new results field
@@ -287,8 +287,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
 
     
     //------------------------------------------------------------------------------------------------------------------
-    
-    //Adding/updating projects
+    // Adding and updating projects
     
     /**
      * Adds a project to the items array
@@ -316,14 +315,17 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
             for (var i = 0; i < $scope.resultsToAdd.length; i++) {
                 var result = $scope.resultsToAdd[i];
                 if (!$scope.validate.validateField(result.summary)) {
-                    alert("Invalid improvement description");
+                    alert("Invalid improvement description in result" + i + 1);
+                    return false;
                 }
                 else if (!$scope.validate.validateField(result.details)) {
-                    alert("Invalid results accomplished");
+                    alert("Invalid results accomplished in result" + i + 1);
+                    return false;
                 }
                 else {
                     if (!$scope.validate.validateSavings(result.savings) && !$scope.validate.validateHours(result.hours)) {
-                        alert("Need at least savings or hours");
+                        alert("Need at least savings or hours in result" + i + 1);
+                        return false;
                     }
                     else if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
                         if (!$scope.validate.validateSavings(result.savings)) {
@@ -345,6 +347,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
 
             if (item.savings <= 0 && item.hours <= 0) {
                 alert("Error: project has no savings");
+                return false;
             }
             else {
                 item.manager = sharedData.globalManager[0];
@@ -353,7 +356,9 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
                 sharedData.pushToProjectList(angular.copy(item));
                 $window.location.href = "#!/preview";
             }
+            return true;
         }
+        return false;
     };
 
     /**
@@ -382,12 +387,18 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
             for (var i = 0; i < $scope.resultsToAdd.length; i++) {
                 var result = $scope.resultsToAdd[i];
                 if (!$scope.validate.validateField(result.summary)) {
-                    alert("Invalid improvement description");
+                    alert("Invalid improvement description in result " + i + 1);
+                    return false;
                 }
                 else if (!$scope.validate.validateField(result.details)) {
-                    alert("Invalid results accomplished");
+                    alert("Invalid results accomplished in result " + i + 1);
+                    return false;
                 }
                 else {
+                    if (!$scope.validate.validateSavings(result.savings) && !$scope.validate.validateHours(result.hours)) {
+                        alert("Need at least savings or hours in result " + i + 1);
+                        return false;
+                    }
                     if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
                         if (!$scope.validate.validateSavings(result.savings)) {
                             result.savings = 0;
@@ -405,6 +416,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
 
             if (item.savings <= 0 && item.hours <= 0) {
                 alert("Error: project has no savings");
+                return false;
             }
             else {
                 if (sharedData.fromDatabase) {
@@ -420,7 +432,9 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
                     $window.location.href = "#!/preview";
                 }
             }
+            return true;
         }
+        return false;
     };
 
 

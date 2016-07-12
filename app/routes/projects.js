@@ -47,7 +47,7 @@ router.route('/')
             project.generated = req.body.generated;
         }
 
-        if (req.body.team === "" || req.body.team === undefined) {
+        if (req.body.team === '' || req.body.team === undefined) {
             project.team = null;
         }
         else {
@@ -150,7 +150,7 @@ router.route('/id/:project_id')
                 project.generated = false;
             }
 
-            if (req.body.team === "" || req.body.team === undefined) {
+            if (req.body.team === '' || req.body.team === undefined) {
                 project.team = null;
             }
             else {
