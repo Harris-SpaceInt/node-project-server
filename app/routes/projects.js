@@ -36,7 +36,6 @@ router.route('/')
         project.title = req.body.title;   // set the projects fields (comes from the request)
         project.discipline = req.body.discipline;
         project.summary = req.body.summary;
-        project.team = req.body.team;
         project.savings = req.body.savings;
         project.hours = req.body.hours;
         project.day = req.body.day;
@@ -46,6 +45,13 @@ router.route('/')
 
         if (req.body.generated) {
             project.generated = req.body.generated;
+        }
+
+        if (req.body.team === "" || req.body.team === undefined) {
+            project.team = null;
+        }
+        else {
+            project.team = req.body.team;
         }
 
         if (req.body.image) {
@@ -138,10 +144,17 @@ router.route('/id/:project_id')
             project.result = req.body.result;
 
             if (req.body.generated) {
-                project.generated = req.body.generated;
+                project.generated = true;
             }
             else if (req.body.generated === false) {
                 project.generated = false;
+            }
+
+            if (req.body.team === "" || req.body.team === undefined) {
+                project.team = null;
+            }
+            else {
+                project.team = req.body.team;
             }
 
             if (req.body.image) {

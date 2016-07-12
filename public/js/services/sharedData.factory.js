@@ -36,8 +36,20 @@ app.factory('sharedData', function($window) {
      * Logs the user out
      */
     data.logOut = function () {
-        this.clearGlobalManager();
-        $window.location.href = '#!/login';
+        if (data.projectList.length > 0) {
+            if (confirm("Are you sure you want to log out with unsubmitted projects?")) {
+                this.clearGlobalManager();
+                this.clearProjectList();
+                this.project = null;
+                $window.location.href = '#!/login';
+            }
+        }
+        else {
+            this.clearGlobalManager();
+            this.clearProjectList();
+            this.project = null;
+            $window.location.href = '#!/login';
+        }
     };
 
     /**

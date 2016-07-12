@@ -145,20 +145,21 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
      * Logs user in
      */
     $scope.submit = function () {
-        var manager = $scope.addManager[0];
-        if (!$scope.validate.validateField(manager.name)) {
-            alert("Invalid name");
-        }
-        else if (!$scope.validate.validateField(manager.unit)) {
-            alert("Invalid unit");
-        }
-        else if (!$scope.validate.validateField(manager.department)) {
-            alert("Invalid department");
+        if ($scope.sharedData.checkAdmin()) {
+            // user is admin
+            $window.location.href = "#!/display";
         }
         else {
-            if ($scope.sharedData.checkAdmin()) {
-                // user is admin
-                $window.location.href = "#!/display";
+            $scope.addManager[0].email = $scope.addManager[0].email.toLowerCase();
+            var manager = $scope.addManager[0];
+            if (!$scope.validate.validateField(manager.name)) {
+                alert("Invalid name");
+            }
+            else if (!$scope.validate.validateField(manager.unit)) {
+                alert("Invalid unit");
+            }
+            else if (!$scope.validate.validateField(manager.department)) {
+                alert("Invalid department");
             }
             else {
                 var e = manager.email;
@@ -171,7 +172,12 @@ app.controller('emailCtrl', function ($scope, $window, sharedData, database, dro
                     $scope.redirect();
                 }
                 else {
-                    alert("Invalid phone and/or email");
+                    if (!$scope.validatePhone(p)) {
+                        alert("Invalid phone");
+                    }
+                    else {
+                        alert("Invalid email");
+                    }
                 }
             }
         }
