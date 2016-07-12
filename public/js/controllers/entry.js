@@ -347,6 +347,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
 
         item.result = [];
 
+        //loop through all the results
         for (var i = 0; i < $scope.resultsToAdd.length; i++) {
             var result = $scope.resultsToAdd[i];
             if (!$scope.validate.validateField(result.summary)) {
@@ -355,11 +356,17 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
             else if (!$scope.validate.validateField(result.details)) {
                 alert("Invalid results accomplished");
             }
+
+            //results summary and description are validated
             else {
+                //checking for valid savings/hours amounts
+
+                //if both are invalid then alert error message
                 if (!$scope.validate.validateSavings(result.savings) && !$scope.validate.validateHours(result.hours)) {
                     alert("Need at least savings or hours");
                 }
                 else if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
+                    //set them to 0 if invalid
                     if (!$scope.validate.validateSavings(result.savings)) {
                         result.savings = 0;
                     }
