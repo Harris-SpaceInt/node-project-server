@@ -353,15 +353,13 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      * @param item project
      */
     $scope.updateResults = function (item) {
-        item = $scope.parseDate(item);
-
         item.result = [];
 
         //loop through all the results
         for (var i = 0; i < $scope.resultsToAdd.length; i++) {
             var result = $scope.resultsToAdd[i];
-            //checking for valid savings/hours amounts
 
+            //checking for valid savings/hours amounts
             //if both are invalid then alert error message
             if (!$scope.validate.validateSavings(result.savings) && !$scope.validate.validateHours(result.hours)) {
                 alert("Need at least savings or hours");
@@ -392,6 +390,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      */
     $scope.compileProject = function (item) {
         if ($scope.validateProject(item)) {
+            item = $scope.parseDate(item);
             $scope.updateResults(item);
 
             if ($scope.legitSavings(item)) {
