@@ -287,66 +287,106 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
 
     
     //------------------------------------------------------------------------------------------------------------------
-    
+
     //Adding/updating projects
+
+    /**
+     * Validates a project and alerts accordingly
+     * @param item project
+     * @returns {boolean} false if any fields are invalid and alerts accordingly, true if everything is correct
+     */
+    $scope.validateProject = function (item) {
+        if (!$scope.validate.validateField(item.title)) {
+            alert("Invalid project title");
+            return false;
+        }
+        else if (item.date === undefined || item.date === null) {
+            alert("Invalid date");
+            return false;
+        }
+        else if (!$scope.validate.validateField(item.summary)) {
+            alert("Invalid summary");
+            return false;
+        }
+        else if ($scope.noDiscipline()) {
+            alert("No disciplines selected!");
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+
+    /**
+     * Checks the savings for legit amounts
+     * @param item project
+     * @returns {boolean} false if the savings/hours are negative, and if both amounts are 0 or less
+     */
+    $scope.legitSavings = function (item) {
+        if (item.savings < 0) {
+            alert("Error: Negative savings");
+            return false;
+        }
+        if (item.hours < 0) {
+            alert("Error: Negative hours");
+            return false;
+        }
+        if (item.savings <= 0 && item.hours <= 0) {
+            alert("Error: project has no savings");
+            return false;
+        }
+        return true;
+    };
+
+    /**
+     * Updates a project's results
+     * @param item project
+     */
+    $scope.updateResults = function (item) {
+        item = $scope.parseDate(item);
+
+        item.result = [];
+
+        for (var i = 0; i < $scope.resultsToAdd.length; i++) {
+            var result = $scope.resultsToAdd[i];
+            if (!$scope.validate.validateField(result.summary)) {
+                alert("Invalid improvement description");
+            }
+            else if (!$scope.validate.validateField(result.details)) {
+                alert("Invalid results accomplished");
+            }
+            else {
+                if (!$scope.validate.validateSavings(result.savings) && !$scope.validate.validateHours(result.hours)) {
+                    alert("Need at least savings or hours");
+                }
+                else if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
+                    if (!$scope.validate.validateSavings(result.savings)) {
+                        result.savings = 0;
+                    }
+                    else if (!$scope.validate.validateHours(result.hours)){
+                        result.hours = 0;
+                    }
+                    item.result.push(result);
+                }
+                else {
+                    item.result.push(result);
+                }
+            }
+        }
+
+        item.savings = savings.projectSavings(item);
+        item.hours = savings.projectHours(item);
+    };
     
     /**
      * Adds a project to the items array
      * @param item project to be added
      */
     $scope.addProject = function (item) {
-        //if any required fields are empty
-        if (!$scope.validate.validateField(item.title)) {
-            alert("Invalid project title");
-        }
-        else if (item.date === undefined || item.date === null) {
-            alert("Invalid date");
-        }
-        else if (!$scope.validate.validateField(item.summary)) {
-            alert("Invalid summary");
-        }
-        else if ($scope.noDiscipline()) {
-            alert("No disciplines selected!");
-        }
-        else {
-            item = $scope.parseDate(item);
+        if ($scope.validateProject(item)) {
+            $scope.updateResults(item);
 
-            item.result = [];
-
-            for (var i = 0; i < $scope.resultsToAdd.length; i++) {
-                var result = $scope.resultsToAdd[i];
-                if (!$scope.validate.validateField(result.summary)) {
-                    alert("Invalid improvement description");
-                }
-                else if (!$scope.validate.validateField(result.details)) {
-                    alert("Invalid results accomplished");
-                }
-                else {
-                    if (!$scope.validate.validateSavings(result.savings) && !$scope.validate.validateHours(result.hours)) {
-                        alert("Need at least savings or hours");
-                    }
-                    else if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
-                        if (!$scope.validate.validateSavings(result.savings)) {
-                            result.savings = 0;
-                        }
-                        else if (!$scope.validate.validateHours(result.hours)){
-                            result.hours = 0;
-                        }
-                        item.result.push(result);
-                    }
-                    else {
-                        item.result.push(result);
-                    }
-                }
-            }
-
-            item.savings = savings.projectSavings(item);
-            item.hours = savings.projectHours(item);
-
-            if (item.savings <= 0 && item.hours <= 0) {
-                alert("Error: project has no savings");
-            }
-            else {
+            if ($scope.legitSavings(item)) {
                 item.manager = sharedData.globalManager[0];
                 $scope.updateDisciplines(item);
 
@@ -361,52 +401,11 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      * @param item updated project
      */
     $scope.updateProject = function (item) {
-        //if any required fields are empty
-        if (!$scope.validate.validateField(item.title)) {
-            alert("Invalid project title");
-        }
-        else if (item.date === undefined || item.date === null) {
-            alert("Invalid date");
-        }
-        else if (!$scope.validate.validateField(item.summary)) {
-            alert("Invalid summary");
-        }
-        else if ($scope.noDiscipline()) {
-            alert("No disciplines selected!");
-        }
-        else {
-            item = $scope.parseDate(item);
+        if ($scope.validateProject(item)) {
+            $scope.updateResults(item);
 
-            item.result = [];
-
-            for (var i = 0; i < $scope.resultsToAdd.length; i++) {
-                var result = $scope.resultsToAdd[i];
-                if (!$scope.validate.validateField(result.summary)) {
-                    alert("Invalid improvement description");
-                }
-                else if (!$scope.validate.validateField(result.details)) {
-                    alert("Invalid results accomplished");
-                }
-                else {
-                    if (!$scope.validate.validateSavings(result.savings) || !$scope.validate.validateHours(result.hours)) {
-                        if (!$scope.validate.validateSavings(result.savings)) {
-                            result.savings = 0;
-                        }
-                        else {
-                            result.hours = 0;
-                        }
-                    }
-                    item.result.push(result);
-                }
-            }
-
-            item.savings = savings.projectSavings(item);
-            item.hours = savings.projectHours(item);
-
-            if (item.savings <= 0 && item.hours <= 0) {
-                alert("Error: project has no savings");
-            }
-            else {
+            if ($scope.legitSavings(item)) {
+                //checks if it's stored in the database
                 if (sharedData.fromDatabase) {
                     var promise = database.updateProjectFromDatabase(item._id, item);
                     promise.then(function() {
