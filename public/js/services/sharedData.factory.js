@@ -58,7 +58,7 @@ app.factory('sharedData', function($window) {
     data.goBackToUser = function () {
         this.project = null;
         this.clearProjectList();
-        $window.location.href = '#!/user';
+        $window.location.href = '#!/previous';
     };
 
     /**
