@@ -6,19 +6,19 @@ The middleware of the application uses Express.js to provide a REST api for the 
 
 Required Dependencies:
 
-    git
+    git (install with package manager)
   
-    npm
+    npm (install with package manager)
   
-    bower
+    bower ($npm install -g bower)
   
 Optional Dependencies:
 
-    pm2
+    pm2 ($npm install -g pm2)
   
-    nginx
+    nginx (install with package manager)
 
-Build Instructions for Node:
+Build Instructions for Node (targeted at Linux, but should apply to other OS):
 
     clone the repo and cd into node-project-server
   
@@ -42,11 +42,11 @@ Build Instructions for Node:
         
         change its value to the public ip where the server is running
       
-    if you installed pm2
+    start the server
     
-        run $pm2 start server.js
+        if you installed pm2, run $pm2 start server.js
         
-        otherwise run $node server.js
+        otherwise, run $node server.js
       
     the server should now be running on port 8080 or whatever port you changed it to run on
     
