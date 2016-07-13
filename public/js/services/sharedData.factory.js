@@ -38,14 +38,14 @@ app.factory('sharedData', function($window) {
     data.logOut = function () {
         if (data.projectList.length > 0) {
             if (confirm("Are you sure you want to log out with unsubmitted projects?")) {
-                this.clearGlobalManager();
+                this.globalManager = [];
                 this.clearProjectList();
                 this.project = null;
                 $window.location.href = '#!/login';
             }
         }
         else {
-            this.clearGlobalManager();
+            this.globalManager = [];
             this.clearProjectList();
             this.project = null;
             $window.location.href = '#!/login';
@@ -93,7 +93,7 @@ app.factory('sharedData', function($window) {
 
         if (this.loggedIn()) {
             console.log("Switching from regular user to admin...");
-            this.clearGlobalManager();
+            this.globalManager = [];
         }
         
         this.setGlobalManager(admin);
@@ -114,13 +114,6 @@ app.factory('sharedData', function($window) {
         }
     };
     
-    /**
-     * Clears the global manager (logs out)
-     */
-    data.clearGlobalManager = function () {
-        this.globalManager = [];
-    };
-
     /**
      * Adds a project to projectList and the end
      * of the array
@@ -163,7 +156,6 @@ app.factory('sharedData', function($window) {
         }
         return (string + array[array.length - 1]);
     };
-
 
     return data;
 });
