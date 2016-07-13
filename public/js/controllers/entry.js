@@ -26,8 +26,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
     //output of disciplines check boxes
     $scope.projectDisciplines = [];
 
+    
     //------------------------------------------------------------------------------------------------------------------
-
     // initialize the page
 
     /**
@@ -126,8 +126,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         }
     };
 
+    
     //------------------------------------------------------------------------------------------------------------------
-
     //discipline related functions
 
     /**
@@ -197,8 +197,8 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         }
     };
 
+    
     //------------------------------------------------------------------------------------------------------------------
-
     //Project form-related functions
 
     /**
@@ -287,7 +287,6 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
 
 
     //------------------------------------------------------------------------------------------------------------------
-
     //Adding/updating projects
 
     /**
