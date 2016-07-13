@@ -128,7 +128,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
 
     
     //------------------------------------------------------------------------------------------------------------------
-    //discipline related functions
+    // discipline related functions
 
     /**
      * Updates a project's disciplines
@@ -199,7 +199,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
 
     
     //------------------------------------------------------------------------------------------------------------------
-    //Project form-related functions
+    // project form-related functions
 
     /**
      * Adds a new results field
@@ -287,7 +287,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
 
 
     //------------------------------------------------------------------------------------------------------------------
-    //Adding/updating projects
+    // adding and updating projects
 
     /**
      * Validates a project and alerts accordingly
