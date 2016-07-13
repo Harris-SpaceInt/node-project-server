@@ -6,60 +6,60 @@ The middleware of the application uses Express.js to provide a REST api for the 
 
 Dependencies:
 
-  git
+    git
   
-  npm
+    npm
   
-  bower
+    bower
   
 Optional Dependencies:
 
-  pm2
+    pm2
   
-  nginx
+    nginx
 
 Build Instructions for Node:
 
-  clone the repo and cd into node-project-server
+    clone the repo and cd into node-project-server
   
-  run $npm install
-  
-  run $bower install
-  
-  (optional) change the port that the server will run on
-  
-    open server.js
+    run $npm install
     
-    find var port = process.env.PORT || 8080;
+    run $bower install
     
-    change 8080 to whatever port you want to run on
+    (optional) change the port that the server will run on
     
-  change the dataUrl variable in database.factory.js
-  
-    open public/js/services/database.factory.js
+        open server.js
+        
+        find var port = process.env.PORT || 8080;
+        
+        change 8080 to whatever port you want to run on
+      
+    change the dataUrl variable in database.factory.js
     
-    find $scope.dataUrl
+        open public/js/services/database.factory.js
+        
+        find $scope.dataUrl
+        
+        change its value to the public ip where the server is running
+      
+    if you installed pm2
     
-    change its value to the public ip where the server is running
+        run $pm2 start server.js
+        
+        otherwise run $node server.js
+      
+    the server should now be running on port 8080 or whatever port you changed it to run on
     
-  if you installed pm2
-  
-    run $pm2 start server.js
+    you can test the server by going to localhost:8080 in your browser
     
-    otherwise run $node server.js
-    
-  the server should now be running on port 8080 or whatever port you changed it to run on
-  
-  you can test the server by going to localhost:8080 in your browser
-  
 Build Instructions for Nginx (requires nginx installation):
 
-  follow these instructions if you want to connect to the node server through port 80 in the browser
-  
-  this will set up a reverse proxy to allow clients to connect without entering the port number in the browser
-  
-  clone the repo called nginx-project-server
-  
-  it contains the config files for nginx
-  
-  follow the instructions in README.md
+    follow these instructions if you want to connect to the node server through port 80 in the browser
+    
+    this will set up a reverse proxy to allow clients to connect without entering the port number in the browser
+    
+    clone the repo called nginx-project-server
+    
+    it contains the config files for nginx
+    
+    follow the instructions in README.md
