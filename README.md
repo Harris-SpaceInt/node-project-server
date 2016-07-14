@@ -14,7 +14,7 @@ The middleware of the application uses Express.js to provide a REST api for the 
 
 ## Setting up the server
 
-##### Starting Mongo (Red Hat Enterprise Linux 6):
+### Starting Mongo (Red Hat Enterprise Linux 6):
     
     $ wget -O ~/Downloads 'https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel62-3.2.8.tgz'
         
@@ -24,7 +24,7 @@ The middleware of the application uses Express.js to provide a REST api for the 
     
     $ ./~/Documents/mongodb-linux-x86_64-rhel62-3.2.8/bin/mongod --dbpath ~/data/db
 
-##### Starting the Server (START MONGO BEFORE DOING THIS):
+### Starting the Server (START MONGO BEFORE DOING THIS):
 
     $ git clone https://github.com/amaczugowski/node-project-server
     
@@ -36,7 +36,7 @@ The middleware of the application uses Express.js to provide a REST api for the 
     
     $ pm2 start server.js
       
-##### Change the url that the client will grab data from
+### Change the url that the client will grab data from
     
     get your public ip in the terminal:
             
@@ -50,7 +50,7 @@ The middleware of the application uses Express.js to provide a REST api for the 
     
     change the ip on the line with the comment to the public ip of the server 
     
-##### Access the website without typing the port number:
+### Access the website without typing the port number:
 
     download and install nginx (http://nginx.org/en/download.html)
     
@@ -62,7 +62,7 @@ The middleware of the application uses Express.js to provide a REST api for the 
     
     follow the instructions in nginx-project-server/README.md
     
-##### (optional) Change the port that the server will run on:
+### (optional) Change the port that the server will run on:
 
     open node-project-server/server.js
     
