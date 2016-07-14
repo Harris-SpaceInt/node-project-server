@@ -40,11 +40,11 @@ The middleware of the application uses Express.js to provide a REST api for the 
     
     get your public ip in the terminal:
             
-            > $ ifconfig
+        > $ ifconfig
             
-            > look for "eth" and then a number (ex. "eth0" or "eth1")
+        > look for "eth" and then a number (ex. "eth0" or "eth1")
             
-            > on the next line, "inet addr" is your public ip
+        > on the next line, "inet addr" is your public ip
             
     open node-project-server/public/js/config/url.constant.js
     
