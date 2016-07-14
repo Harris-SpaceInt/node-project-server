@@ -10,7 +10,6 @@ app.controller('previewCtrl', function ($scope, $window, $q, sharedData, databas
      * Initializes the page
      */
     $scope.pageInit = function () {
-        console.log($scope.sharedData.projectList[0].team);
         // check if user is already logged in
         if (!$scope.sharedData.loggedIn()) {
             // user is not logged in

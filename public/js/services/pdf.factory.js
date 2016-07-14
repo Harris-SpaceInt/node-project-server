@@ -89,7 +89,7 @@ app.factory('pdf', function(staticImages) {
                 headerRows: 1,
                 widths: [100, 141, 250],
                 body: [
-                    [{text: "Project Title", bold: true}, {text: "Team Members", bold: true}, {
+                    [{text: "Project Title", bold: true, alignment: 'center'}, {text: "Team Members", bold: true, alignment: 'center'}, {
                         text: "Discipline(s)",
                         bold: true,
                         alignment: 'center'
@@ -218,8 +218,8 @@ app.factory('pdf', function(staticImages) {
                     headerRows: 1,
                     widths: [250, 250],
                     body: [
-                        [{text: "Result #" + (i + 1), bold: true, alignment: 'center', colSpan: 2}, {}],
-                        [{text: "Improvement Description", bold: true}, {text: "Improvement Results", bold: true}],
+                        [{text: "\nResult #" + (i + 1), bold: true, alignment: 'center', colSpan: 2}, {}],
+                        [{text: "Improvement Description", bold: true, alignment: 'center'}, {text: "Improvement Results", bold: true, alignment: 'center'}],
                         [project.result[i].summary, project.result[i].details]
                     ]
                 },
