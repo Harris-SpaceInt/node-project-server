@@ -27,31 +27,31 @@ app.config([
 
         $routeProvider.
         when('/login', {
-            templateUrl: 'templates/email.template.html',
+            templateUrl: 'views/email.template.html',
             controller: 'emailCtrl'
         }).
         when('/user', {
-            templateUrl: 'templates/user.template.html',
+            templateUrl: 'views/user.template.html',
             controller: 'userCtrl'
         }).
         when('/display', {
-            templateUrl: 'templates/display.template.html',
+            templateUrl: 'views/display.template.html',
             controller: 'displayCtrl'
         }).
         when('/entry', {
-            templateUrl: 'templates/entry.template.html',
+            templateUrl: 'views/entry.template.html',
             controller: 'entryCtrl'
         }).
         when('/previous', {
-            templateUrl: 'templates/previous.template.html',
+            templateUrl: 'views/previous.template.html',
             controller: 'previousCtrl'
         }).
         when('/preview', {
-            templateUrl: 'templates/preview.template.html',
+            templateUrl: 'views/preview.template.html',
             controller: 'previewCtrl'
         }).
         when('/manage', {
-            templateUrl: 'templates/manage.template.html',
+            templateUrl: 'views/manage.template.html',
             controller: 'manageCtrl'
         }).
         otherwise('/login');

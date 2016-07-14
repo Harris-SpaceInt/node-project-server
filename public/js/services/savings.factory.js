@@ -1,6 +1,3 @@
-/**
- * Created by ewu on 7/6/2016.
- */
 'use strict';
 
 var app = angular.module('myApp');

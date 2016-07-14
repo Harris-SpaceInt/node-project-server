@@ -352,6 +352,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      * in results. Checks that the project has at least
      * savings or hours, then autofills missing fields.
      * @param item project
+     * @returns {boolean} true if 
      */
     $scope.updateResults = function (item) {
         item.result = [];
