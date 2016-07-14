@@ -4,62 +4,82 @@ node-project-server is a MEAN (Mongodb, Express, Angularjs, Node.js) web applica
 The client-side is built using Angularjs (with Foundation css framework for styling), and uses SPA (Single Page Application) principals such as angular routing to deliver a seamless user experience navigating through the application. 
 The middleware of the application uses Express.js to provide a REST api for the client application to share data with a Mongodb database.
 
-Required Dependencies:
+## Dependencies you need before following the instructions below:
 
-    git (install with package manager)
+    git (http://git-scm.com/)
   
-    npm (install with package manager)
+    node (http://nodejs.org/en/download/)
   
-    bower ($npm install -g bower)
-  
-Optional Dependencies:
+    bower ($ npm install -g bower)
 
-    pm2 ($npm install -g pm2)
-  
-    nginx (install with package manager)
+## Setting up the server
 
-Build Instructions for Node (targeted at Linux, but should apply to other OS):
-
-    clone the repo and cd into node-project-server
-  
-    run $npm install
+##### Starting Mongo (Red Hat Enterprise Linux 6):
     
-    run $bower install
-    
-    (optional) change the port that the server will run on
-    
-        open server.js
+    $ wget -O ~/Downloads 'https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel62-3.2.8.tgz'
         
-        find var port = process.env.PORT || 8080;
-        
-        change 8080 to whatever port you want to run on
+    $ tar -xvzf ~/Downloads/mongodb-linux-x86_64-rhel62-3.2.8.tgz -C ~/Documents
+    
+    $ mkdir ~/data/db
+    
+    $ ./~/Documents/mongodb-linux-x86_64-rhel62-3.2.8/bin/mongod --dbpath ~/data/db
+
+##### Starting the Server (START MONGO BEFORE DOING THIS):
+
+    $ git clone https://github.com/amaczugowski/node-project-server
+    
+    $ cd node-project-server
+  
+    $ npm install && bower install
+    
+    $ npm install -g pm2
+    
+    $ pm2 start server.js
       
-    change the dataUrl variable in database.factory.js
+##### Change the url that the client will grab data from
     
-        open public/js/services/database.factory.js
-        
-        find $scope.dataUrl
-        
-        change its value to the public ip where the server is running
-      
-    start the server
+    get your public ip in the terminal:
+            
+            > $ ifconfig
+            
+            > look for "eth" and then a number (ex. "eth0" or "eth1")
+            
+            > on the next line, "inet addr" is your public ip
+            
+    open node-project-server/public/js/config/url.constant.js
     
-        if you installed pm2, run $pm2 start server.js
-        
-        otherwise, run $node server.js
-      
-    the server should now be running on port 8080 or whatever port you changed it to run on
+    change the ip on the line with the comment to the public ip of the server 
     
-    you can test the server by going to localhost:8080 in your browser
-    
-Build Instructions for Nginx (requires nginx installation):
+##### Access the website without typing the port number:
 
-    follow these instructions if you want to connect to the node server through port 80 in the browser
+    download and install nginx (http://nginx.org/en/download.html)
     
-    this will set up a reverse proxy to allow clients to connect without entering the port number in the browser
+    download the config files:
     
-    clone the repo called nginx-project-server
+        > $ git clone https://github.com/amaczugowski/nginx-project-server
     
-    it contains the config files for nginx
+    nginx-project-server contains the config files for nginx
     
-    follow the instructions in README.md
+    follow the instructions in nginx-project-server/README.md
+    
+##### (optional) Change the port that the server will run on:
+
+    open node-project-server/server.js
+    
+    find "var port = process.env.PORT || 8080;"
+    
+    change 8080 to whatever port you want to run on
+    
+    restart the server:
+    
+        > $ pm2 restart 0
+
+## After configuring
+    
+When you restart the computer, you will be able to run the server by starting mongo:
+    
+    $ ./~/Documents/mongodb-linux-x86_64-rhel62-3.2.8/bin/mongod --dbpath ~/data/db
+    
+and starting the node server:
+
+    $ pm2 start server.js
