@@ -1,0 +1,22 @@
+{
+  "name": "public",
+  "homepage": "https://github.com/amaczugowski/node-project-server",
+  "authors": [
+    "Andrew Maczugowski <amaczugowski@gmail.com>",
+    "Edmond Wu <edma_wu@yahoo.com>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "MIT",
+  "dependencies": {
+    "angular":"~1.5.7",
+    "angular-animate": "^1.5.7",
+    "angular-loader": "~1.5.0",
+    "angular-mocks": "~1.5.0",
+    "angular-route": "~1.5.0",
+    "angular-ui-date": "^1.0.1",
+    "angular-multi-select": "https://github.com/isteven/angular-multi-select",
+    "html5-boilerplate": "^5.3.0",
+    "isteven-angular-multiselect": "https://github.com/isteven/angular-multi-select.git#^4.0.0"
+  }
+}
