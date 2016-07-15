@@ -12,6 +12,14 @@ var ManagerSchema = new Schema({
     },
     unit: {
         type: String,
+        enum: [
+            "ISR",
+            "Space Superiority",
+            "Proprietary",
+            "Geospatial",
+            "Environmental",
+            "PNT"
+        ],
         required: true
     },
     function: String,

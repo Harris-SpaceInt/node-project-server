@@ -205,10 +205,7 @@
         </div>
     </div>
     <div class="text-center" ng-hide="showSubmitted">
-        <button class="button" ng-click="addNew()"><b>Add New Project</b></button>
-        <!-- Add to database -->
-        <div ng-show="items.length > 0">
-            <button class="button" ng-click="addToDB()"><b>Submit</b></button>
-        </div>
+        <button class="button-secondary" ng-click="addNew()"><b>Add Another Project</b></button>
+        <button ng-show="items.length > 0" class="button" ng-click="addToDB()"><b>Submit</b></button>
     </div>
 </div>
