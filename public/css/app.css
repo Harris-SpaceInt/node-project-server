@@ -43,6 +43,18 @@ textarea {
     margin-left: 50px;
 }
 
+.nav {
+    float: right;
+}
+
+.brs {
+    padding-bottom: 6em;
+}
+
+.harris {
+    float: left;
+}
+
 #form {
     background-color: white;
 }

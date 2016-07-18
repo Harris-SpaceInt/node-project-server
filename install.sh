@@ -3,7 +3,7 @@
 echo "setting up server..."
 chmod +x scripts/setup.sh
 ./scripts/setup.sh
-./scipts/npm-dependencies.sh
+./scripts/npm-dependencies.sh
 
 echo "setup finished successfully"
 echo "start the server:"
