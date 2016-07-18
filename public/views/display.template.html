@@ -1,177 +1,176 @@
 <!-- Admin display page -->
 <div>
-    <div class="display-body">
-        <div class="head-container">
-            <img src="../assets/harris-logo.png">
-            <div style="float:right">
-                <button class="button-secondary" ng-click="switchToFull()">Full View</button>
-                <button class="button" ng-click="sharedData.logOut()">Log Out</button>
-            </div>
-            <div class="text-center">
-                <!--<img src="../assets/title-logo.png" width="800px">-->
-            </div>
-            <br>
-        </div>
-        <br>
-        <!-- Viewing previously submitted report data -->
-        <div class="row">
-            <div class="large-3 columns">
-                <p></p>
-            </div>
-            <div class="large-6 columns">
-                <div ng-hide="prev_reports">
-                    <div class="text-center">
-                        <button ng-hide="showPrevReports" class="button" ng-click="setShowPrevReports()">Show Previous
-                            Reports
-                        </button>
-                        <button ng-show="showPrevReports" class="button-secondary" ng-click="setShowPrevReports()">Hide Previous
-                            Reports
-                        </button>
-                    </div>
-                    <div ng-show="showPrevReports">
-                        <table>
-                            <tr>
-                                <th>Report Date</th>
-                                <th>View Report</th>
-                            </tr>
-                            <tr ng-repeat="report in database.reports | orderBy:'date':true track by $index">
-                                <td class="text-center" ng-hide="$index > 4 && !expandedList">
-                                    <p>{{report.month + "/" + report.day + "/" + report.year}}</p>
-                                </td>
-                                <td class="text-center" ng-hide="$index > 4 && !expandedList">
-                                    <button class="button-secondary" ng-click="addReportsToDisplay(report)">View Report
-                                        Projects
-                                    </button>
-                                </td>
-                                <td colspan="2" ng-show="$index === 5 && !expandedList" class="text-center" id="expand-button">
-                                    <button class="button" ng-click="expandList()">Show More</button>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div ng-show="prev_reports">
-                    <div class="text-center">
-                        <button class="button" ng-click="hideReports()">View Non-Report Projects</button>
-                    </div>
-                </div>
-            </div>
-            <div class="large-3 columns">
-                <p></p>
-            </div>
-        </div>
-
-        <div class="row">
-            <!-- selected reports - can be shown or hidden -->
-            <div class="text-center">
-                <h5 class="highlight"><b>Total Savings: $ {{totalSavings()}}</b></h5><br>
-                <div ng-show="benchmarkReached(totalSavings())">
-                    <h4 class="highlight"><b>$ {{benchmark}} BENCHMARK REACHED!</b></h4><br>
-                </div>
-                <h4><b>Selected Projects:</b></h4>
-                <button ng-hide="showSelectedProjects" ng-click="setSelectedProjects()" class="button-secondary">Show
-                </button>
-                <button ng-show="showSelectedProjects" ng-click="setSelectedProjects()" class="button-secondary">Hide
-                </button>
-            </div>
-
-            <div ng-show="showSelectedProjects" ng-repeat="x in database.projects | orderBy: 'title'"
-                 class="text-center">
-                <div ng-show="x.checked">
-                    {{x.title}}
-                </div>
-            </div>
-
-            <!-- Selected reports summary -->
-            <div ng-show="showSelectedProjects" class="text-center">
-                <div ng-hide="somethingChecked()">
-                    No projects selected.
-                </div>
-            </div>
-
-            <div ng-show="somethingChecked()" class="text-center">
-                <strong>
-                    <br>
-                    {{numChecked()}} project(s) selected
-                </strong>
-            </div>
-
-            <!-- button to create report -->
-            <div class="text-center">
-                <div ng-show="somethingChecked()">
-                    <button ng-click="createReport()" class="button">Create Report PDF</button>
-                    <br><br>
-                </div>
-                <div ng-show="report_projects.length > 0">
-                    <button ng-click="pdf.createReportPDF(currentReport)" class="button">Show Report PDF</button>
-                    <br><br>
-                </div>
-            </div>
-        </div>
-
-        <!-- filtering by disciplines -->
-        <div ng-hide="prev_reports" class="discipline">
-            <h5><b>Filter by discipline:</b></h5>
-            <div isteven-multi-select
-                 input-model="disciplines"
-                 output-model="projectDisciplines"
-                 button-label="label"
-                 item-label="label"
-                 tick-property="ticked"
-                 on-item-click="filterDisciplines()"
-                 on-select-none="noOrAllDisciplines()"
-                 on-select-all="noOrAllDisciplines()">
-            </div>
-        </div>
-
-        <!-- project display table -->
-        <div class="text-center">Click headers to change sorting</div>
-        <table class="text-center">
-            <tr>
-                <!-- ng-clicks control sorting for the table -->
-                <th ng-hide="prev_reports" ng-click=setSortOrder('checked')>
-                    <input type="checkbox" ng-change="selectFunction()" ng-model="majorSelection">
-                    <strong>Select Projects</strong>
-                </th>
-                <th ng-show="prev_reports"><strong>Report Date</strong></th>
-                <th ng-click=setSortOrder('date')><strong>Completion Date</strong></th>
-                <th ng-click=setSortOrder('title')><strong>Project Name</strong></th>
-                <th ng-click=setSortOrder('manager.name')><strong>Manager</strong></th>
-                <th><strong>Discipline(s)</strong></th>
-                <th ng-click=setSortOrder('savings')><strong>Savings</strong></th>
-                <th ng-click=setSortOrder('hours')><strong>Saved Hours</strong></th>
-                <th><strong>View Full Report</strong></th>
-            </tr>
-            <tbody ng-show="prev_reports"
-                   ng-repeat="proj in report_projects | orderBy: sortOrder: reverse track by $index">
-            <tr>
-                <td style="color: red">Report {{report_date}}</td>
-                <td>{{proj.month}}/{{proj.day}}/{{proj.year}}</td>
-                <td>{{proj.title}}</td>
-                <td>{{proj.manager.name}}</td>
-                <td>{{proj.discipline.join(", ")}}</td>
-                <td>$ {{proj.savings}}</td>
-                <td>{{proj.hours}}</td>
-                <td>
-                    <button ng-click="showFull(proj)" class="button">Show Full</button>
-                </td>
-            </tr>
-            </tbody>
-            <tbody ng-hide="prev_reports" ng-repeat="x in database.projects | orderBy: sortOrder: reverse">
-            <tr ng-hide="x.generated" ng-show="x.visible">
-                <td><input type="checkbox" ng-model="x.checked" ng-show="!x.generated"></td>
-                <td>{{x.month}}/{{x.day}}/{{x.year}}</td>
-                <td>{{x.title}}</td>
-                <td>{{x.manager.name}}</td>
-                <td>{{x.discipline.join(", ")}}</td>
-                <td>$ {{x.savings}}</td>
-                <td>{{x.hours}}</td>
-                <td>
-                    <button class="button" ng-click="showFull(x)">Show Full</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <!--<img src="assets/harris-logo.png">-->
+    <div style="float:right">
+        <button class="button-secondary" ng-click="switchToFull()">Full View</button>
+        <button class="button" ng-click="sharedData.logOut()">Log Out</button>
     </div>
+    <div class="text-center">
+        <!--<img src="../assets/title-logo.png" width="800px">-->
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- Viewing previously submitted report data -->
+    <div class="row">
+        <div class="large-3 columns">
+            <p></p>
+        </div>
+        <div class="large-6 columns">
+            <div ng-hide="prev_reports">
+                <div class="text-center">
+                    <button ng-hide="showPrevReports" class="button" ng-click="setShowPrevReports()">Show Previous
+                        Reports
+                    </button>
+                    <button ng-show="showPrevReports" class="button-secondary" ng-click="setShowPrevReports()">Hide Previous
+                        Reports
+                    </button>
+                </div>
+                <div ng-show="showPrevReports">
+                    <table>
+                        <tr>
+                            <th>Report Date</th>
+                            <th>View Report</th>
+                        </tr>
+                        <tr ng-repeat="report in database.reports | orderBy:'date':true track by $index">
+                            <td class="text-center" ng-hide="$index > 4 && !expandedList">
+                                <p>{{report.month + "/" + report.day + "/" + report.year}}</p>
+                            </td>
+                            <td class="text-center" ng-hide="$index > 4 && !expandedList">
+                                <button class="button-secondary" ng-click="addReportsToDisplay(report)">View Report
+                                    Projects
+                                </button>
+                            </td>
+                            <td colspan="2" ng-show="$index === 5 && !expandedList" class="text-center" id="expand-button">
+                                <button class="button" ng-click="expandList()">Show More</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="prev_reports">
+                <div class="text-center">
+                    <button class="button" ng-click="hideReports()">View Non-Report Projects</button>
+                </div>
+            </div>
+        </div>
+        <div class="large-3 columns">
+            <p></p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- selected reports - can be shown or hidden -->
+        <div class="text-center">
+            <h5 class="highlight"><b>Total Savings: $ {{totalSavings()}}</b></h5><br>
+            <div ng-show="benchmarkReached(totalSavings())">
+                <h4 class="highlight"><b>$ {{benchmark}} BENCHMARK REACHED!</b></h4><br>
+            </div>
+            <h4><b>Selected Projects:</b></h4>
+            <button ng-hide="showSelectedProjects" ng-click="setSelectedProjects()" class="button-secondary">Show
+            </button>
+            <button ng-show="showSelectedProjects" ng-click="setSelectedProjects()" class="button-secondary">Hide
+            </button>
+        </div>
+
+        <div ng-show="showSelectedProjects" ng-repeat="x in database.projects | orderBy: 'title'"
+             class="text-center">
+            <div ng-show="x.checked">
+                {{x.title}}
+            </div>
+        </div>
+
+        <!-- Selected reports summary -->
+        <div ng-show="showSelectedProjects" class="text-center">
+            <div ng-hide="somethingChecked()">
+                No projects selected.
+            </div>
+        </div>
+
+        <div ng-show="somethingChecked()" class="text-center">
+            <strong>
+                <br>
+                {{numChecked()}} project(s) selected
+            </strong>
+        </div>
+
+        <!-- button to create report -->
+        <div class="text-center">
+            <div ng-show="somethingChecked()">
+                <button ng-click="createReport()" class="button">Create Report PDF</button>
+                <br><br>
+            </div>
+            <div ng-show="report_projects.length > 0">
+                <button ng-click="pdf.createReportPDF(currentReport)" class="button">Show Report PDF</button>
+                <br><br>
+            </div>
+        </div>
+    </div>
+
+    <!-- filtering by disciplines -->
+    <div ng-hide="prev_reports" class="discipline">
+        <h5><b>Filter by discipline:</b></h5>
+        <div isteven-multi-select
+             input-model="disciplines"
+             output-model="projectDisciplines"
+             button-label="label"
+             item-label="label"
+             tick-property="ticked"
+             on-item-click="filterDisciplines()"
+             on-select-none="noOrAllDisciplines()"
+             on-select-all="noOrAllDisciplines()">
+        </div>
+    </div>
+
+    <!-- project display table -->
+    <div class="text-center">Click headers to change sorting</div>
+    <table class="text-center">
+        <tr>
+            <!-- ng-clicks control sorting for the table -->
+            <th ng-hide="prev_reports" ng-click=setSortOrder('checked')>
+                <input type="checkbox" ng-change="selectFunction()" ng-model="majorSelection">
+                <strong>Select Projects</strong>
+            </th>
+            <th ng-show="prev_reports"><strong>Report Date</strong></th>
+            <th ng-click=setSortOrder('date')><strong>Completion Date</strong></th>
+            <th ng-click=setSortOrder('title')><strong>Project Name</strong></th>
+            <th ng-click=setSortOrder('manager.name')><strong>Manager</strong></th>
+            <th><strong>Discipline(s)</strong></th>
+            <th ng-click=setSortOrder('savings')><strong>Savings</strong></th>
+            <th ng-click=setSortOrder('hours')><strong>Saved Hours</strong></th>
+            <th><strong>View Full Report</strong></th>
+        </tr>
+        <tbody ng-show="prev_reports"
+               ng-repeat="proj in report_projects | orderBy: sortOrder: reverse track by $index">
+        <tr>
+            <td style="color: red">Report {{report_date}}</td>
+            <td>{{proj.month}}/{{proj.day}}/{{proj.year}}</td>
+            <td>{{proj.title}}</td>
+            <td>{{proj.manager.name}}</td>
+            <td>{{proj.discipline.join(", ")}}</td>
+            <td>$ {{proj.savings}}</td>
+            <td>{{proj.hours}}</td>
+            <td>
+                <button ng-click="showFull(proj)" class="button">Show Full</button>
+            </td>
+        </tr>
+        </tbody>
+        <tbody ng-hide="prev_reports" ng-repeat="x in database.projects | orderBy: sortOrder: reverse">
+        <tr ng-hide="x.generated" ng-show="x.visible">
+            <td><input type="checkbox" ng-model="x.checked" ng-show="!x.generated"></td>
+            <td>{{x.month}}/{{x.day}}/{{x.year}}</td>
+            <td>{{x.title}}</td>
+            <td>{{x.manager.name}}</td>
+            <td>{{x.discipline.join(", ")}}</td>
+            <td>$ {{x.savings}}</td>
+            <td>{{x.hours}}</td>
+            <td>
+                <button class="button" ng-click="showFull(x)">Show Full</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </html>
