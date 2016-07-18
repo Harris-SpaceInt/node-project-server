@@ -1,18 +1,10 @@
 <!-- viewing projects that have been submitted but not added to database -->
 <div>
-    <!--<img src="assets/harris-logo.png">-->
-    <div style="float:right">
+    <div class="nav">
         <button class="button-secondary" ng-click="sharedData.goBackToUser()">Back</button>
         <button class="button" ng-click="sharedData.logOut()">Log Out</button>
     </div>
-    <div class="text-center">
-        <!--<img src="../assets/title-logo.png" width="800px">-->
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <div class="brs"></div>
     <div class="text-center">
         <div ng-repeat="item in items track by $index" class="large-6 large-centered">
             <table>

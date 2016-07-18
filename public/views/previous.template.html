@@ -1,6 +1,5 @@
 <div>
-    <!--<img src="assets/harris-logo.png">-->
-    <div style="float:right">
+    <div class="nav">
         <button ng-show="sharedData.checkAdmin()" class="button-secondary" ng-click="switchToDisplay()">Switch to
             List View
         </button>
@@ -8,14 +7,7 @@
         <button ng-hide="sharedData.checkAdmin()" class="button-secondary" ng-click="editManager()">Edit Profile</button>
         <button class="button" ng-click="sharedData.logOut()">Log Out</button>
     </div>
-    <div class="text-center" ng-hide="showingFullView">
-        <!--<img src="../assets/title-logo.png" width="800px">-->
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <div class="brs"></div>
     <!-- searching previously submitted projects -->
     <div class="row" ng-hide="showingFullView">
         <div class="small-6 float-center">
