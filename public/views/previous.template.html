@@ -85,7 +85,7 @@
 
                     <!-- manager information -->
                     <div class="row" ng-show="sharedData.checkAdmin()">
-                        <br>
+                        <div class="single-br"></div>
                         <h5 class="text-center"><b>Project Manager:</b>
                             <div class="highlight" ng-click="item.checked = !item.checked">{{item.manager.name}} <i>(click
                                 to show manager info)</i></div>
@@ -103,7 +103,7 @@
                                 <td><b>Phone: </b> {{item.manager.phone}}</td>
                             </tr>
                         </table>
-                        <br><br>
+                        <div class="single-br"></div>
                     </div>
 
                     <div class="row">
@@ -179,10 +179,11 @@
 
                     <!-- Displaying results -->
                     <div ng-repeat="result in item.result track by $index">
-                        <br>
+                        <!--<br>-->
+                        <div class="single-br"></div>
                         <div class="row">
                             <div class="text-center">
-                                <h6><i><b>Result</b> #{{$index + 1}}</i></h6>
+                                <h5><i><b>Result</b> #{{$index + 1}}</i></h5>
                             </div>
                         </div>
                         <div class="row">

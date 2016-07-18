@@ -47,6 +47,10 @@ textarea {
     float: right;
 }
 
+.single-br {
+    padding-bottom: 1em;
+}
+
 .brs {
     padding-bottom: 6em;
 }
