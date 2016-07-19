@@ -26,6 +26,7 @@
                             <th>Report Date</th>
                             <th>View Report</th>
                         </tr>
+                        <!-- viewing each report previously submitted -->
                         <tr ng-repeat="report in database.reports | orderBy:'date':true track by $index">
                             <td class="text-center" ng-hide="$index > 4 && !expandedList">
                                 <p>{{report.month + "/" + report.day + "/" + report.year}}</p>
@@ -149,6 +150,8 @@
             </td>
         </tr>
         </tbody>
+
+        <!-- projects that have not been used in a report -->
         <tbody ng-hide="prev_reports" ng-repeat="x in database.projects | orderBy: sortOrder: reverse">
         <tr ng-hide="x.generated" ng-show="x.visible">
             <td><input type="checkbox" ng-model="x.checked" ng-show="!x.generated"></td>
