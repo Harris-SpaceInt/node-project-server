@@ -94,7 +94,7 @@ app.factory('pdf', function(staticImages) {
                         bold: true,
                         alignment: 'center'
                     }],
-                    [project.title, project.team, disciplineString]
+                    [{text: "" + project.title, alignment: 'center'}, {text: "" + project.team, alignment: 'center'}, {text: "" + disciplineString, alignment: 'center'}]
                 ]
             },
             layout: {
@@ -161,7 +161,7 @@ app.factory('pdf', function(staticImages) {
                             bold: true,
                             alignment: 'center'
                         }],
-                        [{text: project.summary + "", alignment: 'center'}, {image: project.image, width: 200}]
+                        [{text: project.summary + "", alignment: 'center'}, {image: project.image, width: 200, alignment: 'center'}]
                     ]
                 },
                 layout: {
@@ -220,7 +220,7 @@ app.factory('pdf', function(staticImages) {
                     body: [
                         [{text: "\nResult #" + (i + 1), bold: true, alignment: 'center', colSpan: 2}, {}],
                         [{text: "Improvement Description", bold: true, alignment: 'center'}, {text: "Improvement Results", bold: true, alignment: 'center'}],
-                        [project.result[i].summary, project.result[i].details]
+                        [{text: "" + project.result[i].summary, alignment: 'center'}, {text: "" + project.result[i].details, alignment: 'center'}]
                     ]
                 },
                 layout: {
