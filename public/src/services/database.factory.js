@@ -17,6 +17,7 @@ app.factory('database', function($http, $q, REST_URL) {
 
 
     // set the url of the database server
+    // REST_URL is set in config/url.constant.js
     var dataUrl = "http://" + REST_URL + "/api";
 
     

@@ -9,6 +9,8 @@ var cors       = require('cors');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
+// limit: '50mb' specifies the max file size for POST and PUT
+//   !IMPORTANT! this value also needs to be changed in nginx
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
