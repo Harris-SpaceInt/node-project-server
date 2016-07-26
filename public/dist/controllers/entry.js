@@ -26,7 +26,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
     //output of disciplines check boxes
     $scope.projectDisciplines = [];
 
-    
+
     //------------------------------------------------------------------------------------------------------------------
     // initialize the page
 
@@ -126,7 +126,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         }
     };
 
-    
+
     //------------------------------------------------------------------------------------------------------------------
     // discipline related functions
 
@@ -197,7 +197,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
         }
     };
 
-    
+
     //------------------------------------------------------------------------------------------------------------------
     // project form-related functions
 
@@ -352,7 +352,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      * in results. Checks that the project has at least
      * savings or hours, then autofills missing fields.
      * @param item project
-     * @returns {boolean} true if 
+     * @returns {boolean} true if
      */
     $scope.updateResults = function (item) {
         item.result = [];

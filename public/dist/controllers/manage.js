@@ -3,7 +3,7 @@
 var app = angular.module('manage', ['myApp']);
 
 app.controller('manageCtrl', function ($scope, $window, sharedData, database, dropdown, validate) {
-    
+
     //linking sharedData to scope
     $scope.sharedData = sharedData;
 

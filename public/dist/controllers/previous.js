@@ -97,7 +97,7 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
                 // load projects from reports if they are requested
                 if ($scope.showingGenerated) {
                     var promise2 = database.getGenearatedProjectsFromDatabase();
-                    
+
                     promise2.then(function(data) {
                         $scope.generatedUserProjects = data;
                         deferred.resolve();
@@ -120,7 +120,7 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
                 // load projects from reports if they are requested
                 if ($scope.showingGenerated) {
                     var promise2 = database.getGeneratedManagerProjectsFromDatabase(sharedData.globalManager[0].email);
-                    
+
                     promise2.then(function(data) {
                         $scope.generatedUserProjects = data;
                         deferred.resolve();
@@ -273,7 +273,7 @@ app.controller('previousCtrl', function ($scope, $window, $q, sharedData, databa
 
                 // now refresh the list of projects from the database
                 var getPromise = database.getItemsFromDatabase();
-                // when that is done, load the projects back into the 
+                // when that is done, load the projects back into the
                 //   corresponding list and refresh the display
                 getPromise.then(function () {
                     //adding toggle manager fields
