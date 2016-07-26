@@ -29,20 +29,15 @@ app.factory('database', function($http, $q, REST_URL) {
      * url and gives it to reports
      */
     factoryData.getReportsFromDatabase = function() {
-        console.log("Starting GET for reports...");
-
         var deferred = $q.defer();
 
         $http({method: 'GET', url: dataUrl + '/reports'})
             .success(function (data, status) {
-                console.log("GET was successful for reports");
                 factoryData.reports = data;
 
                 deferred.resolve(data);
             })
             .error(function (data, status) {
-                console.log("Error retrieving reports");
-                console.log("status: " + status);
                 if (confirm("Error retrieving project data. Try again?")) {
                     $route.reload();
                 }
@@ -58,13 +53,10 @@ app.factory('database', function($http, $q, REST_URL) {
      * and sets it as the currentReport
      */
     factoryData.getReportFromDatabase = function(id) {
-        console.log("Starting GET for report...");
-
         var deferred = $q.defer();
 
         $http({method: 'GET', url: dataUrl + '/reports/' + id})
             .success(function (data, status) {
-                console.log("GET was successful for report");
                 data.project = factoryData.addProjectDates(data.project);
 
                 factoryData.currentReport = data;
@@ -72,8 +64,6 @@ app.factory('database', function($http, $q, REST_URL) {
                 deferred.resolve(data);
             })
             .error(function (data, status) {
-                console.log("Error retrieving report");
-                console.log("status: " + status);
                 if (confirm("Error retrieving report data. Try again?")) {
                     $route.reload();
                 }
@@ -91,13 +81,10 @@ app.factory('database', function($http, $q, REST_URL) {
      * only gets projects not in reports
      */
     factoryData.getProjectsFromDatabase = function() {
-        console.log("Starting GET for projects...");
-
         var deferred = $q.defer();
 
         $http({method: 'GET', url: dataUrl + '/projects'})
             .success(function (data, status) {
-                console.log("GET was successful for projects");
                 data = factoryData.addProjectDates(data);
                 
                 factoryData.projects = data;
@@ -105,8 +92,6 @@ app.factory('database', function($http, $q, REST_URL) {
                 deferred.resolve(data);
             })
             .error(function (data, status) {
-                console.log("Error retrieving projects");
-                console.log("status: " + status);
                 if (confirm("Error retrieving project data. Try again?")) {
                     $route.reload();
                 }
@@ -124,20 +109,15 @@ app.factory('database', function($http, $q, REST_URL) {
      * only gets projects in reports
      */
     factoryData.getGenearatedProjectsFromDatabase = function() {
-        console.log("Starting GET for projects...");
-
         var deferred = $q.defer();
 
         $http({method: 'GET', url: dataUrl + '/projects/generated'})
             .success(function (data, status) {
-                console.log("GET was successful for projects");
                 data = factoryData.addProjectDates(data);
 
                 deferred.resolve(data);
             })
             .error(function (data, status) {
-                console.log("Error retrieving projects");
-                console.log("status: " + status);
                 if (confirm("Error retrieving project data. Try again?")) {
                     $route.reload();
                 }
@@ -164,8 +144,6 @@ app.factory('database', function($http, $q, REST_URL) {
                 deferred.resolve(data);
             })
             .error(function(data, status) {
-                console.log("Error retrieving projects");
-                console.log("status: " + status);
                 if (confirm("Error retrieving project data. Try again?")) {
                     $route.reload();
                 }
@@ -190,8 +168,6 @@ app.factory('database', function($http, $q, REST_URL) {
                 deferred.resolve(data);
             })
             .error(function(data, status) {
-                console.log("Error retrieving projects");
-                console.log("status: " + status);
                 if (confirm("Error retrieving project data. Try again?")) {
                     $route.reload();
                 }
@@ -207,20 +183,15 @@ app.factory('database', function($http, $q, REST_URL) {
      * url and gives it to managers
      */
     factoryData.getManagersFromDatabase = function() {
-        console.log("Starting GET for managers...");
-
         var deferred = $q.defer();
 
         $http({method : 'GET', url : dataUrl + '/managers'})
             .success(function(data, status) {
-                console.log("GET was successful for managers");
                 factoryData.managers = data;
 
                 deferred.resolve(data);
             })
             .error(function(data, status) {
-                console.log("Error retrieving managers");
-                console.log("status: " + status);
                 if (confirm("Error retrieving project data. Try again?")) {
                     $route.reload();
                 }
@@ -240,12 +211,9 @@ app.factory('database', function($http, $q, REST_URL) {
 
         $http({method: "GET", url : dataUrl + "/managers/email/" + email})
             .success(function(data, status) {
-                console.log("Manager get success");
                 deferred.resolve(data);
             })
             .error(function(data, status) {
-                console.log("Error retrieving manager");
-                console.log("status: " + status);
                 if (confirm("Error retrieving project data. Try again?")) {
                     $route.reload();
                 }
@@ -284,21 +252,16 @@ app.factory('database', function($http, $q, REST_URL) {
      * @param project
      */
     factoryData.addProjectToDatabase = function(project) {
-        console.log("Starting POST...");
-
         var deferred = $q.defer();
 
         $http({method : 'POST', url : dataUrl + '/projects', data : JSON.stringify(project)})
             .success(function(data, status) {
-                console.log("POST was successful");
 
                 // update on success
                 factoryData.getItemsFromDatabase();
                 deferred.resolve();
             })
             .error(function(data, status) {
-                console.log("Error sending data");
-                console.log("status: " + status);
                 alert("Error submitting project data");
                 deferred.reject();
             });
@@ -312,21 +275,16 @@ app.factory('database', function($http, $q, REST_URL) {
      * @param project
      */
     factoryData.updateProjectFromDatabase = function(id, project) {
-        console.log("Starting function...");
-
         var deferred = $q.defer();
         
         $http({method : 'PUT', url : dataUrl + '/projects/id/' + id, data : JSON.stringify(project)})
             .success(function(data, status) {
-                console.log("PUT was successful");
 
                 // update on success
                 factoryData.getItemsFromDatabase();
                 deferred.resolve(data);
             })
             .error(function(data, status) {
-                console.log("Error sending data");
-                console.log("status: " + status);
                 alert("Error submitting project data");
                 deferred.reject();
             });
@@ -340,21 +298,16 @@ app.factory('database', function($http, $q, REST_URL) {
      * @param manager
      */
     factoryData.updateManagerInDatabase = function(id, manager) {
-        console.log("Starting function...");
-
         var deferred = $q.defer();
         
         $http({method : 'PUT', url : dataUrl + '/managers/id/' + id, data : JSON.stringify(manager)})
             .success(function(data, status) {
-                console.log("PUT was successful");
-
+                
                 // update on success
                 factoryData.getItemsFromDatabase();
                 deferred.resolve(data);
             })
             .error(function(data, status) {
-                console.log("Error sending data");
-                console.log("status: " + status);
                 alert("Error submitting manager data");
                 deferred.reject();
             });
@@ -369,19 +322,14 @@ app.factory('database', function($http, $q, REST_URL) {
     factoryData.deleteProjectFromDatabase = function(id) {
         var deferred = $q.defer();
         
-        console.log("Starting function...");
-
         $http({method : 'DELETE', url : dataUrl + '/projects/id/' + id})
             .success(function(data, status) {
-                console.log("DELETE was successful");
 
                 // update on success
                 factoryData.getItemsFromDatabase();
                 deferred.resolve(data);
             })
             .error(function(data, status) {
-                console.log("Error deleting data");
-                console.log("status: " + status);
                 alert("Error deleting project data");
                 deferred.reject();
             });
@@ -394,18 +342,13 @@ app.factory('database', function($http, $q, REST_URL) {
      * @param report
      */
     factoryData.addReportToDatabase = function(report) {
-        console.log("Starting POST...");
-
         $http({method : 'POST', url : dataUrl + '/reports', data : JSON.stringify(report)})
             .success(function(data, status) {
-                console.log("POST was successful");
 
                 // update on success
                 factoryData.getItemsFromDatabase();
             })
             .error(function(data, status) {
-                console.log("Error sending data");
-                console.log("status: " + status);
                 alert("Error submitting report data");
             });
     };

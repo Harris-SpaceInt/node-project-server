@@ -92,7 +92,6 @@ app.factory('sharedData', function($window) {
         admin.email = "admin@admin.admin";
 
         if (this.loggedIn()) {
-            console.log("Switching from regular user to admin...");
             this.globalManager = [];
         }
         
@@ -107,10 +106,6 @@ app.factory('sharedData', function($window) {
     data.setGlobalManager = function (manager) {
         if (this.globalManager.length == 0) {
             this.globalManager.push(manager);
-        }
-        else {
-            console.log("Error trying to set global manager. " +
-                "Global manager already set.");
         }
     };
     
@@ -128,11 +123,7 @@ app.factory('sharedData', function($window) {
      * @param {number} index index of the project to be deleted
      */
     data.deleteFromProjectList = function (index) {
-        if (typeof this.projectList[index] === 'undefined') {
-            console.log('Error trying to remove from index in projectList. ' +
-                'Nothing is stored at index ' + index + '.');
-        }
-        else {
+        if (typeof this.projectList[index] !== 'undefined') {
             this.projectList.splice(index, 1);
         }
     };
