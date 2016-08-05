@@ -175,7 +175,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      */
     $scope.checkSavingsNumberInput = function (index) {
         var input = $scope.resultsToAdd[index].savings;
-        if (input === '') {
+        if (input === '' || input === undefined) {
             $scope.savingsNumber = true;
         }
         else {
@@ -189,7 +189,7 @@ app.controller('entryCtrl', function ($scope, $window, sharedData, database, dro
      */
     $scope.checkHoursNumberInput = function (index) {
         var input = $scope.resultsToAdd[index].hours;
-        if (input == "") {
+        if (input === '' || input === undefined) {
             $scope.hoursNumber = true;
         }
         else {
