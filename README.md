@@ -19,7 +19,7 @@ The middleware of the application uses Express.js to provide a REST api for the 
     $ cd node-project-server
     $ chmod +x install.sh
     $ ./install.sh
-        might need to run $ sudo ./install.sh depending on where npm was installed
+        > might need to run $ sudo ./install.sh depending on where npm was installed
     change the ip in public/dist/config/url.constant.js from 10.39.96.248 to the server's private ip
         > you can find the server's ip by running $ ifconfig
             > look for "eth" followed by a number (ex. "eth0" or "eth1")
