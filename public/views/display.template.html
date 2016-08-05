@@ -57,9 +57,9 @@
     <div class="row">
         <!-- selected reports - can be shown or hidden -->
         <div class="text-center">
-            <h5 class="highlight"><b>Total Savings: $ {{totalSavings()}}</b></h5><br>
+            <h5><b>Total Savings: $ {{totalSavings()}}</b></h5><br>
             <div ng-show="benchmarkReached(totalSavings())">
-                <h4 class="highlight"><b>$ {{benchmark}} BENCHMARK REACHED!</b></h4><br>
+                <h4><b>$ {{benchmark}} BENCHMARK REACHED!</b></h4><br>
             </div>
             <h4><b>Selected Projects:</b></h4>
             <button ng-hide="showSelectedProjects" ng-click="setSelectedProjects()" class="button-secondary">Show

@@ -4,82 +4,42 @@ node-project-server is a MEAN (Mongodb, Express, Angularjs, Node.js) web applica
 The client-side is built using Angularjs (with Foundation css framework for styling), and uses SPA (Single Page Application) principals such as angular routing to deliver a seamless user experience navigating through the application. 
 The middleware of the application uses Express.js to provide a REST api for the client application to share data with a Mongodb database.
 
-## Dependencies you need before following the instructions below:
-
+## Dependencies required before setup:
     git (http://git-scm.com/)
-  
     node (http://nodejs.org/en/download/)
-  
+    npm (comes with node, be sure to update with $ npm install -g npm)
+ 
+## Dependencies installed during setup:
     bower ($ npm install -g bower)
-
-## Setting up the server
-
-### Starting Mongo (Red Hat Enterprise Linux 6):
-    
-    $ wget -O ~/Downloads 'https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel62-3.2.8.tgz'
-        
-    $ tar -xvzf ~/Downloads/mongodb-linux-x86_64-rhel62-3.2.8.tgz -C ~/Documents
-    
-    $ mkdir ~/data/db
-    
-    $ ./~/Documents/mongodb-linux-x86_64-rhel62-3.2.8/bin/mongod --dbpath ~/data/db
-
-### Starting the Server (START MONGO BEFORE DOING THIS):
-
+    pm2 ($ npm install -g pm2)
+    gulp ($ npm install -g gulp)
+ 
+## Setting up the server (Redhat Enterprise Linux 6):
     $ git clone https://github.com/amaczugowski/node-project-server
-    
     $ cd node-project-server
-  
-    $ npm install && bower install
-    
-    $ npm install -g pm2
-    
-    $ pm2 start server.js
-      
-### Change the url that the client will grab data from
-    
-    get your public ip in the terminal:
-            
-        > $ ifconfig
-            
-        > look for "eth" and then a number (ex. "eth0" or "eth1")
-            
-        > on the next line, "inet addr" is your public ip
-            
-    open node-project-server/public/js/config/url.constant.js
-    
-    change the ip on the line with the comment to the public ip of the server 
-    
-### Access the website without typing the port number:
-
-    download and install nginx (http://nginx.org/en/download.html)
-    
-    download the config files:
-    
-        > $ git clone https://github.com/amaczugowski/nginx-project-server
-    
-    nginx-project-server contains the config files for nginx
-    
-    follow the instructions in nginx-project-server/README.md
-    
-### (optional) Change the port that the server will run on:
-
-    open node-project-server/server.js
-    
-    find "var port = process.env.PORT || 8080;"
-    
-    change 8080 to whatever port you want to run on
-    
-    restart the server:
-    
-        > $ pm2 restart 0
-
-## After configuring
-    
-When you restart the computer, you will be able to run the server by starting mongo:
-    
-    $ ./~/Documents/mongodb-linux-x86_64-rhel62-3.2.8/bin/mongod --dbpath ~/data/db
-    
-and starting the node server:
-
-    $ pm2 start server.js
+    $ chmod +x install.sh
+    $ ./install.sh
+        might need to run $ sudo ./install.sh depending on where npm was installed
+    change the ip in public/dist/config/url.constant.js from 10.39.96.248 to the server's private ip
+        > you can find the server's ip by running $ ifconfig
+            > look for "eth" followed by a number (ex. "eth0" or "eth1")
+            > on the next line, "inet addr" is the server's public ip
+        > $ gedit public/dist/config/url.constant.js
+        > change 10.39.96.248 to the server ip and save
+    start the server by running $ gulp
+ 
+## Setting up the server to redirect connections to the project website:
+    install nginx (http://nginx.org/en/download.html)
+    $ git clone https://github.com/amaczugowski/nginx-project-server
+    $ cd nginx-project-server
+    $ sudo cp nginx.conf /etc/nginx
+    $ sudo cp sites-available /etc/nginx
+    $ cd /etc/nginx
+    $ sudo cp sites-available/default sites-enabled
+    start nginx with $sudo nginx
+    test the server by typing localhost in the browser
+ 
+## Server commands (need to be in project directory):
+    start the server: $ gulp
+    stop the server: $ gulp stop
+    restart the server (intended for development): $ gulp restart
