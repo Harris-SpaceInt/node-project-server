@@ -26,6 +26,7 @@ The middleware of the application uses Express.js to provide a REST api for the 
             > on the next line, "inet addr" is the server's public ip
         > $ gedit public/dist/config/url.constant.js
         > change 10.39.96.248 to the server ip and save
+    Add ':8080' after the server's ip address
     start the server by running $ gulp
  
 ## Setting up the server to redirect connections to the project website:
